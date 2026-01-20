@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	xmlns:georss="http://www.georss.org/georss" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:media="http://search.yahoo.com/mrss/"
+	>
+
+<channel>
+	<title>MicrosoftHelden &#8211; Peter Rombouts</title>
+	<atom:link href="https://peterrombouts.nl/category/microsofthelden/feed/" rel="self" type="application/rss+xml" />
+	<link>https://peterrombouts.nl</link>
+	<description>All things Cloud &#124; Software &#124; Coding &#124; Integration &#124; Automation &#124; DevSecAnythingOps &#124; Cloud Native &#124; Serverless</description>
+	<lastBuildDate>Wed, 12 Dec 2018 10:25:38 +0000</lastBuildDate>
+	<language>en</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>http://wordpress.com/</generator>
+
+<image>
+	<url>https://peterrombouts.nl/wp-content/uploads/2023/11/peter.jpg?w=32</url>
+	<title>MicrosoftHelden &#8211; Peter Rombouts</title>
+	<link>https://peterrombouts.nl</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+<site xmlns="com-wordpress:feed-additions:1">155596116</site><cloud domain='peterrombouts.nl' port='80' path='/?rsscloud=notify' registerProcedure='' protocol='http-post' />
+<atom:link rel="search" type="application/opensearchdescription+xml" href="https://peterrombouts.nl/osd.xml" title="Peter Rombouts" />
+	<atom:link rel='hub' href='https://peterrombouts.nl/?pushpress=hub'/>
+	<item>
+		<title>Deploy LogicApps using linked templates</title>
+		<link>https://peterrombouts.nl/2017/10/17/deploy-logicapps-using-linked-templates/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Tue, 17 Oct 2017 08:17:19 +0000</pubDate>
+				<category><![CDATA[Build]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[MicrosoftHelden]]></category>
+		<category><![CDATA[VSTS]]></category>
+		<guid isPermaLink="false">http://peterrombouts.wordpress.com/?p=47</guid>
+
+					<description><![CDATA[Deploying LogicApps with VSTS is easy. You can create a new project using the steps defined in this post and you are all set with deployment settings in place. But, when you add more and more LogicApps your JSON file will grow and you might be better off putting each LogicApp within its own JSON. &#8230; <a href="https://peterrombouts.nl/2017/10/17/deploy-logicapps-using-linked-templates/" class="more-link">Continue reading<span class="screen-reader-text"> "Deploy LogicApps using linked&#160;templates"</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Deploying <a href="https://azure.microsoft.com/en-us/services/logic-apps/" target="_blank" rel="noopener">LogicApps</a> with VSTS is easy. You can create a new project using the steps <a href="https://docs.microsoft.com/en-us/azure/logic-apps/logic-apps-deploy-from-vs" target="_blank" rel="noopener">defined in this post</a> and you are all set with deployment settings in place.</p>
+<p>But, when you add more and more LogicApps your JSON file will grow and you might be better off putting each LogicApp within its own JSON. Not to speak of the parameters running wild within your files&#8230;<br />
+This post will explain how to set this up, and what is needed in your VSTS builds to enable the deployment of all the linked apps.</p>
+<p><span id="more-47"></span></p>
+<h2>Multiple LogicApps</h2>
+<p>When you add a LogicApp to your existing project, you can expect a settings screen like below:</p>
+<p><img data-attachment-id="100" data-permalink="https://peterrombouts.nl/1addlogicapp/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/1addlogicapp.png" data-orig-size="1081,714" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1AddLogicApp" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/1addlogicapp.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/1addlogicapp.png?w=840" class="alignnone size-full wp-image-100" src="https://peterrombouts.nl/wp-content/uploads/2018/12/1addlogicapp.png?w=840" alt="1AddLogicApp"   srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/1addlogicapp.png 1081w, https://peterrombouts.nl/wp-content/uploads/2018/12/1addlogicapp.png?w=150&amp;h=99 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/1addlogicapp.png?w=300&amp;h=198 300w, https://peterrombouts.nl/wp-content/uploads/2018/12/1addlogicapp.png?w=768&amp;h=507 768w, https://peterrombouts.nl/wp-content/uploads/2018/12/1addlogicapp.png?w=1024&amp;h=676 1024w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>The result is a new set of params and a new resource:</p>
+<p><img data-attachment-id="71" data-permalink="https://peterrombouts.nl/2twoapps/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/2twoapps.png" data-orig-size="929,771" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="2TwoApps" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/2twoapps.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/2twoapps.png?w=840" class="alignnone size-full wp-image-71" src="https://peterrombouts.nl/wp-content/uploads/2018/12/2twoapps.png?w=840" alt="2TwoApps"   srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/2twoapps.png 929w, https://peterrombouts.nl/wp-content/uploads/2018/12/2twoapps.png?w=150&amp;h=124 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/2twoapps.png?w=300&amp;h=249 300w, https://peterrombouts.nl/wp-content/uploads/2018/12/2twoapps.png?w=768&amp;h=637 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<h2>Splitting up the LogicApps</h2>
+<p>To split up the files, several steps need to be taken.</p>
+<ol>
+<li>Move the LogicApps from the main JSON to separate files</li>
+<li>Update the main JSON file to point to the new separated files, and add parametes to work with artifacts/SAS during deployment</li>
+<li>Update the parameters file to set names and other settings</li>
+</ol>
+<h3>1. Move the LogicApps</h3>
+<p>The first step of separating the files is to create a folder (although not necessary, highly recommended because of readability) within your solution, and move the separate LogicApps into those folders.</p>
+<p><img data-attachment-id="73" data-permalink="https://peterrombouts.nl/3folders/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/3folders.png" data-orig-size="312,186" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="3Folders" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/3folders.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/3folders.png?w=312" class="alignnone size-full wp-image-73" src="https://peterrombouts.nl/wp-content/uploads/2018/12/3folders.png?w=840" alt="3Folders"   srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/3folders.png 312w, https://peterrombouts.nl/wp-content/uploads/2018/12/3folders.png?w=150&amp;h=89 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/3folders.png?w=300&amp;h=179 300w" sizes="(max-width: 312px) 85vw, 312px" /></p>
+<h3>2. Update LogicApp.json and add parameters</h3>
+<p>To link these new JSON files, the LogicApp.json needs to be updated, like in the following gist. Three new parameters are added to the JSON. The first two are used to link in VSTS to the blob storage that will hold these templates.</p>
+<p><a href="https://gist.github.com/prombouts/f541e53fecc95a95d0f8940710cd15b7.js">https://gist.github.com/prombouts/f541e53fecc95a95d0f8940710cd15b7.js</a></p>
+<h3>3. Update LogicApp.parameters.json</h3>
+<p>Finally we have to edit the parameters file. The next gist show how the default setup is, when creating LogicApps within one single JSON:</p>
+<p><a href="https://gist.github.com/prombouts/105351d5bbc5a364c0cfc2b1d9184160.js">https://gist.github.com/prombouts/105351d5bbc5a364c0cfc2b1d9184160.js</a></p>
+<p>The next example show how to create a new configurationparameter object to hold the settings for the separate files. We will refer to these in the LogicApps within the folder.<br />
+<a href="https://gist.github.com/prombouts/eab9aa4963a09df052718cb3dd62716a.js">https://gist.github.com/prombouts/eab9aa4963a09df052718cb3dd62716a.js</a></p>
+<h2>Setup VSTS build</h2>
+<p>To leverage these templates, some additional steps need to be taken in VSTS. For example the artifacts and SAS tokens should be passed in as parameters.</p>
+<h3>Build step</h3>
+<p>In the build step, the templates should be copied to blob storage. After all, the linked templates only work with full URLs so we must place these in storage. Note the output parameters to be used in the next steps when validating the template:</p>
+<p><img loading="lazy" data-attachment-id="72" data-permalink="https://peterrombouts.nl/3artifacts/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/3artifacts.png" data-orig-size="870,797" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="3Artifacts" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/3artifacts.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/3artifacts.png?w=840" class="alignnone size-full wp-image-72" src="https://peterrombouts.nl/wp-content/uploads/2018/12/3artifacts.png?w=840" alt="3Artifacts"   srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/3artifacts.png 870w, https://peterrombouts.nl/wp-content/uploads/2018/12/3artifacts.png?w=150&amp;h=137 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/3artifacts.png?w=300&amp;h=275 300w, https://peterrombouts.nl/wp-content/uploads/2018/12/3artifacts.png?w=768&amp;h=704 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>Make sure you publish the artifacts to a folder, so you can pick these up in the release step!</p>
+<h3>Release step</h3>
+<p>Finally the release should be setup. In the first step the files are copied to blob storage, and the output parameters are used to capture the sas tokens.</p>
+<p><img loading="lazy" data-attachment-id="76" data-permalink="https://peterrombouts.nl/4copyblob/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/4copyblob.png" data-orig-size="844,743" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="4CopyBlob" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/4copyblob.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/4copyblob.png?w=840" class="alignnone size-full wp-image-76" src="https://peterrombouts.nl/wp-content/uploads/2018/12/4copyblob.png?w=840" alt="4CopyBlob"   srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/4copyblob.png 844w, https://peterrombouts.nl/wp-content/uploads/2018/12/4copyblob.png?w=150&amp;h=132 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/4copyblob.png?w=300&amp;h=264 300w, https://peterrombouts.nl/wp-content/uploads/2018/12/4copyblob.png?w=768&amp;h=676 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>Secondly the actual deploy uses the parameters from the previous step and deploys the actual apps to Azure.</p>
+<p><img loading="lazy" data-attachment-id="80" data-permalink="https://peterrombouts.nl/5deploy/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/5deploy.png" data-orig-size="878,778" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="5Deploy" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/5deploy.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/5deploy.png?w=840" class="alignnone size-full wp-image-80" src="https://peterrombouts.nl/wp-content/uploads/2018/12/5deploy.png?w=840" alt="5Deploy"   srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/5deploy.png 878w, https://peterrombouts.nl/wp-content/uploads/2018/12/5deploy.png?w=150&amp;h=133 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/5deploy.png?w=300&amp;h=266 300w, https://peterrombouts.nl/wp-content/uploads/2018/12/5deploy.png?w=768&amp;h=681 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<h2>Conclusion</h2>
+<p>Setting up the pipeline with linked templates is not difficult, but will take more time to setup properly. When everything is in place, adding more templates is very easy and the separation of the various apps in separate json files will increase maintainability and readability. It will also help you share your templates with your peers.</p>
+<p>Feel free to ask me anything on this subject; drop me an email or contact me on Twitter.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">47</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/1addlogicapp.png" medium="image">
+			<media:title type="html">1AddLogicApp</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/2twoapps.png" medium="image">
+			<media:title type="html">2TwoApps</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/3folders.png" medium="image">
+			<media:title type="html">3Folders</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/3artifacts.png" medium="image">
+			<media:title type="html">3Artifacts</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/4copyblob.png" medium="image">
+			<media:title type="html">4CopyBlob</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/5deploy.png" medium="image">
+			<media:title type="html">5Deploy</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Text Analytics &#8211; Dutch Support</title>
+		<link>https://peterrombouts.nl/2017/07/24/text-analytics-dutch-support/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Mon, 24 Jul 2017 08:15:22 +0000</pubDate>
+				<category><![CDATA[Build]]></category>
+		<category><![CDATA[Cognitive Services]]></category>
+		<category><![CDATA[MicrosoftHelden]]></category>
+		<guid isPermaLink="false">http://peterrombouts.wordpress.com/?p=43</guid>
+
+					<description><![CDATA[Recently, Microsoft added Dutch language support for the Text Analysis API within the Cognitive Services stack. In this blogpost I will show how to determine the sentiment of a newsfeed in Dutch. The importance of language support Most development articles are written in English. Most documentation is written in English. I&#8217;m Dutch and even I &#8230; <a href="https://peterrombouts.nl/2017/07/24/text-analytics-dutch-support/" class="more-link">Continue reading<span class="screen-reader-text"> "Text Analytics &#8211; Dutch&#160;Support"</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Recently, Microsoft added Dutch language support for the <a href="https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/overview" target="_blank" rel="noopener">Text Analysis API</a> within the Cognitive Services stack. In this blogpost I will show how to determine the sentiment of a newsfeed in Dutch.</p>
+<h2>The importance of language support</h2>
+<p>Most development articles are written in English. Most documentation is written in English. I&#8217;m Dutch and even I am blogging in English!</p>
+<p>With the rise of chatbots and other dialogue based UX apps, native language support becomes ever more important. Think of an insurance company wanting to let users talk to their chatbot, or a banking app that lets you choose what mortgage you want for your house. In these situations most companies and clients want to use their native language in communicating with the apps.</p>
+<p>With the latest update, the Text Analysis API now partly supports my native language Dutch (<a href="https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/overview#language-detection" target="_blank" rel="noopener">along with several other ones</a>).</p>
+<p><span id="more-43"></span></p>
+<h2>Creating the sample project</h2>
+<p>For this example I&#8217;ve created a simple console application using the default template in Visual Studio 2017. The target framework is 4.6.1 and its an empty Console Application. The goal of this application is to retrieve the latest newsfeed from <a href="http://www.nu.nl" target="_blank" rel="noopener">Nu.nl</a>, a populair Dutch news site, and determine the sentiment in Dutch.</p>
+<h2>Using the Text Analytics Client library</h2>
+<p>Most examples use the <a href="https://www.nuget.org/packages/Microsoft.ProjectOxford.Text/" target="_blank" rel="noopener">Microsoft Cognitive Services Text Analytics API Client Library</a> but this library does not support the current preview languages.</p>
+<p>This triggered me to check out the source code. I&#8217;ve found out that the current new preview languages are not added to the client library. To solve this issue, I&#8217;ve <a href="https://github.com/Microsoft/Cognitive-TextAnalytics-DotNet/pull/2" target="_blank" rel="noopener">forked the library and created a pull request</a> so future users can use the NuGet package. This blog will use code based on that library. To do this, check out <a href="https://github.com/prombouts/Cognitive-TextAnalytics-DotNet/" target="_blank" rel="noopener">the repository</a> and add a reference to your project.</p>
+<h2>Create API Keys in Azure</h2>
+<p>To create API keys, the process is pretty simple. Go to the Cognitive Services blade, select &#8216;Add&#8217; and find the Text Analytics (Preview) service.</p>
+<p>In comparison to other APIs in the Cognitive Services stack, the Text Analytics API is relatively expensive. Fortunately there is a Free tier for us developers to use and get up and running without high costs:</p>
+<p><img loading="lazy" data-attachment-id="99" data-permalink="https://peterrombouts.nl/0textanalysisazure/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/0textanalysisazure.png" data-orig-size="566,752" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="0TextAnalysisAzure" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/0textanalysisazure.png?w=226" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/0textanalysisazure.png?w=566" class="alignnone size-full wp-image-99" src="https://peterrombouts.nl/wp-content/uploads/2018/12/0textanalysisazure.png?w=840" alt="0TextAnalysisAzure"   srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/0textanalysisazure.png 566w, https://peterrombouts.nl/wp-content/uploads/2018/12/0textanalysisazure.png?w=113&amp;h=150 113w, https://peterrombouts.nl/wp-content/uploads/2018/12/0textanalysisazure.png?w=226&amp;h=300 226w" sizes="(max-width: 566px) 85vw, 566px" /></p>
+<p>The lowest rate (above the free tier) is S1, which allows 100.000 calls per month for 150 USD. Every 1000 calls above that rate will cost an additional 1.50 USD.</p>
+<p>After getting the appropriate API key(s) you are good to go!</p>
+<h2>RSS Feed</h2>
+<p>Retrieving the RSS feed is pretty straightforward. The gist further on in this blog shows the code example. As the text output is pretty short, the analysis will sometimes be off. The more you put in, the better the analysis can do its work.</p>
+<p>The output at this moment of the RSS feed is as follows:</p>
+<p><img loading="lazy" data-attachment-id="68" data-permalink="https://peterrombouts.nl/2analysisrss/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/2analysisrss.png" data-orig-size="1573,769" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="2AnalysisRss" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/2analysisrss.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/2analysisrss.png?w=840" class="alignnone size-full wp-image-68" src="https://peterrombouts.nl/wp-content/uploads/2018/12/2analysisrss.png?w=840" alt="2AnalysisRss"   srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/2analysisrss.png 1573w, https://peterrombouts.nl/wp-content/uploads/2018/12/2analysisrss.png?w=150&amp;h=73 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/2analysisrss.png?w=300&amp;h=147 300w, https://peterrombouts.nl/wp-content/uploads/2018/12/2analysisrss.png?w=768&amp;h=375 768w, https://peterrombouts.nl/wp-content/uploads/2018/12/2analysisrss.png?w=1024&amp;h=501 1024w, https://peterrombouts.nl/wp-content/uploads/2018/12/2analysisrss.png?w=1440&amp;h=704 1440w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>To get a better estimation, I&#8217;ve concatenated the title and summary before sending it up to the Text Analysis API.</p>
+<h2>The actual code</h2>
+<p>The complete example is shown in the gist below:<br />
+<a href="https://gist.github.com/prombouts/2c723620cb6ea6afc4d7a3df5dc3c40d.js">https://gist.github.com/prombouts/2c723620cb6ea6afc4d7a3df5dc3c40d.js</a></p>
+<h2>Endresult of the application</h2>
+<p>Running this application gives the latest 10 results, shown here:</p>
+<p><img loading="lazy" data-attachment-id="67" data-permalink="https://peterrombouts.nl/1textanalysis/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/1textanalysis.png" data-orig-size="657,470" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1TextAnalysis" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/1textanalysis.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/1textanalysis.png?w=657" class="alignnone size-full wp-image-67" src="https://peterrombouts.nl/wp-content/uploads/2018/12/1textanalysis.png?w=840" alt="1TextAnalysis"   srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/1textanalysis.png 657w, https://peterrombouts.nl/wp-content/uploads/2018/12/1textanalysis.png?w=150&amp;h=107 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/1textanalysis.png?w=300&amp;h=215 300w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 61vw, (max-width: 1362px) 45vw, 600px" /></p>
+<p>In this example, two items stand out. The first one is concerning an accident involving a child, the second one concerns the Swiss female soccer team winning a game on the European Football Championship.</p>
+<h2>Conclusion</h2>
+<p>Sentiment Analysis is the first feature to work in Dutch. This powerful tool allows you to analyse anything text related. In this example I&#8217;ve used a newsfeed as input, but I could easily add Twitter to find out how the sentiment around an event, of company brand, is evolving.</p>
+<p>I can&#8217;t wait until Key Phrase Extraction and Topic Detection get into preview phase to allow us to use the full power of Text Analytics in my native language.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">43</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/0textanalysisazure.png" medium="image">
+			<media:title type="html">0TextAnalysisAzure</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/2analysisrss.png" medium="image">
+			<media:title type="html">2AnalysisRss</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/1textanalysis.png" medium="image">
+			<media:title type="html">1TextAnalysis</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Technical Introduction – Cognitive Services</title>
+		<link>https://peterrombouts.nl/2017/06/27/technical-introduction-cognitive-services/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Tue, 27 Jun 2017 08:13:31 +0000</pubDate>
+				<category><![CDATA[Cognitive Services]]></category>
+		<category><![CDATA[Dutch]]></category>
+		<category><![CDATA[MicrosoftHelden]]></category>
+		<guid isPermaLink="false">http://peterrombouts.wordpress.com/?p=39</guid>
+
+					<description><![CDATA[Naar aanleiding van de presentatie op Microsoft Heroes Academy #5, thema: Artificial Intelligence in een notendop hierbij de sheets in PDF formaat van de sessie ‘Technische introductie Cognitive Services’ door Peter Rombouts. De sheets bevatten op de laatste pagina de links naar diverse gebruikte packages en tooling.]]></description>
+										<content:encoded><![CDATA[<p>Naar aanleiding van de presentatie op Microsoft Heroes Academy #5, thema: Artificial Intelligence in een notendop hierbij de <a href="https://peterrombouts.nl/wp-content/uploads/2018/12/cognitive-services.pdf" target="_blank" rel="noopener noreferrer">sheets in PDF formaat</a> van de sessie ‘Technische introductie Cognitive Services’ door Peter Rombouts.</p>
+<p>De sheets bevatten op de laatste pagina de links naar diverse gebruikte packages en tooling.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">39</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Securing WebAPI calls with JSONWebToken (JWT)</title>
+		<link>https://peterrombouts.nl/2017/01/25/securing-webapi-calls-with-jsonwebtoken-jwt/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Wed, 25 Jan 2017 09:07:46 +0000</pubDate>
+				<category><![CDATA[Dutch]]></category>
+		<category><![CDATA[MicrosoftHelden]]></category>
+		<category><![CDATA[Security]]></category>
+		<guid isPermaLink="false">http://peterrombouts.wordpress.com/?p=33</guid>
+
+					<description><![CDATA[Naar aanleiding van de presentatie op Microsoft Heroes Academy #4, thema: Security hierbij de sheets in PDF formaat van de sessie ‘Securing WebAPI calls with JWT’ door Peter Rombouts. De sheets bevatten op de laatste pagina de links naar diverse gebruikte packages en tooling.]]></description>
+										<content:encoded><![CDATA[<p>Naar aanleiding van de presentatie op Microsoft Heroes Academy #4, thema: Security hierbij de <a href="https://peterrombouts.nl/wp-content/uploads/2018/12/angularwebapijwt.pdf">sheets in PDF formaat</a> van de sessie ‘Securing WebAPI calls with JWT’ door Peter Rombouts. De sheets bevatten op de laatste pagina de links naar diverse gebruikte packages en tooling.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">33</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+	</item>
+	</channel>
+</rss>

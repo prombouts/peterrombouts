@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	xmlns:georss="http://www.georss.org/georss" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:media="http://search.yahoo.com/mrss/"
+	>
+
+<channel>
+	<title>CosmosDb &#8211; Peter Rombouts</title>
+	<atom:link href="https://peterrombouts.nl/category/cosmosdb/feed/" rel="self" type="application/rss+xml" />
+	<link>https://peterrombouts.nl</link>
+	<description>All things Cloud &#124; Software &#124; Coding &#124; Integration &#124; Automation &#124; DevSecAnythingOps &#124; Cloud Native &#124; Serverless</description>
+	<lastBuildDate>Wed, 12 Dec 2018 09:21:55 +0000</lastBuildDate>
+	<language>en</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>http://wordpress.com/</generator>
+
+<image>
+	<url>https://peterrombouts.nl/wp-content/uploads/2023/11/peter.jpg?w=32</url>
+	<title>CosmosDb &#8211; Peter Rombouts</title>
+	<link>https://peterrombouts.nl</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+<site xmlns="com-wordpress:feed-additions:1">155596116</site><cloud domain='peterrombouts.nl' port='80' path='/?rsscloud=notify' registerProcedure='' protocol='http-post' />
+<atom:link rel="search" type="application/opensearchdescription+xml" href="https://peterrombouts.nl/osd.xml" title="Peter Rombouts" />
+	<atom:link rel='hub' href='https://peterrombouts.nl/?pushpress=hub'/>
+	<item>
+		<title>Real-World Partitioning CosmosDb</title>
+		<link>https://peterrombouts.nl/2018/03/17/real-world-partitioning-cosmosdb/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Sat, 17 Mar 2018 09:21:28 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[Build]]></category>
+		<category><![CDATA[CosmosDb]]></category>
+		<guid isPermaLink="false">http://peterrombouts.wordpress.com/?p=57</guid>
+
+					<description><![CDATA[Azure Cosmos DB is a globally distributed, multimodel database service designed to help you achieve fast, predictable performance. It scales seamlessly along with your application as it grows. This blog explains exactly how it works and what to do in some scenarios. But in my work as Cloud Architect I sometimes need to dig deeper &#8230; <a href="https://peterrombouts.nl/2018/03/17/real-world-partitioning-cosmosdb/" class="more-link">Continue reading<span class="screen-reader-text"> "Real-World Partitioning CosmosDb"</span></a>]]></description>
+										<content:encoded><![CDATA[<blockquote><p>Azure Cosmos DB is a globally distributed, multimodel database service designed to help you achieve fast, predictable performance. It scales seamlessly along with your application as it grows.</p></blockquote>
+<p><a href="https://docs.microsoft.com/en-us/azure/cosmos-db/partition-data" target="_blank" rel="noopener">This blog</a> explains exactly how it works and what to do in some scenarios. But in my work as Cloud Architect I sometimes need to dig deeper and figure out if my solution scales for a particular case.</p>
+<p>For example, a &#8216;partition&#8217; has a maximum size of 10GB, so it is really, <strong>really</strong> important to understand how this works, and how you can figure out your partition size over the time.</p>
+<p>This blog will explain, using a recent real-world scenario, how you can determine your partition key and scaling.</p>
+<p>Please note that your scenario can differ hugely, but there are some takeways in this blog that could help you when designing your solution.</p>
+<h2><span id="more-57"></span>The casus</h2>
+<p>In my scenario, I&#8217;m pulling in data from telemetry sensors. These sensors have usage readings per 15 minutes. One day worth of data is roughly 10 KB per day in size; all in JSON format.</p>
+<p>Sample piece of JSON with 4 of the in total 96 datapoints:</p>
+<p><a href="https://gist.github.com/prombouts/eaa8bcf5887cdf1ab9d6d35164c73d79.js">https://gist.github.com/prombouts/eaa8bcf5887cdf1ab9d6d35164c73d79.js</a></p>
+<p>The consumers of my CosmosDb (which call an API which in turn calls the CosmosDb) have a couple of requirements:</p>
+<ol>
+<li>Get data per month per set of sensors (max 20) (aggregated totals for all days)</li>
+<li>Get data per day per set of sensors (max 20) (aggregated totals per day) for a complete month </li>
+</ol>
+<h3>Determine partition key and size</h3>
+<p>In this scenario we should investigate what the proper partition key should be. Because all calls are monthly based, a reasonable key will be month. CosmosDb works very fast if you query only one single partition, and will give you back the documents really fast.</p>
+<p>In our case, a partition would then be &#8216;201601&#8217; for Januari &#8217;16 and &#8216;201602&#8217; for Februari and so forth.</p>
+<p>What happens if we just put all the data, as ingested in quarterhourly json of 10KB a day, into this scheme? For sake of argument we take 31 days for one month (as that is the maximum of days of a month). The total per sensor per month will then be 310KB.</p>
+<p>We know a partition is 10GB max. so if we divide that by 310KB, we can store up to <strong>33825</strong> unique sensors in a partition. In some cases this is fine, but in my scenario, I have up to <strong>250000</strong> sensors&#8230;</p>
+<h3>Optimizing your collection</h3>
+<p>Optimization can be done by any of the following means:</p>
+<ol>
+<li>Choosing another partition key</li>
+<li>Reducing the size of the JSON document</li>
+<li>Save aggregated data instead of all rough values</li>
+</ol>
+<p>In my case, the reasonable solution was to save aggregated data. The rough data is also being saved, albeit to another collection or blob for future reference.</p>
+<p>By aggregating data, the document suddenly looks like this:</p>
+<p>Sample piece of JSON with 4 of the in total 31 (days) datapoints:</p>
+<p><a href="https://gist.github.com/prombouts/8d6126556ef2ee61adf006870b0861cd.js">https://gist.github.com/prombouts/8d6126556ef2ee61adf006870b0861cd.js</a></p>
+<p>This aggregation makes the total size of a document for one month approx. 5 KB. If we divide 10GB now, we see we can fit in <strong>2 million</strong> unique sensors per partition. This easily fits the quarter million required sensors, and my solution is now fast and scalable for future additional sensors in this system. Secondly, the 5 KB obviously are served faster over the internet than 310 KB, and if you want to get a lot of monthly sensor data at the same time, this also is a huge advantage.</p>
+<h2>Conclusion</h2>
+<p>CosmosDb is great for storing very large amounts of data. But this does not mean you can stuff anything into your collections without thinking about the implications, and without designing a proper solution architecture.</p>
+<ol>
+<li>Always make sure your data fits into your collection, and keep the maximum partition size in mind.</li>
+<li>Keep track of how your data is being queried.
+<ol>
+<li><em>If for some reason querying based on year instead of month is the new default, it could be useful to refactor your solution or create an extra collection.</em></li>
+</ol>
+</li>
+<li>It could be useful to use an API for your consumers so you create a facade and your consumers do not need to know your inner workings of your setup.
+<ol>
+<li><em>If the collection or documents change, your API does not have to!</em></li>
+</ol>
+</li>
+</ol>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">57</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+	</item>
+	</channel>
+</rss>

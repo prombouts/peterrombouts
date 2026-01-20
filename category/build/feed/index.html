@@ -1,0 +1,682 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	xmlns:georss="http://www.georss.org/georss" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:media="http://search.yahoo.com/mrss/"
+	>
+
+<channel>
+	<title>Build &#8211; Peter Rombouts</title>
+	<atom:link href="https://peterrombouts.nl/category/build/feed/" rel="self" type="application/rss+xml" />
+	<link>https://peterrombouts.nl</link>
+	<description>All things Cloud &#124; Software &#124; Coding &#124; Integration &#124; Automation &#124; DevSecAnythingOps &#124; Cloud Native &#124; Serverless</description>
+	<lastBuildDate>Fri, 29 Apr 2022 07:19:14 +0000</lastBuildDate>
+	<language>en</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>http://wordpress.com/</generator>
+
+<image>
+	<url>https://peterrombouts.nl/wp-content/uploads/2023/11/peter.jpg?w=32</url>
+	<title>Build &#8211; Peter Rombouts</title>
+	<link>https://peterrombouts.nl</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+<site xmlns="com-wordpress:feed-additions:1">155596116</site><cloud domain='peterrombouts.nl' port='80' path='/?rsscloud=notify' registerProcedure='' protocol='http-post' />
+<atom:link rel="search" type="application/opensearchdescription+xml" href="https://peterrombouts.nl/osd.xml" title="Peter Rombouts" />
+	<atom:link rel='hub' href='https://peterrombouts.nl/?pushpress=hub'/>
+	<item>
+		<title>GitOps Primer</title>
+		<link>https://peterrombouts.nl/2022/05/16/gitops-primer/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Mon, 16 May 2022 07:17:00 +0000</pubDate>
+				<category><![CDATA[Azure DevOps]]></category>
+		<category><![CDATA[Build]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[Software Engineering]]></category>
+		<category><![CDATA[SogetiLabs]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=689</guid>
+
+					<description><![CDATA[Originally posted on SogetiLabs:https://labs.sogeti.com/gitops-primer/ With the rise of cloud, cloud-native and a lot of other buzzwords, we also see the rise of all kinds of Dev(fill here)Ops practices. While I’m an avid advocate of the DevOps mindset, all the buzz around pipelines sounds old-school to me. What is GitOps? GitOps evolved from DevOps. The specific &#8230; <a href="https://peterrombouts.nl/2022/05/16/gitops-primer/" class="more-link">Continue reading<span class="screen-reader-text"> "GitOps Primer"</span></a>]]></description>
+										<content:encoded><![CDATA[
+<p><small><em>Originally posted on SogetiLabs:<br></em></small><a href="https://labs.sogeti.com/gitops-primer/">https://labs.sogeti.com/gitops-primer/</a></p>
+
+
+
+<p>With the rise of cloud, cloud-native and a lot of other buzzwords, we also see the rise of all kinds of Dev(fill here)Ops practices. While I’m an avid advocate of the DevOps mindset, all the buzz around pipelines sounds old-school to me.</p>
+
+
+
+<h2 class="wp-block-heading">What is GitOps?</h2>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>GitOps evolved from DevOps. The specific state of deployment configuration is version-controlled (using Git for example). Changes to configuration can be managed using code review practices, and can be rolled back using version-controlling.</p><cite><a href="https://en.wikipedia.org/wiki/DevOps#GitOps" target="_blank" rel="noreferrer noopener">https://en.wikipedia.org/wiki/DevOps#GitOps</a></cite></blockquote>
+
+
+
+<p>A quick look at Wikipedia brings you the above description. It is stuffed away somewhere in the DevOps article. Like with DevOps, there is a whole religion around what tool is the best to use, and people even claim to be ‘DevOps Engineers’ whatever that may be. In most cases they mean ‘cloud infrastructure’ because DevOps is a <strong>mindset</strong>, and not a <strong>function</strong>.</p>
+
+
+
+<p>It doesn’t help that some tools like Azure DevOps are actually called this way, but hey, VSTS is also not really a snappy name IMHO.</p>
+
+
+
+<p>To explain GitOps in my own words and in a single sentence: Instead of <strong>pushing </strong>your code and deploy, your system <strong>pulls </strong>the software from the version control system.</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>A nice one-liner by WeaveWorks is: <strong>GitOps is Continuous Delivery meets Cloud Native</strong></p><cite><a href="https://www.weave.works/technologies/gitops/" target="_blank" rel="noreferrer noopener">https://www.weave.works/technologies/gitops/</a></cite></blockquote>
+
+
+
+<h2 class="wp-block-heading">GitOps versus DevOps Pipelines</h2>
+
+
+
+<p>So, it is the same as DevOps Pipelines right? No it is not. From a distance it can <em>seem</em> to be the same. In a way your code, if configured correctly, will be deployed automatically with CICD.</p>
+
+
+
+<p>The fundamental difference is that your system (for example Kubernetes) and not your DevOps CICD pipeline, is in the lead. Remember, the settings <strong>of the k8s system itself</strong> also need a repository.</p>
+
+
+
+<p>Let’s look at a typical CICD setup:</p>
+
+
+
+<figure class="wp-block-image"><img src="https://cloudblogs.microsoft.com/uploads/prod/sites/37/2018/11/DevOps-workflow-with-containers_image-1.png" alt="DevOps workflow with containers" /><figcaption>Source: <a href="https://cloudblogs.microsoft.com/opensource/2018/11/27/tutorial-azure-devops-setup-cicd-pipeline-kubernetes-docker-helm/" target="_blank" rel="noreferrer noopener">https://cloudblogs.microsoft.com/opensource/2018/11/27/tutorial-azure-devops-setup-cicd-pipeline-kubernetes-docker-helm/</a></figcaption></figure>
+
+
+
+<p>As you can see in the example above, the Azure DevOps pipelines are in the lead. The Build step pulls in the code, the Release step creates the artifact and pushes it towards a registry, and also installs it on AKS. But this does not include the state of your cluster.</p>
+
+
+
+<p>Let’s say your DevOps pipeline trigger failed, or someone made changes manually to the AKS applications or configuration. AKS has no idea where the code is located so it cannot check if there are any changes. This is where GitOps can be a solution. Let’s look at the following example:</p>
+
+
+
+<figure class="wp-block-image"><img src="https://docs.microsoft.com/en-us/azure/azure-arc/kubernetes/media/gitops-arch.png" alt="GitOps CI/CD architecture" /><figcaption>Source: <a href="https://docs.microsoft.com/en-us/azure/azure-arc/kubernetes/conceptual-gitops-ci-cd" target="_blank" rel="noreferrer noopener">https://docs.microsoft.com/en-us/azure/azure-arc/kubernetes/conceptual-gitops-ci-cd</a></figcaption></figure>
+
+
+
+<p>In the example above you can see that (in this case Flux) is used to pull the desired state towards your Kubernetes cluster. This pulling makes sure that you are always up-to-date. And it can also detect changes so if anything or anyone changes the configuration manually, this ‘drift’ will be resolved by the desired state pulling with Flux!</p>
+
+
+
+<p>Yes, this complicates your setup, but you <strong>always</strong> know that your clusters are exactly how you described them in the desired state. Especially in situations with Kubernetes, deployment and configuration can be really complex, so these tools make sure you are <strong>in control</strong> of your systems.</p>
+
+
+
+<h2 class="wp-block-heading">Example of GitOps tools</h2>
+
+
+
+<p><strong>So I need Kubernetes</strong>? No. In theory any system can use the GitOps setup, but for Kubernetes a lot of tools and so called operators are readily available.</p>
+
+
+
+<p>In the previous paragraph, Flux is drawn in the picture. There are many more tools out there, but we see convergence on two major tools: <strong><a href="https://fluxcd.io/" target="_blank" rel="noreferrer noopener">Flux</a> </strong>and<a href="https://argo-cd.readthedocs.io/en/stable/" target="_blank" rel="noreferrer noopener"><strong>Argo</strong></a>. The resources section at the end of the blog shows more tools and resources if you want to dive in the deep end of GitOps.</p>
+
+
+
+<p>There is a nice writeup (<em>sponsored by Red Hat</em>) on deciding between Flux and Argo. Depending on your situation it can fall either way. <a href="https://thenewstack.io/gitops-on-kubernetes-deciding-between-argo-cd-and-flux/" target="_blank" rel="noreferrer noopener">GitOps on Kubernetes: Deciding Between Argo CD and Flux – The New Stack</a>.</p>
+
+
+
+<h2 class="wp-block-heading">OpenGitOps</h2>
+
+
+
+<p>The emergence of GitOps led to the OpenGitOps project.</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p><strong>OpenGitOps</strong> is a set of open-source standards, best practices, and community-focused education to help organizations adopt a structured, standardized approach to implementing <strong>GitOps</strong>.</p><cite><a href="https://opengitops.dev/" target="_blank" rel="noreferrer noopener">https://opengitops.dev/</a></cite></blockquote>
+
+
+
+<p>The principles of GitOps are four-fold:</p>
+
+
+
+<ol class="wp-block-list"><li><strong>Declarative</strong><br><em>A&nbsp;<a href="https://github.com/open-gitops/documents/blob/v1.0.0/GLOSSARY.md#software-system" target="_blank" rel="noreferrer noopener">system</a>&nbsp;managed by GitOps must have its desired state expressed&nbsp;<a href="https://github.com/open-gitops/documents/blob/v1.0.0/GLOSSARY.md#declarative-description" target="_blank" rel="noreferrer noopener">declaratively</a>.</em></li><li><strong>Versioned and Immutable</strong><br><em>Desired state is&nbsp;<a href="https://github.com/open-gitops/documents/blob/v1.0.0/GLOSSARY.md#state-store" target="_blank" rel="noreferrer noopener">stored</a>&nbsp;in a way that enforces immutability, versioning and retains a complete version history.</em></li><li><strong>Pulled Automatically</strong><br><em>Software agents automatically pull the desired state declarations from the source.</em></li><li><strong>Continuously Reconciled</strong><br><em>Software agents&nbsp;<a href="https://github.com/open-gitops/documents/blob/v1.0.0/GLOSSARY.md#continuous" target="_blank" rel="noreferrer noopener">continuously</a>&nbsp;observe actual system state and&nbsp;<a href="https://github.com/open-gitops/documents/blob/v1.0.0/GLOSSARY.md#reconciliation" target="_blank" rel="noreferrer noopener">attempt to apply</a>&nbsp;the desired state.</em></li></ol>
+
+
+
+<p>“The GitOps Working Group is a WG under the CNCF App Delivery SIG.</p>
+
+
+
+<p>The focus of the GitOps WG is to clearly define a vendor-neutral, principle-led meaning of GitOps. This will establish a foundation for interoperability between tools, conformance, and certification. Lasting programs, documents, and code are planned to live within the&nbsp;<a href="https://github.com/open-gitops" target="_blank" rel="noreferrer noopener">OpenGitOps</a>&nbsp;project.”</p>
+
+
+
+<p>The main goal of the OpenGitOps CNCF Sandbox project is to define a vendor-neutral, principle-led meaning of GitOps. This will establish a foundation for interoperability between tools, conformance, and certification through lasting programs, documents, and code.</p>
+
+
+
+<h2 class="wp-block-heading">Concluding</h2>
+
+
+
+<p>GitOps has been around for several years, and continues to evolve. CNCF has OpenGitOps as Sandbox project and embraced Flux and Argo as Incubating projects. The shift in mindset can be difficult, as some people still try to embrace DevOps as a principle.</p>
+
+
+
+<p>Watch this space for more information and an upcoming eBook on our take and practices surrounding GitOps!</p>
+
+
+
+<h2 class="wp-block-heading">Resources and further reading</h2>
+
+
+
+<figure class="wp-block-table"><table><tbody><tr><td>OpenGitOps</td><td><a href="https://opengitops.dev/" target="_blank" rel="noreferrer noopener">https://opengitops.dev/</a></td></tr><tr><td>GitOps eBook</td><td><a href="https://www.gitops.tech/" target="_blank" rel="noreferrer noopener">https://www.gitops.tech/</a></td></tr><tr><td>Weaveworks Guide to GitOps</td><td><a href="https://www.weave.works/technologies/gitops/" target="_blank" rel="noreferrer noopener">https://www.weave.works/technologies/gitops/</a></td></tr><tr><td>Harness</td><td><a href="https://harness.io/blog/devops/what-is-gitops/" target="_blank" rel="noreferrer noopener">https://harness.io/blog/devops/what-is-gitops/</a></td></tr><tr><td>Flux</td><td><a href="https://fluxcd.io/" target="_blank" rel="noreferrer noopener">https://fluxcd.io/</a></td></tr><tr><td>Argo CD</td><td><a href="https://argo-cd.readthedocs.io/en/stable/" target="_blank" rel="noreferrer noopener">https://argo-cd.readthedocs.io/en/stable/</a></td></tr><tr><td>Jenkins X</td><td><a href="https://jenkins-x.io/" target="_blank" rel="noreferrer noopener">https://jenkins-x.io/</a></td></tr><tr><td>CNCF</td><td><a href="https://www.cncf.io/" target="_blank" rel="noreferrer noopener">https://www.cncf.io/</a></td></tr></tbody></table></figure>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">689</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://cloudblogs.microsoft.com/uploads/prod/sites/37/2018/11/DevOps-workflow-with-containers_image-1.png" medium="image">
+			<media:title type="html">DevOps workflow with containers</media:title>
+		</media:content>
+
+		<media:content url="https://docs.microsoft.com/en-us/azure/azure-arc/kubernetes/media/gitops-arch.png" medium="image">
+			<media:title type="html">GitOps CI/CD architecture</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Software Maintainability Roadshow deck</title>
+		<link>https://peterrombouts.nl/2020/01/29/software-maintainability-roadshow-deck/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Wed, 29 Jan 2020 19:30:00 +0000</pubDate>
+				<category><![CDATA[AngularJS]]></category>
+		<category><![CDATA[Azure DevOps]]></category>
+		<category><![CDATA[Build]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[Software Engineering]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=296</guid>
+
+					<description><![CDATA[]]></description>
+										<content:encoded><![CDATA[
+<div class="jetpack-video-wrapper"><iframe src='https://www.slideshare.net/slideshow/embed_code/223406396' width='840' height='688' sandbox="allow-popups allow-scripts allow-same-origin allow-presentation" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">296</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>VSTS Extension &#8211; Tagging all resources within a Resource Group</title>
+		<link>https://peterrombouts.nl/2018/07/17/vsts-extension-tagging-all-resources-within-a-resource-group/</link>
+					<comments>https://peterrombouts.nl/2018/07/17/vsts-extension-tagging-all-resources-within-a-resource-group/#comments</comments>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Tue, 17 Jul 2018 08:23:10 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[Build]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[VSTS]]></category>
+		<guid isPermaLink="false">http://peterrombouts.wordpress.com/?p=61</guid>
+
+					<description><![CDATA[In my current project I&#8217;ve stumbled upon a problem. We have many ARM templates and need to add tags to all resources. Doing this within templates can be cumbersome, so I&#8217;ve created a small VSTS extension that adds tags to all resources within a specific resource group. The extension can be installed from https://marketplace.visualstudio.com/items?itemName=PeterRombouts.autotagging-extension The &#8230; <a href="https://peterrombouts.nl/2018/07/17/vsts-extension-tagging-all-resources-within-a-resource-group/" class="more-link">Continue reading<span class="screen-reader-text"> "VSTS Extension &#8211; Tagging all resources within a Resource&#160;Group"</span></a>]]></description>
+										<content:encoded><![CDATA[<p>In my current project I&#8217;ve stumbled upon a problem. We have many ARM templates and need to add tags to all resources. Doing this within templates can be cumbersome, so I&#8217;ve created a small VSTS extension that adds tags to all resources within a specific resource group.</p>
+<p>The extension can be installed from <a href="https://marketplace.visualstudio.com/items?itemName=PeterRombouts.autotagging-extension" target="_blank" rel="noopener">https://marketplace.visualstudio.com/items?itemName=PeterRombouts.autotagging-extension</a></p>
+<p>The working is pretty simple; enter the values for your subscription, and resourcegroup, and then add the tags.</p>
+<p><img data-attachment-id="124" data-permalink="https://peterrombouts.nl/screenshots-vsts-auto-tagging-1/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/screenshots-vsts-auto-tagging-1.png" data-orig-size="1064,665" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="screenshots-vsts-auto-tagging-1" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/screenshots-vsts-auto-tagging-1.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/screenshots-vsts-auto-tagging-1.png?w=840" class="alignnone size-full wp-image-124" src="https://peterrombouts.nl/wp-content/uploads/2018/12/screenshots-vsts-auto-tagging-1.png" alt="screenshots-vsts-auto-tagging-1" width="1064" height="665" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/screenshots-vsts-auto-tagging-1.png 1064w, https://peterrombouts.nl/wp-content/uploads/2018/12/screenshots-vsts-auto-tagging-1.png?w=150&amp;h=94 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/screenshots-vsts-auto-tagging-1.png?w=300&amp;h=188 300w, https://peterrombouts.nl/wp-content/uploads/2018/12/screenshots-vsts-auto-tagging-1.png?w=768&amp;h=480 768w, https://peterrombouts.nl/wp-content/uploads/2018/12/screenshots-vsts-auto-tagging-1.png?w=1024&amp;h=640 1024w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>The tag pairs should be entered, one pair per line, comma separated. The extension will add these tags to all resources in the given resource group, and will not do anything to the existing tags.</p>
+<p>Remarks? Please do give feedback! The project is available on <a href="https://github.com/prombouts/vsts-auto-tagging" target="_blank" rel="noopener">Github</a> if you want to contribute!</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://peterrombouts.nl/2018/07/17/vsts-extension-tagging-all-resources-within-a-resource-group/feed/</wfw:commentRss>
+			<slash:comments>2</slash:comments>
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">61</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/screenshots-vsts-auto-tagging-1.png" medium="image">
+			<media:title type="html">screenshots-vsts-auto-tagging-1</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>ARM Outputs in VSTS pipelines</title>
+		<link>https://peterrombouts.nl/2018/06/25/arm-outputs-in-vsts-pipelines/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Mon, 25 Jun 2018 08:22:31 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[Build]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[VSTS]]></category>
+		<guid isPermaLink="false">http://peterrombouts.wordpress.com/?p=59</guid>
+
+					<description><![CDATA[In my work as Cloud Solution Architect I often find teams struggling with the exact same problem. In this blogpost I will highlight one of those problems; passing on ARM output variables within a VSTS pipeline. Many developers have Powershell or other scripts in place, that fix this problem, but I want to highlight an &#8230; <a href="https://peterrombouts.nl/2018/06/25/arm-outputs-in-vsts-pipelines/" class="more-link">Continue reading<span class="screen-reader-text"> "ARM Outputs in VSTS&#160;pipelines"</span></a>]]></description>
+										<content:encoded><![CDATA[<p>In my work as Cloud Solution Architect I often find teams struggling with the exact same problem. In this blogpost I will highlight one of those problems; passing on ARM output variables within a VSTS pipeline.</p>
+<p>Many developers have Powershell or other scripts in place, that fix this problem, but I want to highlight an extension, which is freely available and does this for you, for <strong>free</strong>!</p>
+<p><img class="alignnone size-full" src="https://keesschollaart.gallerycdn.vsassets.io/extensions/keesschollaart/arm-outputs/3.0.2/1517479176919/images/screenshots-vsts-arm-outputs-1.png" alt="ARM Outputs by Kees Schollaart" width="1200" height="546" /></p>
+<p>&nbsp;</p>
+<blockquote><p>This extension enables you to use the ARM Deployment outputs in your VSTS environment.</p>
+<p>This step will use the last successful deployment within the selected resource group. If this deployment has outputs, all of them are copied to VSTS variables by the ARM Output key.</p>
+<p>These outputs can then be used by default VSTS ways: <code><span style="color:#333333;">$(same-key-as-in-arm-template)</span></code></p>
+<p>Usually this task is ran directly after the &#8216;Azure Resource Group Deployment&#8217; task.</p></blockquote>
+<p>So my pro-tip; Stop using your own scripts and implement this handy extension!</p>
+<p>PS: On a sidenote, Kees is also a great guy, give him a tweet after you install this in your project <img src="https://s0.wp.com/wp-content/mu-plugins/wpcom-smileys/twemoji/2/72x72/1f609.png" alt="😉" class="wp-smiley" style="height: 1em; max-height: 1em;" /></p>
+<p>Link to Marketplace: <a href="https://marketplace.visualstudio.com/items?itemName=keesschollaart.arm-outputs">https://marketplace.visualstudio.com/items?itemName=keesschollaart.arm-outputs</a><br />
+Kees on Twitter: <a href="https://twitter.com/keesschollaart">https://twitter.com/keesschollaart</a></p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">59</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://keesschollaart.gallerycdn.vsassets.io/extensions/keesschollaart/arm-outputs/3.0.2/1517479176919/images/screenshots-vsts-arm-outputs-1.png" medium="image">
+			<media:title type="html">ARM Outputs by Kees Schollaart</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Real-World Partitioning CosmosDb</title>
+		<link>https://peterrombouts.nl/2018/03/17/real-world-partitioning-cosmosdb/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Sat, 17 Mar 2018 09:21:28 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[Build]]></category>
+		<category><![CDATA[CosmosDb]]></category>
+		<guid isPermaLink="false">http://peterrombouts.wordpress.com/?p=57</guid>
+
+					<description><![CDATA[Azure Cosmos DB is a globally distributed, multimodel database service designed to help you achieve fast, predictable performance. It scales seamlessly along with your application as it grows. This blog explains exactly how it works and what to do in some scenarios. But in my work as Cloud Architect I sometimes need to dig deeper &#8230; <a href="https://peterrombouts.nl/2018/03/17/real-world-partitioning-cosmosdb/" class="more-link">Continue reading<span class="screen-reader-text"> "Real-World Partitioning CosmosDb"</span></a>]]></description>
+										<content:encoded><![CDATA[<blockquote><p>Azure Cosmos DB is a globally distributed, multimodel database service designed to help you achieve fast, predictable performance. It scales seamlessly along with your application as it grows.</p></blockquote>
+<p><a href="https://docs.microsoft.com/en-us/azure/cosmos-db/partition-data" target="_blank" rel="noopener">This blog</a> explains exactly how it works and what to do in some scenarios. But in my work as Cloud Architect I sometimes need to dig deeper and figure out if my solution scales for a particular case.</p>
+<p>For example, a &#8216;partition&#8217; has a maximum size of 10GB, so it is really, <strong>really</strong> important to understand how this works, and how you can figure out your partition size over the time.</p>
+<p>This blog will explain, using a recent real-world scenario, how you can determine your partition key and scaling.</p>
+<p>Please note that your scenario can differ hugely, but there are some takeways in this blog that could help you when designing your solution.</p>
+<h2><span id="more-57"></span>The casus</h2>
+<p>In my scenario, I&#8217;m pulling in data from telemetry sensors. These sensors have usage readings per 15 minutes. One day worth of data is roughly 10 KB per day in size; all in JSON format.</p>
+<p>Sample piece of JSON with 4 of the in total 96 datapoints:</p>
+<p><a href="https://gist.github.com/prombouts/eaa8bcf5887cdf1ab9d6d35164c73d79.js">https://gist.github.com/prombouts/eaa8bcf5887cdf1ab9d6d35164c73d79.js</a></p>
+<p>The consumers of my CosmosDb (which call an API which in turn calls the CosmosDb) have a couple of requirements:</p>
+<ol>
+<li>Get data per month per set of sensors (max 20) (aggregated totals for all days)</li>
+<li>Get data per day per set of sensors (max 20) (aggregated totals per day) for a complete month </li>
+</ol>
+<h3>Determine partition key and size</h3>
+<p>In this scenario we should investigate what the proper partition key should be. Because all calls are monthly based, a reasonable key will be month. CosmosDb works very fast if you query only one single partition, and will give you back the documents really fast.</p>
+<p>In our case, a partition would then be &#8216;201601&#8217; for Januari &#8217;16 and &#8216;201602&#8217; for Februari and so forth.</p>
+<p>What happens if we just put all the data, as ingested in quarterhourly json of 10KB a day, into this scheme? For sake of argument we take 31 days for one month (as that is the maximum of days of a month). The total per sensor per month will then be 310KB.</p>
+<p>We know a partition is 10GB max. so if we divide that by 310KB, we can store up to <strong>33825</strong> unique sensors in a partition. In some cases this is fine, but in my scenario, I have up to <strong>250000</strong> sensors&#8230;</p>
+<h3>Optimizing your collection</h3>
+<p>Optimization can be done by any of the following means:</p>
+<ol>
+<li>Choosing another partition key</li>
+<li>Reducing the size of the JSON document</li>
+<li>Save aggregated data instead of all rough values</li>
+</ol>
+<p>In my case, the reasonable solution was to save aggregated data. The rough data is also being saved, albeit to another collection or blob for future reference.</p>
+<p>By aggregating data, the document suddenly looks like this:</p>
+<p>Sample piece of JSON with 4 of the in total 31 (days) datapoints:</p>
+<p><a href="https://gist.github.com/prombouts/8d6126556ef2ee61adf006870b0861cd.js">https://gist.github.com/prombouts/8d6126556ef2ee61adf006870b0861cd.js</a></p>
+<p>This aggregation makes the total size of a document for one month approx. 5 KB. If we divide 10GB now, we see we can fit in <strong>2 million</strong> unique sensors per partition. This easily fits the quarter million required sensors, and my solution is now fast and scalable for future additional sensors in this system. Secondly, the 5 KB obviously are served faster over the internet than 310 KB, and if you want to get a lot of monthly sensor data at the same time, this also is a huge advantage.</p>
+<h2>Conclusion</h2>
+<p>CosmosDb is great for storing very large amounts of data. But this does not mean you can stuff anything into your collections without thinking about the implications, and without designing a proper solution architecture.</p>
+<ol>
+<li>Always make sure your data fits into your collection, and keep the maximum partition size in mind.</li>
+<li>Keep track of how your data is being queried.
+<ol>
+<li><em>If for some reason querying based on year instead of month is the new default, it could be useful to refactor your solution or create an extra collection.</em></li>
+</ol>
+</li>
+<li>It could be useful to use an API for your consumers so you create a facade and your consumers do not need to know your inner workings of your setup.
+<ol>
+<li><em>If the collection or documents change, your API does not have to!</em></li>
+</ol>
+</li>
+</ol>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">57</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Debugging Azure Functions with LogicApps locally</title>
+		<link>https://peterrombouts.nl/2017/10/23/debugging-azure-functions-with-logicapps-locally/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Mon, 23 Oct 2017 08:18:59 +0000</pubDate>
+				<category><![CDATA[Build]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[Serverless]]></category>
+		<guid isPermaLink="false">http://peterrombouts.wordpress.com/?p=51</guid>
+
+					<description><![CDATA[Azure Functions are a great example of how serverless is conquering the cloud world we live in today. There are also many blogs in how-to-write-functions out there, of which the latest use the precompiled functions, in Visual Studio 2017. Think of a scenario, where you want to test a LogicApp against your function, but that &#8230; <a href="https://peterrombouts.nl/2017/10/23/debugging-azure-functions-with-logicapps-locally/" class="more-link">Continue reading<span class="screen-reader-text"> "Debugging Azure Functions with LogicApps&#160;locally"</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Azure Functions are a great example of how serverless is conquering the cloud world we live in today. There are also many blogs in <a href="https://visualstudiomagazine.com/articles/2017/10/01/azure-functions.aspx" target="_blank" rel="noopener">how-to-write-functions</a> out there, of which the latest use the precompiled functions, in Visual Studio 2017.</p>
+<p>Think of a scenario, where you want to test a LogicApp against your function, but that app obviously cannot connect to localhost. You have two options; You can deploy the Functions app to Azure and use remote debugging or you can use your own localhost, with the use of ngrok.</p>
+<p>This blog will explain how to debug locally, when using other services in the cloud.<br />
+<span id="more-51"></span></p>
+<h2>Azure Functions</h2>
+<p>First of all, we start off with a very simple function:</p>
+<p><a href="https://gist.github.com/prombouts/04610454758dfabe39547d01ac366789.js">https://gist.github.com/prombouts/04610454758dfabe39547d01ac366789.js</a></p>
+<p>Running this will result in something like this:</p>
+<p><img data-attachment-id="66" data-permalink="https://peterrombouts.nl/1functionscli/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/1functionscli.png" data-orig-size="654,427" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1FunctionsCLI" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/1functionscli.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/1functionscli.png?w=654" class="alignnone size-full wp-image-66" src="https://peterrombouts.nl/wp-content/uploads/2018/12/1functionscli.png" alt="1FunctionsCLI" width="654" height="427" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/1functionscli.png 654w, https://peterrombouts.nl/wp-content/uploads/2018/12/1functionscli.png?w=150&amp;h=98 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/1functionscli.png?w=300&amp;h=196 300w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 61vw, (max-width: 1362px) 45vw, 600px" /></p>
+<p>That is it; and your function is running locally. Calling it with Chrome will spit out a simple JSON:</p>
+<p><img loading="lazy" data-attachment-id="77" data-permalink="https://peterrombouts.nl/4ngroklocal/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/4ngroklocal.png" data-orig-size="543,444" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="4ngroklocal" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/4ngroklocal.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/4ngroklocal.png?w=543" class="alignnone size-full wp-image-77" src="https://peterrombouts.nl/wp-content/uploads/2018/12/4ngroklocal.png" alt="4ngroklocal" width="543" height="444" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/4ngroklocal.png 543w, https://peterrombouts.nl/wp-content/uploads/2018/12/4ngroklocal.png?w=150&amp;h=123 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/4ngroklocal.png?w=300&amp;h=245 300w" sizes="(max-width: 543px) 85vw, 543px" /></p>
+<h2>Using Ngrok</h2>
+<p>Downloading and installing ngrok is extremely easy from their webpage: <a href="https://ngrok.com/download" target="_blank" rel="noopener">https://ngrok.com/download</a>. Using the following line, we will make our localhost on port 7071 (default for Functions) project accessible from the internet:</p>
+<p><img loading="lazy" data-attachment-id="70" data-permalink="https://peterrombouts.nl/2runngrok/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/2runngrok.png" data-orig-size="712,251" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="2RunNgrok" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/2runngrok.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/2runngrok.png?w=712" class="alignnone size-full wp-image-70" src="https://peterrombouts.nl/wp-content/uploads/2018/12/2runngrok.png" alt="2RunNgrok" width="712" height="251" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/2runngrok.png 712w, https://peterrombouts.nl/wp-content/uploads/2018/12/2runngrok.png?w=150&amp;h=53 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/2runngrok.png?w=300&amp;h=106 300w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 61vw, (max-width: 1362px) 45vw, 600px" /></p>
+<p>Please note that I&#8217;ve added -host-header due to some issues that could arise when mapping to localhost from the internet.</p>
+<p>The ngrok command results in ngrok running:</p>
+<p><img loading="lazy" data-attachment-id="75" data-permalink="https://peterrombouts.nl/3ngrokrunning/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/3ngrokrunning.png" data-orig-size="736,268" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="3NgrokRunning" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/3ngrokrunning.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/3ngrokrunning.png?w=736" class="alignnone size-full wp-image-75" src="https://peterrombouts.nl/wp-content/uploads/2018/12/3ngrokrunning.png" alt="3NgrokRunning" width="736" height="268" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/3ngrokrunning.png 736w, https://peterrombouts.nl/wp-content/uploads/2018/12/3ngrokrunning.png?w=150&amp;h=55 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/3ngrokrunning.png?w=300&amp;h=109 300w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 61vw, (max-width: 1362px) 45vw, 600px" /></p>
+<h2>Testing the tunnel</h2>
+<p>By calling our function, but now using the ngrok hostname provided, we get the exact same output:</p>
+<p><img loading="lazy" data-attachment-id="78" data-permalink="https://peterrombouts.nl/4ngrokremote/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/4ngrokremote.png" data-orig-size="543,444" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="4ngrokremote" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/4ngrokremote.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/4ngrokremote.png?w=543" class="alignnone size-full wp-image-78" src="https://peterrombouts.nl/wp-content/uploads/2018/12/4ngrokremote.png" alt="4ngrokremote" width="543" height="444" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/4ngrokremote.png 543w, https://peterrombouts.nl/wp-content/uploads/2018/12/4ngrokremote.png?w=150&amp;h=123 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/4ngrokremote.png?w=300&amp;h=245 300w" sizes="(max-width: 543px) 85vw, 543px" /></p>
+<h2>Bonus Features</h2>
+<p>If you have any need of testing output of a webhook of any kind; check out <a href="https://requestb.in/" target="_blank" rel="noopener">Requestbin</a>! This site will let you create a &#8216;bin&#8217; for your requests, and will show any POST/GET or other data pointed at it. Could be very usefull when debugging output of LogicApps when you use JSON compose and want to inspect your output!</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">51</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/1functionscli.png" medium="image">
+			<media:title type="html">1FunctionsCLI</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/4ngroklocal.png" medium="image">
+			<media:title type="html">4ngroklocal</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/2runngrok.png" medium="image">
+			<media:title type="html">2RunNgrok</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/3ngrokrunning.png" medium="image">
+			<media:title type="html">3NgrokRunning</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/4ngrokremote.png" medium="image">
+			<media:title type="html">4ngrokremote</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>TechDays 2017 Presentation &#8211; Emotion and Face recognition using Cognitive Services</title>
+		<link>https://peterrombouts.nl/2017/10/17/techdays-2017-presentation-emotion-and-face-recognition-using-cognitive-services/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Tue, 17 Oct 2017 08:18:05 +0000</pubDate>
+				<category><![CDATA[Build]]></category>
+		<category><![CDATA[Cognitive Services]]></category>
+		<guid isPermaLink="false">http://peterrombouts.wordpress.com/?p=49</guid>
+
+					<description><![CDATA[Slides of my presentation; Emotion and Face recognition using Cognitive Services. Abstract: In this session I will show how to train and use the Face API for recognition of people. Secondly I will show an example of how to determine emotions using the APIs. After this session attendees will have a basic understanding of setting &#8230; <a href="https://peterrombouts.nl/2017/10/17/techdays-2017-presentation-emotion-and-face-recognition-using-cognitive-services/" class="more-link">Continue reading<span class="screen-reader-text"> "TechDays 2017 Presentation &#8211; Emotion and Face recognition using Cognitive&#160;Services"</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Slides of my presentation; Emotion and Face recognition using Cognitive Services.</p>
+<p><div class="jetpack-video-wrapper"><iframe src='https://www.slideshare.net/slideshow/embed_code/80870155' width='840' height='688' sandbox="allow-popups allow-scripts allow-same-origin allow-presentation" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div></p>
+<p>Abstract:<br />
+In this session I will show how to train and use the Face API for recognition of people. Secondly I will show an example of how to determine emotions using the APIs. After this session attendees will have a basic understanding of setting up the APIs, and know how to use and implement the Face and Emotion APIs on the Cognitive Services Stack.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">49</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Deploy LogicApps using linked templates</title>
+		<link>https://peterrombouts.nl/2017/10/17/deploy-logicapps-using-linked-templates/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Tue, 17 Oct 2017 08:17:19 +0000</pubDate>
+				<category><![CDATA[Build]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[MicrosoftHelden]]></category>
+		<category><![CDATA[VSTS]]></category>
+		<guid isPermaLink="false">http://peterrombouts.wordpress.com/?p=47</guid>
+
+					<description><![CDATA[Deploying LogicApps with VSTS is easy. You can create a new project using the steps defined in this post and you are all set with deployment settings in place. But, when you add more and more LogicApps your JSON file will grow and you might be better off putting each LogicApp within its own JSON. &#8230; <a href="https://peterrombouts.nl/2017/10/17/deploy-logicapps-using-linked-templates/" class="more-link">Continue reading<span class="screen-reader-text"> "Deploy LogicApps using linked&#160;templates"</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Deploying <a href="https://azure.microsoft.com/en-us/services/logic-apps/" target="_blank" rel="noopener">LogicApps</a> with VSTS is easy. You can create a new project using the steps <a href="https://docs.microsoft.com/en-us/azure/logic-apps/logic-apps-deploy-from-vs" target="_blank" rel="noopener">defined in this post</a> and you are all set with deployment settings in place.</p>
+<p>But, when you add more and more LogicApps your JSON file will grow and you might be better off putting each LogicApp within its own JSON. Not to speak of the parameters running wild within your files&#8230;<br />
+This post will explain how to set this up, and what is needed in your VSTS builds to enable the deployment of all the linked apps.</p>
+<p><span id="more-47"></span></p>
+<h2>Multiple LogicApps</h2>
+<p>When you add a LogicApp to your existing project, you can expect a settings screen like below:</p>
+<p><img loading="lazy" data-attachment-id="100" data-permalink="https://peterrombouts.nl/1addlogicapp/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/1addlogicapp.png" data-orig-size="1081,714" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1AddLogicApp" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/1addlogicapp.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/1addlogicapp.png?w=840" class="alignnone size-full wp-image-100" src="https://peterrombouts.nl/wp-content/uploads/2018/12/1addlogicapp.png" alt="1AddLogicApp" width="1081" height="714" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/1addlogicapp.png 1081w, https://peterrombouts.nl/wp-content/uploads/2018/12/1addlogicapp.png?w=150&amp;h=99 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/1addlogicapp.png?w=300&amp;h=198 300w, https://peterrombouts.nl/wp-content/uploads/2018/12/1addlogicapp.png?w=768&amp;h=507 768w, https://peterrombouts.nl/wp-content/uploads/2018/12/1addlogicapp.png?w=1024&amp;h=676 1024w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>The result is a new set of params and a new resource:</p>
+<p><img loading="lazy" data-attachment-id="71" data-permalink="https://peterrombouts.nl/2twoapps/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/2twoapps.png" data-orig-size="929,771" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="2TwoApps" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/2twoapps.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/2twoapps.png?w=840" class="alignnone size-full wp-image-71" src="https://peterrombouts.nl/wp-content/uploads/2018/12/2twoapps.png" alt="2TwoApps" width="929" height="771" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/2twoapps.png 929w, https://peterrombouts.nl/wp-content/uploads/2018/12/2twoapps.png?w=150&amp;h=124 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/2twoapps.png?w=300&amp;h=249 300w, https://peterrombouts.nl/wp-content/uploads/2018/12/2twoapps.png?w=768&amp;h=637 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<h2>Splitting up the LogicApps</h2>
+<p>To split up the files, several steps need to be taken.</p>
+<ol>
+<li>Move the LogicApps from the main JSON to separate files</li>
+<li>Update the main JSON file to point to the new separated files, and add parametes to work with artifacts/SAS during deployment</li>
+<li>Update the parameters file to set names and other settings</li>
+</ol>
+<h3>1. Move the LogicApps</h3>
+<p>The first step of separating the files is to create a folder (although not necessary, highly recommended because of readability) within your solution, and move the separate LogicApps into those folders.</p>
+<p><img loading="lazy" data-attachment-id="73" data-permalink="https://peterrombouts.nl/3folders/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/3folders.png" data-orig-size="312,186" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="3Folders" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/3folders.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/3folders.png?w=312" class="alignnone size-full wp-image-73" src="https://peterrombouts.nl/wp-content/uploads/2018/12/3folders.png" alt="3Folders" width="312" height="186" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/3folders.png 312w, https://peterrombouts.nl/wp-content/uploads/2018/12/3folders.png?w=150&amp;h=89 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/3folders.png?w=300&amp;h=179 300w" sizes="(max-width: 312px) 85vw, 312px" /></p>
+<h3>2. Update LogicApp.json and add parameters</h3>
+<p>To link these new JSON files, the LogicApp.json needs to be updated, like in the following gist. Three new parameters are added to the JSON. The first two are used to link in VSTS to the blob storage that will hold these templates.</p>
+<p><a href="https://gist.github.com/prombouts/f541e53fecc95a95d0f8940710cd15b7.js">https://gist.github.com/prombouts/f541e53fecc95a95d0f8940710cd15b7.js</a></p>
+<h3>3. Update LogicApp.parameters.json</h3>
+<p>Finally we have to edit the parameters file. The next gist show how the default setup is, when creating LogicApps within one single JSON:</p>
+<p><a href="https://gist.github.com/prombouts/105351d5bbc5a364c0cfc2b1d9184160.js">https://gist.github.com/prombouts/105351d5bbc5a364c0cfc2b1d9184160.js</a></p>
+<p>The next example show how to create a new configurationparameter object to hold the settings for the separate files. We will refer to these in the LogicApps within the folder.<br />
+<a href="https://gist.github.com/prombouts/eab9aa4963a09df052718cb3dd62716a.js">https://gist.github.com/prombouts/eab9aa4963a09df052718cb3dd62716a.js</a></p>
+<h2>Setup VSTS build</h2>
+<p>To leverage these templates, some additional steps need to be taken in VSTS. For example the artifacts and SAS tokens should be passed in as parameters.</p>
+<h3>Build step</h3>
+<p>In the build step, the templates should be copied to blob storage. After all, the linked templates only work with full URLs so we must place these in storage. Note the output parameters to be used in the next steps when validating the template:</p>
+<p><img loading="lazy" data-attachment-id="72" data-permalink="https://peterrombouts.nl/3artifacts/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/3artifacts.png" data-orig-size="870,797" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="3Artifacts" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/3artifacts.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/3artifacts.png?w=840" class="alignnone size-full wp-image-72" src="https://peterrombouts.nl/wp-content/uploads/2018/12/3artifacts.png" alt="3Artifacts" width="870" height="797" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/3artifacts.png 870w, https://peterrombouts.nl/wp-content/uploads/2018/12/3artifacts.png?w=150&amp;h=137 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/3artifacts.png?w=300&amp;h=275 300w, https://peterrombouts.nl/wp-content/uploads/2018/12/3artifacts.png?w=768&amp;h=704 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>Make sure you publish the artifacts to a folder, so you can pick these up in the release step!</p>
+<h3>Release step</h3>
+<p>Finally the release should be setup. In the first step the files are copied to blob storage, and the output parameters are used to capture the sas tokens.</p>
+<p><img loading="lazy" data-attachment-id="76" data-permalink="https://peterrombouts.nl/4copyblob/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/4copyblob.png" data-orig-size="844,743" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="4CopyBlob" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/4copyblob.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/4copyblob.png?w=840" class="alignnone size-full wp-image-76" src="https://peterrombouts.nl/wp-content/uploads/2018/12/4copyblob.png" alt="4CopyBlob" width="844" height="743" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/4copyblob.png 844w, https://peterrombouts.nl/wp-content/uploads/2018/12/4copyblob.png?w=150&amp;h=132 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/4copyblob.png?w=300&amp;h=264 300w, https://peterrombouts.nl/wp-content/uploads/2018/12/4copyblob.png?w=768&amp;h=676 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>Secondly the actual deploy uses the parameters from the previous step and deploys the actual apps to Azure.</p>
+<p><img loading="lazy" data-attachment-id="80" data-permalink="https://peterrombouts.nl/5deploy/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/5deploy.png" data-orig-size="878,778" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="5Deploy" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/5deploy.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/5deploy.png?w=840" class="alignnone size-full wp-image-80" src="https://peterrombouts.nl/wp-content/uploads/2018/12/5deploy.png" alt="5Deploy" width="878" height="778" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/5deploy.png 878w, https://peterrombouts.nl/wp-content/uploads/2018/12/5deploy.png?w=150&amp;h=133 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/5deploy.png?w=300&amp;h=266 300w, https://peterrombouts.nl/wp-content/uploads/2018/12/5deploy.png?w=768&amp;h=681 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<h2>Conclusion</h2>
+<p>Setting up the pipeline with linked templates is not difficult, but will take more time to setup properly. When everything is in place, adding more templates is very easy and the separation of the various apps in separate json files will increase maintainability and readability. It will also help you share your templates with your peers.</p>
+<p>Feel free to ask me anything on this subject; drop me an email or contact me on Twitter.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">47</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/1addlogicapp.png" medium="image">
+			<media:title type="html">1AddLogicApp</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/2twoapps.png" medium="image">
+			<media:title type="html">2TwoApps</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/3folders.png" medium="image">
+			<media:title type="html">3Folders</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/3artifacts.png" medium="image">
+			<media:title type="html">3Artifacts</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/4copyblob.png" medium="image">
+			<media:title type="html">4CopyBlob</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/5deploy.png" medium="image">
+			<media:title type="html">5Deploy</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Text Analytics &#8211; Dutch Support</title>
+		<link>https://peterrombouts.nl/2017/07/24/text-analytics-dutch-support/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Mon, 24 Jul 2017 08:15:22 +0000</pubDate>
+				<category><![CDATA[Build]]></category>
+		<category><![CDATA[Cognitive Services]]></category>
+		<category><![CDATA[MicrosoftHelden]]></category>
+		<guid isPermaLink="false">http://peterrombouts.wordpress.com/?p=43</guid>
+
+					<description><![CDATA[Recently, Microsoft added Dutch language support for the Text Analysis API within the Cognitive Services stack. In this blogpost I will show how to determine the sentiment of a newsfeed in Dutch. The importance of language support Most development articles are written in English. Most documentation is written in English. I&#8217;m Dutch and even I &#8230; <a href="https://peterrombouts.nl/2017/07/24/text-analytics-dutch-support/" class="more-link">Continue reading<span class="screen-reader-text"> "Text Analytics &#8211; Dutch&#160;Support"</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Recently, Microsoft added Dutch language support for the <a href="https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/overview" target="_blank" rel="noopener">Text Analysis API</a> within the Cognitive Services stack. In this blogpost I will show how to determine the sentiment of a newsfeed in Dutch.</p>
+<h2>The importance of language support</h2>
+<p>Most development articles are written in English. Most documentation is written in English. I&#8217;m Dutch and even I am blogging in English!</p>
+<p>With the rise of chatbots and other dialogue based UX apps, native language support becomes ever more important. Think of an insurance company wanting to let users talk to their chatbot, or a banking app that lets you choose what mortgage you want for your house. In these situations most companies and clients want to use their native language in communicating with the apps.</p>
+<p>With the latest update, the Text Analysis API now partly supports my native language Dutch (<a href="https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/overview#language-detection" target="_blank" rel="noopener">along with several other ones</a>).</p>
+<p><span id="more-43"></span></p>
+<h2>Creating the sample project</h2>
+<p>For this example I&#8217;ve created a simple console application using the default template in Visual Studio 2017. The target framework is 4.6.1 and its an empty Console Application. The goal of this application is to retrieve the latest newsfeed from <a href="http://www.nu.nl" target="_blank" rel="noopener">Nu.nl</a>, a populair Dutch news site, and determine the sentiment in Dutch.</p>
+<h2>Using the Text Analytics Client library</h2>
+<p>Most examples use the <a href="https://www.nuget.org/packages/Microsoft.ProjectOxford.Text/" target="_blank" rel="noopener">Microsoft Cognitive Services Text Analytics API Client Library</a> but this library does not support the current preview languages.</p>
+<p>This triggered me to check out the source code. I&#8217;ve found out that the current new preview languages are not added to the client library. To solve this issue, I&#8217;ve <a href="https://github.com/Microsoft/Cognitive-TextAnalytics-DotNet/pull/2" target="_blank" rel="noopener">forked the library and created a pull request</a> so future users can use the NuGet package. This blog will use code based on that library. To do this, check out <a href="https://github.com/prombouts/Cognitive-TextAnalytics-DotNet/" target="_blank" rel="noopener">the repository</a> and add a reference to your project.</p>
+<h2>Create API Keys in Azure</h2>
+<p>To create API keys, the process is pretty simple. Go to the Cognitive Services blade, select &#8216;Add&#8217; and find the Text Analytics (Preview) service.</p>
+<p>In comparison to other APIs in the Cognitive Services stack, the Text Analytics API is relatively expensive. Fortunately there is a Free tier for us developers to use and get up and running without high costs:</p>
+<p><img loading="lazy" data-attachment-id="99" data-permalink="https://peterrombouts.nl/0textanalysisazure/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/0textanalysisazure.png" data-orig-size="566,752" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="0TextAnalysisAzure" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/0textanalysisazure.png?w=226" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/0textanalysisazure.png?w=566" class="alignnone size-full wp-image-99" src="https://peterrombouts.nl/wp-content/uploads/2018/12/0textanalysisazure.png" alt="0TextAnalysisAzure" width="566" height="752" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/0textanalysisazure.png 566w, https://peterrombouts.nl/wp-content/uploads/2018/12/0textanalysisazure.png?w=113&amp;h=150 113w, https://peterrombouts.nl/wp-content/uploads/2018/12/0textanalysisazure.png?w=226&amp;h=300 226w" sizes="(max-width: 566px) 85vw, 566px" /></p>
+<p>The lowest rate (above the free tier) is S1, which allows 100.000 calls per month for 150 USD. Every 1000 calls above that rate will cost an additional 1.50 USD.</p>
+<p>After getting the appropriate API key(s) you are good to go!</p>
+<h2>RSS Feed</h2>
+<p>Retrieving the RSS feed is pretty straightforward. The gist further on in this blog shows the code example. As the text output is pretty short, the analysis will sometimes be off. The more you put in, the better the analysis can do its work.</p>
+<p>The output at this moment of the RSS feed is as follows:</p>
+<p><img loading="lazy" data-attachment-id="68" data-permalink="https://peterrombouts.nl/2analysisrss/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/2analysisrss.png" data-orig-size="1573,769" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="2AnalysisRss" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/2analysisrss.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/2analysisrss.png?w=840" class="alignnone size-full wp-image-68" src="https://peterrombouts.nl/wp-content/uploads/2018/12/2analysisrss.png" alt="2AnalysisRss" width="1573" height="769" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/2analysisrss.png 1573w, https://peterrombouts.nl/wp-content/uploads/2018/12/2analysisrss.png?w=150&amp;h=73 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/2analysisrss.png?w=300&amp;h=147 300w, https://peterrombouts.nl/wp-content/uploads/2018/12/2analysisrss.png?w=768&amp;h=375 768w, https://peterrombouts.nl/wp-content/uploads/2018/12/2analysisrss.png?w=1024&amp;h=501 1024w, https://peterrombouts.nl/wp-content/uploads/2018/12/2analysisrss.png?w=1440&amp;h=704 1440w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>To get a better estimation, I&#8217;ve concatenated the title and summary before sending it up to the Text Analysis API.</p>
+<h2>The actual code</h2>
+<p>The complete example is shown in the gist below:<br />
+<a href="https://gist.github.com/prombouts/2c723620cb6ea6afc4d7a3df5dc3c40d.js">https://gist.github.com/prombouts/2c723620cb6ea6afc4d7a3df5dc3c40d.js</a></p>
+<h2>Endresult of the application</h2>
+<p>Running this application gives the latest 10 results, shown here:</p>
+<p><img loading="lazy" data-attachment-id="67" data-permalink="https://peterrombouts.nl/1textanalysis/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/1textanalysis.png" data-orig-size="657,470" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1TextAnalysis" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/1textanalysis.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/1textanalysis.png?w=657" class="alignnone size-full wp-image-67" src="https://peterrombouts.nl/wp-content/uploads/2018/12/1textanalysis.png" alt="1TextAnalysis" width="657" height="470" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/1textanalysis.png 657w, https://peterrombouts.nl/wp-content/uploads/2018/12/1textanalysis.png?w=150&amp;h=107 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/1textanalysis.png?w=300&amp;h=215 300w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 61vw, (max-width: 1362px) 45vw, 600px" /></p>
+<p>In this example, two items stand out. The first one is concerning an accident involving a child, the second one concerns the Swiss female soccer team winning a game on the European Football Championship.</p>
+<h2>Conclusion</h2>
+<p>Sentiment Analysis is the first feature to work in Dutch. This powerful tool allows you to analyse anything text related. In this example I&#8217;ve used a newsfeed as input, but I could easily add Twitter to find out how the sentiment around an event, of company brand, is evolving.</p>
+<p>I can&#8217;t wait until Key Phrase Extraction and Topic Detection get into preview phase to allow us to use the full power of Text Analytics in my native language.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">43</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/0textanalysisazure.png" medium="image">
+			<media:title type="html">0TextAnalysisAzure</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/2analysisrss.png" medium="image">
+			<media:title type="html">2AnalysisRss</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/1textanalysis.png" medium="image">
+			<media:title type="html">1TextAnalysis</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Emotion Recognition using WPF</title>
+		<link>https://peterrombouts.nl/2017/07/19/emotion-recognition-using-wpf/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Wed, 19 Jul 2017 08:14:29 +0000</pubDate>
+				<category><![CDATA[Build]]></category>
+		<category><![CDATA[Cognitive Services]]></category>
+		<guid isPermaLink="false">http://peterrombouts.wordpress.com/?p=41</guid>
+
+					<description><![CDATA[A lot of examples of the Cognitive Services include UWP applications and samples. But sometimes you have to support older operating systems, that force you to fall back on techniques like WPF. The use of webcams in WPF is not included by default in the framework. In this blog I will explain how to implement &#8230; <a href="https://peterrombouts.nl/2017/07/19/emotion-recognition-using-wpf/" class="more-link">Continue reading<span class="screen-reader-text"> "Emotion Recognition using&#160;WPF"</span></a>]]></description>
+										<content:encoded><![CDATA[<p>A lot of examples of the <a href="https://azure.microsoft.com/en-us/services/cognitive-services/" target="_blank" rel="noopener">Cognitive Services</a> include UWP applications and samples. But sometimes you have to support older operating systems, that force you to fall back on techniques like WPF. The use of webcams in WPF is not included by default in the framework.</p>
+<p>In this blog I will explain how to implement the <a href="https://azure.microsoft.com/en-us/services/cognitive-services/emotion/" target="_blank" rel="noopener">Emotion API</a> and build a WPF application capturing your webcam.</p>
+<p>A sample of an application you can create shown in the following screenshot. This application shows the realtime spline chart of emotions, and the average bubble chart of the recorded session.</p>
+<p><img loading="lazy" data-attachment-id="98" data-permalink="https://peterrombouts.nl/0appdemo/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/0appdemo.png" data-orig-size="1841,918" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="0appdemo" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/0appdemo.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/0appdemo.png?w=840" class="alignnone size-full wp-image-98" src="https://peterrombouts.nl/wp-content/uploads/2018/12/0appdemo.png" alt="0appdemo" width="1841" height="918" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/0appdemo.png 1841w, https://peterrombouts.nl/wp-content/uploads/2018/12/0appdemo.png?w=150&amp;h=75 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/0appdemo.png?w=300&amp;h=150 300w, https://peterrombouts.nl/wp-content/uploads/2018/12/0appdemo.png?w=768&amp;h=383 768w, https://peterrombouts.nl/wp-content/uploads/2018/12/0appdemo.png?w=1024&amp;h=511 1024w, https://peterrombouts.nl/wp-content/uploads/2018/12/0appdemo.png?w=1440&amp;h=718 1440w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p><span id="more-41"></span></p>
+<h2>Setting up the Emotion API</h2>
+<p>First and foremost you will have to create an API key. This can be done using the Azure Portal.</p>
+<p><img loading="lazy" data-attachment-id="99" data-permalink="https://peterrombouts.nl/0textanalysisazure/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/0textanalysisazure.png" data-orig-size="566,752" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="0TextAnalysisAzure" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/0textanalysisazure.png?w=226" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/0textanalysisazure.png?w=566" class="alignnone size-full wp-image-99" src="https://peterrombouts.nl/wp-content/uploads/2018/12/0textanalysisazure.png" alt="0TextAnalysisAzure" width="566" height="752" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/0textanalysisazure.png 566w, https://peterrombouts.nl/wp-content/uploads/2018/12/0textanalysisazure.png?w=113&amp;h=150 113w, https://peterrombouts.nl/wp-content/uploads/2018/12/0textanalysisazure.png?w=226&amp;h=300 226w" sizes="(max-width: 566px) 85vw, 566px" /></p>
+<p>Make sure to select the S0 pricing tier. At 0,08 euro per 1000 calls the recognition is pretty cheap in use and you can call the API 10 times per second!</p>
+<p><img loading="lazy" data-attachment-id="69" data-permalink="https://peterrombouts.nl/2pricingblade/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/2pricingblade.png" data-orig-size="960,933" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="2pricingblade" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/2pricingblade.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/2pricingblade.png?w=840" class="alignnone size-full wp-image-69" src="https://peterrombouts.nl/wp-content/uploads/2018/12/2pricingblade.png" alt="2pricingblade" width="960" height="933" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/2pricingblade.png 960w, https://peterrombouts.nl/wp-content/uploads/2018/12/2pricingblade.png?w=150&amp;h=146 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/2pricingblade.png?w=300&amp;h=292 300w, https://peterrombouts.nl/wp-content/uploads/2018/12/2pricingblade.png?w=768&amp;h=746 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>At last, check out the generated keys to use in your project further on:</p>
+<p><img loading="lazy" data-attachment-id="74" data-permalink="https://peterrombouts.nl/3keyblade/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/3keyblade.png" data-orig-size="883,640" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="3keyblade" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/3keyblade.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/3keyblade.png?w=840" class="alignnone size-full wp-image-74" src="https://peterrombouts.nl/wp-content/uploads/2018/12/3keyblade.png" alt="3keyblade" width="883" height="640" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/3keyblade.png 883w, https://peterrombouts.nl/wp-content/uploads/2018/12/3keyblade.png?w=150&amp;h=109 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/3keyblade.png?w=300&amp;h=217 300w, https://peterrombouts.nl/wp-content/uploads/2018/12/3keyblade.png?w=768&amp;h=557 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<h2>Visual Studio Project</h2>
+<p>For Visual Studio, there are no specific features to set up. Just create a blank WPF application.</p>
+<p><img loading="lazy" data-attachment-id="79" data-permalink="https://peterrombouts.nl/4wpfapp/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/4wpfapp.png" data-orig-size="955,660" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="4wpfapp" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/4wpfapp.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/4wpfapp.png?w=840" class="alignnone size-full wp-image-79" src="https://peterrombouts.nl/wp-content/uploads/2018/12/4wpfapp.png" alt="4wpfapp" width="955" height="660" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/4wpfapp.png 955w, https://peterrombouts.nl/wp-content/uploads/2018/12/4wpfapp.png?w=150&amp;h=104 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/4wpfapp.png?w=300&amp;h=207 300w, https://peterrombouts.nl/wp-content/uploads/2018/12/4wpfapp.png?w=768&amp;h=531 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<h3>Using a webcam within WPF</h3>
+<p>There is no default webcam available when coding in WPF. For this, I&#8217;ve used the <a href="https://github.com/sam-lippert/AvCapWpf" target="_blank" rel="noopener">AvCapWpf project</a>.</p>
+<p>The only thing to include in your WPF XAML page is:</p>
+<pre></pre>
+<p>This will enable the webcam and will allow you to capture video&#8217;s.</p>
+<h2>Using the Emotion API</h2>
+<p>Microsoft has NuGet packages to enable easy consumption of the API:</p>
+<pre><a href="https://www.nuget.org/packages/Microsoft.ProjectOxford.Emotion/1.0.336/" target="_blank" rel="noopener">Install-Package Microsoft.ProjectOxford.Emotion</a></pre>
+<p>This will enable you to instantiate the <span class="pl-en">EmotionServiceClient</span> with the API keys, and allow you to submit a captured image and read the results.</p>
+<p>The following gist shows how to save the webcam feed to a temporary file, sending it to the API and consuming the results.<br />
+<a href="https://gist.github.com/prombouts/6b8e27940278126606e6a69b23742f91.js">https://gist.github.com/prombouts/6b8e27940278126606e6a69b23742f91.js</a></p>
+<h2>Timers in WPF</h2>
+<p>To measure the emotions every x-seconds, we need to setup a timer. Because the default DispatcherTimer does not work with async/await patterns, I&#8217;ve used something like <a href="https://stackoverflow.com/questions/12442622/async-friendly-dispatchertimer-wrapper-subclass" target="_blank" rel="noopener">this proposal on StackOverflow</a> for fixing that issue.</p>
+<h2>Graphs</h2>
+<p>The graphs I&#8217;ve used in my demo are created with the <a href="https://www.syncfusion.com/products/wpf" target="_blank" rel="noopener">Syncfusion Essential Studio</a>. They have awesome components for many frameworks, ranging from javascript to UWP. For small companies or indie developers they have a <a href="https://www.syncfusion.com/products/communitylicense" target="_blank" rel="noopener">free community license</a>, be sure to check it out!</p>
+<h2>Conclusion</h2>
+<p>In this blog I&#8217;ve explained how to use the new Cognitive Services Emotion API with a simple WPF application, using a webcam.. This will allow your program to run on any Windows from version 7 and up. This scenario is ideal if you don&#8217;t have the ability to go UWP on your project.</p>
+<p>Please feel free to contact me on any questions relating these techniques!</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">41</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/0appdemo.png" medium="image">
+			<media:title type="html">0appdemo</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/0textanalysisazure.png" medium="image">
+			<media:title type="html">0TextAnalysisAzure</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/2pricingblade.png" medium="image">
+			<media:title type="html">2pricingblade</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/3keyblade.png" medium="image">
+			<media:title type="html">3keyblade</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/4wpfapp.png" medium="image">
+			<media:title type="html">4wpfapp</media:title>
+		</media:content>
+	</item>
+	</channel>
+</rss>

@@ -1,0 +1,869 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	xmlns:georss="http://www.georss.org/georss" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:media="http://search.yahoo.com/mrss/"
+	>
+
+<channel>
+	<title>Serverless &#8211; Peter Rombouts</title>
+	<atom:link href="https://peterrombouts.nl/category/serverless/feed/" rel="self" type="application/rss+xml" />
+	<link>https://peterrombouts.nl</link>
+	<description>All things Cloud &#124; Software &#124; Coding &#124; Integration &#124; Automation &#124; DevSecAnythingOps &#124; Cloud Native &#124; Serverless</description>
+	<lastBuildDate>Sat, 15 May 2021 07:04:42 +0000</lastBuildDate>
+	<language>en</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>http://wordpress.com/</generator>
+
+<image>
+	<url>https://peterrombouts.nl/wp-content/uploads/2023/11/peter.jpg?w=32</url>
+	<title>Serverless &#8211; Peter Rombouts</title>
+	<link>https://peterrombouts.nl</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+<site xmlns="com-wordpress:feed-additions:1">155596116</site><cloud domain='peterrombouts.nl' port='80' path='/?rsscloud=notify' registerProcedure='' protocol='http-post' />
+<atom:link rel="search" type="application/opensearchdescription+xml" href="https://peterrombouts.nl/osd.xml" title="Peter Rombouts" />
+	<atom:link rel='hub' href='https://peterrombouts.nl/?pushpress=hub'/>
+	<item>
+		<title>Everything is Code. Why and how you should test your Terraform</title>
+		<link>https://peterrombouts.nl/2020/11/24/everything-is-code-why-and-how-you-should-test-your-terraform/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Tue, 24 Nov 2020 09:46:11 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[Serverless]]></category>
+		<category><![CDATA[SogetiLabs]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=392</guid>
+
+					<description><![CDATA[Originally posted on SogetiLabs: https://labs.sogeti.com/everything-is-code-why-and-how-you-should-test-your-terraform/ I’ve written in a previous blog that for writing maintainable code, you really should automate your tests. Currently we see Terraform really taking off as the standard to provision and deploy almost everything in cloud like Azure and AWS. In this short blogpost I will show how you can start testing your &#8230; <a href="https://peterrombouts.nl/2020/11/24/everything-is-code-why-and-how-you-should-test-your-terraform/" class="more-link">Continue reading<span class="screen-reader-text"> "Everything is Code. Why and how you should test your&#160;Terraform"</span></a>]]></description>
+										<content:encoded><![CDATA[
+<p><small><em>Originally posted on SogetiLabs: <a href="https://labs.sogeti.com/everything-is-code-why-and-how-you-should-test-your-terraform/" target="_blank" rel="noreferrer noopener">https://labs.sogeti.com/everything-is-code-why-and-how-you-should-test-your-terraform/</a></em></small></p>
+
+
+
+<p></p>
+
+
+
+<p>I’ve written in a previous blog that for writing maintainable code, you really should automate your tests. Currently we see <a rel="noreferrer noopener" href="https://www.terraform.io/" target="_blank">Terraform</a> really taking off as the standard to provision and deploy almost everything in cloud like Azure and AWS. In this short blogpost I will show how you can start testing your Terraform code using the <a rel="noreferrer noopener" href="https://www.openpolicyagent.org/docs/latest/terraform/" target="_blank">Open Policy Agent</a>.</p>
+
+
+
+<span id="more-392"></span>
+
+
+
+<h2 class="wp-block-heading">Infrastructure-as-Code</h2>
+
+
+
+<p>With Terraform, engineers write declarative statements that, when applied, result in for example a network, of a database:</p>
+
+
+
+<figure class="wp-block-image"><img src="https://www.terraform.io/assets/images/terraform-overview/declarative-config-files@4x-1bd3b268.png" alt="Write Declarative Configuration Files" /></figure>
+
+
+
+<p>This obviously is great because you can automate and repeat your steps minimizing the manual labour of setting up services. Next to that, you can reuse components so all provisioned services will adhere to the same standard.</p>
+
+
+
+<h2 class="wp-block-heading">What about standards and compliancy?</h2>
+
+
+
+<p>In the previous example, a network will be created with some IP range, in a specific location from Google.</p>
+
+
+
+<p>If you use any cloud, you should have some policies in place. It is not a free-for-all, do whatever you want, scenario. It could be very important where your data resides. In that case you don’t want to enable teams to deploy in non-compliant regions.</p>
+
+
+
+<p>With code however, especially in the sample shown above, it is not directly clear what is allowed. Some examples of questions DevOps team may have are:</p>
+
+
+
+<ul class="wp-block-list"><li>Am I allowed to create a public IP address on a machine or database?</li><li>Am I allowed to deploy services in the US or only in Europe?</li></ul>
+
+
+
+<p>Worst case, the team finds out when they deploy their services onto their cloud environment. In case of Azure, policies can block a certain location, blocking the entire deployment of their stack.</p>
+
+
+
+<p>This means they have to go back to trace why something is wrong, adjust the code, go through all steps again and hope they did not miss anything.</p>
+
+
+
+<h2 class="wp-block-heading">Shift left</h2>
+
+
+
+<p>One solution to this problem is to test as early as possible. If a team gets feedback on their code, this will save a lot of time in the stages later on. It will also give the teams the confidence they are doing things right!</p>
+
+
+
+<h3 class="wp-block-heading">Open Policy Agent (OPA)</h3>
+
+
+
+<p><a href="https://www.openpolicyagent.org/" target="_blank" rel="noreferrer noopener">OPA</a>&nbsp;states the following on their website:</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>Stop using a different policy language, policy model, and policy API for every product and service you use. Use OPA for a unified toolset and framework for policy across the cloud native stack.<br><br>Whether for one service or for all your services, use OPA to decouple policy from the service’s code so you can release, analyze, and review policies (which security and compliance teams love) without sacrificing availability or performance.</p><cite>Source: Open Policy Agent website</cite></blockquote>
+
+
+
+<h3 class="wp-block-heading">Using OPA for testing your Terraform plans</h3>
+
+
+
+<p>You can use Open Policy Agent for a variety of use cases.&nbsp;<a href="https://www.openpolicyagent.org/docs/latest/terraform/" target="_blank" rel="noreferrer noopener">Testing Terraform plans</a>&nbsp;is only one of them, but really interesting for DevOps team.</p>
+
+
+
+<p>The language for writing the OPA policy is called&nbsp;<a href="https://www.openpolicyagent.org/docs/latest/policy-language/" target="_blank" rel="noreferrer noopener">rego</a>. It is easy to understand and should be relatively simple to learn. To get a grasp, take a look at the explanation of the language on the OPA site:&nbsp;<a href="https://www.openpolicyagent.org/docs/latest/policy-language/" target="_blank" rel="noreferrer noopener">https://www.openpolicyagent.org/docs/latest/policy-language/</a>.</p>
+
+
+
+<p>A very complete manual is located at&nbsp;<a href="https://www.openpolicyagent.org/docs/latest/terraform/" target="_blank" rel="noreferrer noopener">https://www.openpolicyagent.org/docs/latest/terraform/</a>&nbsp;and helps you understand writing a test.</p>
+
+
+
+<p>The great thing about the tool, is that you can use it in your pipelines, running the eval command in for example Azure DevOps. There is even an installertask for&nbsp;<a href="https://github.com/microsoft/azure-pipelines-tasks/tree/master/Tasks/OpenPolicyAgentInstallerV0" target="_blank" rel="noreferrer noopener">Azure Pipelines</a>.</p>
+
+
+
+<h2 class="wp-block-heading">Getting started</h2>
+
+
+
+<p>If you are using Terraform, just download OPA, and go to the&nbsp;<a href="https://www.openpolicyagent.org/docs/latest/terraform/#getting-started" target="_blank" rel="noreferrer noopener">getting started</a>&nbsp;page. Use the given example to test against your own Terraform plan outputs.</p>
+
+
+
+<p>Just want to play around with the rego language? The site&nbsp;<a href="https://play.openpolicyagent.org/" target="_blank" rel="noreferrer noopener">https://play.openpolicyagent.org/</a>&nbsp;contains several examples, and makes exploring easy, as it is an online playground without the need for installing anything!</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">392</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://www.terraform.io/assets/images/terraform-overview/declarative-config-files@4x-1bd3b268.png" medium="image">
+			<media:title type="html">Write Declarative Configuration Files</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Is low code replacing traditional development?</title>
+		<link>https://peterrombouts.nl/2020/07/20/is-low-code-replacing-traditional-development/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Mon, 20 Jul 2020 06:12:59 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[Serverless]]></category>
+		<category><![CDATA[SogetiLabs]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=338</guid>
+
+					<description><![CDATA[Originally posted on SogetiLabs: https://labs.sogeti.com/is-low-code-replacing-traditional-development/ Spoiler alert; no. Low code vs Traditional Dev My colleague, friend and SogetiLabs Fellow Daniel Laskewitz and I frequently talk about this topic. His field of expertise as Microsoft MVP covers the Microsoft PowerPlatform including low code systems like Power Automate (formerly Flow). All too often people see a division &#8230; <a href="https://peterrombouts.nl/2020/07/20/is-low-code-replacing-traditional-development/" class="more-link">Continue reading<span class="screen-reader-text"> "Is low code replacing traditional&#160;development?"</span></a>]]></description>
+										<content:encoded><![CDATA[
+<p><small><em>Originally posted on SogetiLabs: <a rel="noreferrer noopener" href="https://labs.sogeti.com/is-low-code-replacing-traditional-development/" target="_blank">https://labs.sogeti.com/is-low-code-replacing-traditional-development/</a></em></small></p>
+
+
+
+<p></p>
+
+
+
+<p>Spoiler alert; no.</p>
+
+
+
+<h2 class="wp-block-heading">Low code vs Traditional Dev</h2>
+
+
+
+<p>My colleague, friend and SogetiLabs Fellow <a rel="noreferrer noopener" href="https://labs.sogeti.com/experts/daniel-laskewitz/" target="_blank">Daniel Laskewitz</a> and I frequently talk about this topic. His field of expertise as Microsoft MVP covers the Microsoft PowerPlatform including low code systems like Power Automate (formerly Flow).</p>
+
+
+
+<p>All too often people see a division between low code and traditional development using languages like C#, Java, TypeScript and Go.<br>In the real world however, these systems work together perfectly.</p>
+
+
+
+<p>Most of the times, you cannot solve a problem with <em>only</em> low code. Think about scenario’s where you should link to old legacy systems or complex API calls. In those cases low code without any enhancement cannot natively connect to those systems.</p>
+
+
+
+<h2 class="wp-block-heading">Behold custom connectors</h2>
+
+
+
+<p>In the Microsoft ecosystems, <a href="https://docs.microsoft.com/en-us/connectors/custom-connectors/" target="_blank" rel="noreferrer noopener">custom connectors</a> allow you to bridge this gap. This way, the low code system can interact with any system you write a connector for. This may be common knowledge, but the fact is that most developers do not see how big this really is.</p>
+
+
+
+<p>This means you can link any PowerApp, Microsoft Flow, or LogicApps to your custom connector, and reuse those within your entire organisation.<br>You could even publicly publish these if you have a service you want to expose. So if you are an ISV, this can help you get more traction on your product.</p>
+
+
+
+<h2 class="wp-block-heading">Bridging the gap</h2>
+
+
+
+<p>In the end it all comes down to developers of any system and language understanding the capabilities of the platforms they and their companies are using. For low code developers this means sometimes calling in the help of traditional developers. And more importantly, this also means traditional developers should learn that these low code systems can help you simplify (and thus speed up!) your development by using ready-to-roll systems and connectors available to you.</p>
+
+
+
+<p>As there are <a rel="noreferrer noopener" href="https://docs.microsoft.com/en-us/connectors/connector-reference/" target="_blank">over 325 connectors</a> available, that should really speed making connections up!</p>
+
+
+
+<h2 class="wp-block-heading">Get started!</h2>
+
+
+
+<p>Want to explore custom connectors? Look at <a href="https://docs.microsoft.com/en-us/connectors/custom-connectors/samples" target="_blank" rel="noreferrer noopener">these resources</a> or feel free to contact me or Daniel, we strongly believe bridging this gap between low code and traditional dev is key for succes in the future of development!</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">338</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Sync your Outlook 365 calendar to Google Calendar with LogicApps</title>
+		<link>https://peterrombouts.nl/2019/12/04/sync-your-outlook-365-calendar-to-google-calendar-with-logicapps/</link>
+					<comments>https://peterrombouts.nl/2019/12/04/sync-your-outlook-365-calendar-to-google-calendar-with-logicapps/#comments</comments>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Wed, 04 Dec 2019 18:18:42 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[Serverless]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=253</guid>
+
+					<description><![CDATA[Sometimes it is hard to keep your spouse up-to-date on all the sessions and events work-related. Most of the times I&#8217;ve been able to duplicate calendar items that are relevant for my &#8216;better half&#8217;. Obviously manual work makes me sad and I forget to sync some events causing a collision in the calendars. If, like &#8230; <a href="https://peterrombouts.nl/2019/12/04/sync-your-outlook-365-calendar-to-google-calendar-with-logicapps/" class="more-link">Continue reading<span class="screen-reader-text"> "Sync your Outlook 365 calendar to Google Calendar with&#160;LogicApps"</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Sometimes it is hard to keep your spouse up-to-date on all the sessions and events work-related. Most of the times I&#8217;ve been able to duplicate calendar items that are relevant for my &#8216;better half&#8217;.</p>
+<p>Obviously manual work makes me sad and I forget to sync some events causing a collision in the calendars. If, like me, you have kids you&#8217;ll understand this results in hoping your babysitter can make time because you forgot to add some items in your calendar <strong><em>manually</em></strong>.</p>
+<p><span id="more-253"></span></p>
+<h2>LogicApps to the rescue</h2>
+<p><a href="https://azure.microsoft.com/en-us/services/logic-apps/" target="_blank" rel="noopener">LogicApps</a> (and also <a href="https://flow.microsoft.com/" target="_blank" rel="noopener">Microsoft Flow</a>) have connectors to both Office 365 and Google. Seems like a sure bet to get my sync going!</p>
+<h3>Setup Google Calendar</h3>
+<p>First of all, I&#8217;ve created a <strong>new</strong> calendar in Google. I want to separate my personal items from work, and want the ability to enable/disable the view. A new calendar is the easiest way of doing this. Also if you share your Work calendar, the people you share your calendars with, can easily differentiate between what is work and private. Google has an excellent manual, click on <a href="https://support.google.com/calendar/answer/37095?hl=en" target="_blank" rel="noopener">this link to follow the setup</a> of your new calendar.</p>
+<h3>Setup LogicApp</h3>
+<p>First, you will have to setup your LogicApp. If you don&#8217;t know how, follow <a href="https://docs.microsoft.com/en-us/azure/logic-apps/quickstart-create-first-logic-app-workflow#sign-in-to-the-azure-portal" target="_blank" rel="noopener">this tutorial from Microsoft</a>.</p>
+<p>The first step is to add the trigger for Outlook. I&#8217;ve used the following trigger:<img data-attachment-id="257" data-permalink="https://peterrombouts.nl/2019/12/04/sync-your-outlook-365-calendar-to-google-calendar-with-logicapps/calendaro365/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/11/calendaro365.png" data-orig-size="1189,577" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="CalendarO365" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/11/calendaro365.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/11/calendaro365.png?w=840" class="alignnone size-full wp-image-257" src="https://peterrombouts.nl/wp-content/uploads/2019/11/calendaro365.png" alt="CalendarO365" width="1189" height="577" srcset="https://peterrombouts.nl/wp-content/uploads/2019/11/calendaro365.png 1189w, https://peterrombouts.nl/wp-content/uploads/2019/11/calendaro365.png?w=150&amp;h=73 150w, https://peterrombouts.nl/wp-content/uploads/2019/11/calendaro365.png?w=300&amp;h=146 300w, https://peterrombouts.nl/wp-content/uploads/2019/11/calendaro365.png?w=768&amp;h=373 768w, https://peterrombouts.nl/wp-content/uploads/2019/11/calendaro365.png?w=1024&amp;h=497 1024w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>This will allow me to react on added, updated and deleted events. I check this every hour, and track upcoming events 300 days in the future. Because I don&#8217;t really care about days in the past, I set that to 5 days. Adjust these to facilitate your own needs. I&#8217;ve set the interval to 15 minutes, which works for me. If you have a long interval, you could get 429 errors from Google because you&#8217;re pushing too many changes to the Calendar at once.</p>
+<h3>Handling events</h3>
+<p>The LogicApp receives adds, updates and deletions. In my very simple sync, I add the Outlook ID to the description field of the event. Because I&#8217;m not interested (or lazy) in the actual updated info, I&#8217;ll just delete all events with the incoming ID, and create the event as new:</p>
+<p><img data-attachment-id="260" data-permalink="https://peterrombouts.nl/2019/12/04/sync-your-outlook-365-calendar-to-google-calendar-with-logicapps/listanddelete/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/12/listanddelete.png" data-orig-size="857,656" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="ListAndDelete" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/12/listanddelete.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/12/listanddelete.png?w=840" class="alignnone size-full wp-image-260" src="https://peterrombouts.nl/wp-content/uploads/2019/12/listanddelete.png" alt="ListAndDelete" width="857" height="656" srcset="https://peterrombouts.nl/wp-content/uploads/2019/12/listanddelete.png 857w, https://peterrombouts.nl/wp-content/uploads/2019/12/listanddelete.png?w=150&amp;h=115 150w, https://peterrombouts.nl/wp-content/uploads/2019/12/listanddelete.png?w=300&amp;h=230 300w, https://peterrombouts.nl/wp-content/uploads/2019/12/listanddelete.png?w=768&amp;h=588 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>So at this point any item created from Outlook is deleted.</p>
+<h3>Insert Google Calendar items</h3>
+<p>Because we deleted the existing calendar item, we do not care if this is a update or create. The only events we can ignore are the <strong>deleted</strong> ones as we already deleted the calendar items. We use a switch for this:</p>
+<p><img data-attachment-id="261" data-permalink="https://peterrombouts.nl/2019/12/04/sync-your-outlook-365-calendar-to-google-calendar-with-logicapps/switch/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/12/switch.png" data-orig-size="1657,444" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Switch" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/12/switch.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/12/switch.png?w=840" class="alignnone size-full wp-image-261" src="https://peterrombouts.nl/wp-content/uploads/2019/12/switch.png" alt="Switch" width="1657" height="444" srcset="https://peterrombouts.nl/wp-content/uploads/2019/12/switch.png 1657w, https://peterrombouts.nl/wp-content/uploads/2019/12/switch.png?w=150&amp;h=40 150w, https://peterrombouts.nl/wp-content/uploads/2019/12/switch.png?w=300&amp;h=80 300w, https://peterrombouts.nl/wp-content/uploads/2019/12/switch.png?w=768&amp;h=206 768w, https://peterrombouts.nl/wp-content/uploads/2019/12/switch.png?w=1024&amp;h=274 1024w, https://peterrombouts.nl/wp-content/uploads/2019/12/switch.png?w=1440&amp;h=386 1440w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>As you can see, the default action is to create an event, and in the <strong>deleted</strong> case we simply do nothing.</p>
+<p>The events of Outlook differ a tiny bit from the events in Google. If we zoom in on the event creation, please notice the <strong>Z</strong> behind the datetimes:</p>
+<p><img loading="lazy" data-attachment-id="262" data-permalink="https://peterrombouts.nl/2019/12/04/sync-your-outlook-365-calendar-to-google-calendar-with-logicapps/createevent/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/12/createevent.png" data-orig-size="760,337" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="CreateEvent" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/12/createevent.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/12/createevent.png?w=760" class="alignnone size-full wp-image-262" src="https://peterrombouts.nl/wp-content/uploads/2019/12/createevent.png" alt="CreateEvent" width="760" height="337" srcset="https://peterrombouts.nl/wp-content/uploads/2019/12/createevent.png 760w, https://peterrombouts.nl/wp-content/uploads/2019/12/createevent.png?w=150&amp;h=67 150w, https://peterrombouts.nl/wp-content/uploads/2019/12/createevent.png?w=300&amp;h=133 300w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 61vw, (max-width: 1362px) 45vw, 600px" /></p>
+<p>If you do not add those, Google will not accept the JSON as it will give an error on invalid data. Also seen here is the <strong>Outlook ID</strong> I use to identify the events coming in from Outlook 365.</p>
+<h3>Finishing up</h3>
+<p>At this moment you can save the logic app and you are done! You can obviously do more fancypants stuff like adding more info to the events, or handling CRUD more elegantly than me, but the basics are there for you to play with!</p>
+<p>Below is an example of my personal calendars, and the newly synced black work calendar:</p>
+<p><img loading="lazy" data-attachment-id="265" data-permalink="https://peterrombouts.nl/2019/12/04/sync-your-outlook-365-calendar-to-google-calendar-with-logicapps/resultcalendar/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/12/resultcalendar.png" data-orig-size="1331,798" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="ResultCalendar" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/12/resultcalendar.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/12/resultcalendar.png?w=840" class="alignnone size-full wp-image-265" src="https://peterrombouts.nl/wp-content/uploads/2019/12/resultcalendar.png" alt="ResultCalendar" width="1331" height="798" srcset="https://peterrombouts.nl/wp-content/uploads/2019/12/resultcalendar.png 1331w, https://peterrombouts.nl/wp-content/uploads/2019/12/resultcalendar.png?w=150&amp;h=90 150w, https://peterrombouts.nl/wp-content/uploads/2019/12/resultcalendar.png?w=300&amp;h=180 300w, https://peterrombouts.nl/wp-content/uploads/2019/12/resultcalendar.png?w=768&amp;h=460 768w, https://peterrombouts.nl/wp-content/uploads/2019/12/resultcalendar.png?w=1024&amp;h=614 1024w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<h3>Costs</h3>
+<p>But wait; This stuff costs money right? Absolutely. But if I look at the costs forecast in Azure, I see the following chart:</p>
+<p><img loading="lazy" data-attachment-id="266" data-permalink="https://peterrombouts.nl/2019/12/04/sync-your-outlook-365-calendar-to-google-calendar-with-logicapps/costslogicapp/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/12/costslogicapp.png" data-orig-size="1267,386" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="CostsLogicApp" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/12/costslogicapp.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/12/costslogicapp.png?w=840" class="alignnone size-full wp-image-266" src="https://peterrombouts.nl/wp-content/uploads/2019/12/costslogicapp.png" alt="CostsLogicApp" width="1267" height="386" srcset="https://peterrombouts.nl/wp-content/uploads/2019/12/costslogicapp.png 1267w, https://peterrombouts.nl/wp-content/uploads/2019/12/costslogicapp.png?w=150&amp;h=46 150w, https://peterrombouts.nl/wp-content/uploads/2019/12/costslogicapp.png?w=300&amp;h=91 300w, https://peterrombouts.nl/wp-content/uploads/2019/12/costslogicapp.png?w=768&amp;h=234 768w, https://peterrombouts.nl/wp-content/uploads/2019/12/costslogicapp.png?w=1024&amp;h=312 1024w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>It is safe to say that for less than one euro, you get alot of bang per buck!</p>
+<h2>Conclusion</h2>
+<p>It is easy to sync your calendar using LogicApps or Flow. Using the connectors the possibilities are virtually limitless! If you have any manual operations you want to automate, look at the connectors and create your own app for automation. Have any other ideas, please share them with the community!</p>
+<p>For the code of this app, <a href="https://gist.github.com/prombouts/1af788011900ff0bb7d8ad548eabd8e3" target="_blank" rel="noopener">click here to view the gist</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://peterrombouts.nl/2019/12/04/sync-your-outlook-365-calendar-to-google-calendar-with-logicapps/feed/</wfw:commentRss>
+			<slash:comments>6</slash:comments>
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">253</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/11/calendaro365.png" medium="image">
+			<media:title type="html">CalendarO365</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/12/listanddelete.png" medium="image">
+			<media:title type="html">ListAndDelete</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/12/switch.png" medium="image">
+			<media:title type="html">Switch</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/12/createevent.png" medium="image">
+			<media:title type="html">CreateEvent</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/12/resultcalendar.png" medium="image">
+			<media:title type="html">ResultCalendar</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/12/costslogicapp.png" medium="image">
+			<media:title type="html">CostsLogicApp</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Software Maintainability in the Cloud Era</title>
+		<link>https://peterrombouts.nl/2019/10/14/software-maintainability-in-the-cloud-era/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Mon, 14 Oct 2019 07:33:17 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[Azure DevOps]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[Serverless]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=236</guid>
+
+					<description><![CDATA[Originally posted on SogetiLabs: https://labs.sogeti.com/software-maintainability-in-the-cloud-era/ The shift to cloud, and with that, to PaaS services or low code alternatives like LogicApps push the actual code developers see and use to the background. There is an ISO standard on software quality, and the maintenance best practices are well written and explained in the book Building Maintainable &#8230; <a href="https://peterrombouts.nl/2019/10/14/software-maintainability-in-the-cloud-era/" class="more-link">Continue reading<span class="screen-reader-text"> "Software Maintainability in the Cloud&#160;Era"</span></a>]]></description>
+										<content:encoded><![CDATA[
+<p><small><em>Originally posted on SogetiLabs: <a href="https://labs.sogeti.com/software-maintainability-in-the-cloud-era/" rel="nofollow">https://labs.sogeti.com/software-maintainability-in-the-cloud-era/</a></em></small></p>
+
+
+
+<p></p>
+
+
+
+<p>The shift to cloud, and with that, to PaaS services or low code alternatives like <a rel="noopener" href="https://azure.microsoft.com/en-us/services/logic-apps/" target="_blank">LogicApps</a> push the actual code developers see and use to the background.</p>
+
+
+
+<p>There is an <a href="https://www.iso.org/standard/35733.html" target="_blank" rel="noopener">ISO standard</a> on software quality, and the maintenance best practices are well written and explained in the book <a href="https://www.amazon.com/Building-Maintainable-Software-Guidelines-Future-Proof/dp/1491954523" target="_blank" rel="noopener">Building Maintainable Software</a>. Within low code systems, applying these guidelines can be less obvious and it can be a difficult task automating and testing the quality of your code with tools like <a href="https://www.sonarqube.org/" target="_blank" rel="noopener">SonarQube</a>.</p>
+
+
+
+<p>Should we even worry about the underlying code? Absolutely. The principles still adhere and creating a spaghetti of your low code systems can cause major issues on maintenance or adding new features.</p>
+
+
+
+<p>Let&#8217;s focus on three points of the maintainability guidelines:</p>
+
+
+
+<ol class="wp-block-list"><li>Write code once</li><li>Couple architecture components loosely</li><li>Automate development pipeline and tests</li></ol>
+
+
+
+<p>In <strong>no way</strong> these are the most important items, but for this example an easy entry into the low code space.</p>
+
+
+
+<h2 class="wp-block-heading">1. Write code once</h2>
+
+
+
+<p>Just like any other audit of software, you still can avoid writing duplicate code. In a platform like LogicApps it can be easy to repeat a custom call to something like a custom HTTP API.</p>
+
+
+
+<p>In traditional languages like C#, you have many options to reuse your code. You could create a library, or you can create a package and make it available via NuGet. Within low code systems, these same packaging mechanisms not always exist.</p>
+
+
+
+<p>Taking the example of LogicApps, the solution could be to create <a href="https://docs.microsoft.com/en-us/connectors/custom-connectors/" target="_blank" rel="noopener">Custom Connectors</a>. These will wrap your custom API calls into a reusable component you can share within your organisation, or even outside.</p>
+
+
+
+<h2 class="wp-block-heading">2. Couple architecture components loosely</h2>
+
+
+
+<p>If your components are tightly coupled, it can be troublesome to replace or refactor your components. The impact will be on each and every other component that has a high coupling with your part.</p>
+
+
+
+<p>Again taking the LogicApps for example, let&#8217;s state our LogicApp calls another component directly using HTTP. The Azure Portal gives you this out of the box, letting you call <a href="https://azure.microsoft.com/en-us/services/functions/" target="_blank" rel="noopener">Azure Functions</a> directly from your LogicApp.</p>
+
+
+
+<p>This goes agains the principle of loosely coupling. The reason is that your call is directly bound to that function, so changing the interface or location of your function, impacts the LogicApp directly. In this case, it would simply break and stop working.</p>
+
+
+
+<p>To solve this problem, a simple solution is to decouple the LogicApp and the Azure Function using a queueing mechanism. This way, the message to the Azure Function is put on a queue by the LogicApp, and the Azure Function listens on a queue. Now, if the developer of the Azure Function changes location or even use another platform, there is no need to change the LogicApp.</p>
+
+
+
+<p><em>Obviously this would require you to make an agreement on the contents of the messages on the queue. </em></p>
+
+
+
+<h2 class="wp-block-heading">3. Automate development pipeline and test</h2>
+
+
+
+<p>Automating your CICD pipelines allows you to more easily build, test and deploy your code. In case of a language like C# or Java, you can easily run tests, build your code, and create packages or deployments. A tool like <a href="https://azure.microsoft.com/en-us/services/devops/" target="_blank" rel="noopener">Azure DevOps</a> can combine these steps and lets you create a wealth of quality gates, checks and processes to guide your team.</p>
+
+
+
+<p>When using low code platforms, it can be cumbersome to get the code into your version control systems. Nevertheless, many of those platforms do give you the tooling. LogiApps for example has <a href="https://docs.microsoft.com/en-us/azure/logic-apps/logic-apps-create-azure-resource-manager-templates" target="_blank" rel="noopener">template creators</a>, and systems like OutSystems have their own CICD ecosystem.</p>
+
+
+
+<p>In the end the automation allows you to more easily add steps to your CICD process, and allow you to deploy more frequently without any hassle. The addition of automated testing will absolutely be beneficial to the overall quality of your product.</p>
+
+
+
+<h2 class="wp-block-heading">Concluding</h2>
+
+
+
+<p>Treat your low code just like you would any other codebase. Almost all guidelines of mainainability can be mapped to your product. Some can may require a bit more investment, but in the end I truly believe it will help building a maintainable and high-quality (low) code base.</p>
+
+
+
+<p>If you want to expand on the process part of high-quality software, please also take a look at the follow-up book of this series: <a href="https://www.amazon.com/Building-Software-Teams-Practices-Development/dp/149195177X" target="_blank" rel="noopener">Building Software Teams</a></p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">236</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Scanning Blob storage for viruses with Azure Functions and Docker</title>
+		<link>https://peterrombouts.nl/2019/04/15/scanning-blob-storage-for-viruses-with-azure-functions-and-docker/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Mon, 15 Apr 2019 19:00:00 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[Serverless]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=194</guid>
+
+					<description><![CDATA[While working on a side project, someone asked me how to scan for viruses in a cloud native and serverless landscape. That made me think about a project I did a couple of years back. During that project we used ClamAV that was installed on a VM. We scanned files that end-users uploaded within an &#8230; <a href="https://peterrombouts.nl/2019/04/15/scanning-blob-storage-for-viruses-with-azure-functions-and-docker/" class="more-link">Continue reading<span class="screen-reader-text"> "Scanning Blob storage for viruses with Azure Functions and&#160;Docker"</span></a>]]></description>
+										<content:encoded><![CDATA[<p>While working on a side project, someone asked me how to scan for viruses in a cloud native and serverless landscape. That made me think about a project I did a couple of years back. During that project we used <a href="https://www.clamav.net/" target="_blank" rel="noopener">ClamAV</a> that was installed on a VM. We scanned files that end-users uploaded within an ASP.NET application, and everything was hosted on datacenter VMs somewhere in the Netherlands.</p>
+<blockquote><p>ClamAV® is an open source antivirus engine for detecting trojans, viruses, malware &amp; other malicious threats.</p></blockquote>
+<p>In this blogpost I will show a proof of concept using a Docker image and Azure Functions to create a simple automated virusscanner for Azure Blob storage.</p>
+<p><span id="more-194"></span></p>
+<h2>Setting up the Docker image</h2>
+<p>First of all some prerequisites. In this demo I&#8217;m running Docker for Windows on my Desktop, and coding in Visual Studio 2019 with local Azure Functions. I&#8217;ve already setup a Azure Storage account that I can use as a trigger in my Functions.</p>
+<p>First, let&#8217;s find a Docker image with <a href="https://www.clamav.net/" target="_blank" rel="noopener">ClamAV</a> installed.</p>
+<p>There are several to be found on DockerHub, I&#8217;ve pulled <a href="https://hub.docker.com/r/mkodockx/docker-clamav/" target="_blank" rel="noopener">mkodockx/docker-clamav</a> and it works seamlessly in my demo. To run this, simply execute the following command:</p>
+<pre>docker run -d -p 127.0.0.1:3310:3310 mk0x/docker-clamav:alpine</pre>
+<p>It should be running and listening on the default port on localhost.</p>
+<h2>Creating the Azure Function</h2>
+<p>The second step is to create a project for our Azure Function:</p>
+<p><img loading="lazy" data-attachment-id="197" data-permalink="https://peterrombouts.nl/2019/04/15/scanning-blob-storage-for-viruses-with-azure-functions-and-docker/createproject/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/04/createproject.png" data-orig-size="1203,811" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="createproject" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/04/createproject.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/04/createproject.png?w=840" class="alignnone size-full wp-image-197" src="https://peterrombouts.nl/wp-content/uploads/2019/04/createproject.png" alt="createproject" width="1203" height="811" srcset="https://peterrombouts.nl/wp-content/uploads/2019/04/createproject.png 1203w, https://peterrombouts.nl/wp-content/uploads/2019/04/createproject.png?w=150&amp;h=101 150w, https://peterrombouts.nl/wp-content/uploads/2019/04/createproject.png?w=300&amp;h=202 300w, https://peterrombouts.nl/wp-content/uploads/2019/04/createproject.png?w=768&amp;h=518 768w, https://peterrombouts.nl/wp-content/uploads/2019/04/createproject.png?w=1024&amp;h=690 1024w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>We&#8217;re using the blob triggered function, because we want to scan all new blobs in the location &#8216;upload&#8217;.</p>
+<p><img loading="lazy" data-attachment-id="198" data-permalink="https://peterrombouts.nl/2019/04/15/scanning-blob-storage-for-viruses-with-azure-functions-and-docker/blobtrigger/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/04/blobtrigger.png" data-orig-size="906,515" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="blobtrigger" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/04/blobtrigger.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/04/blobtrigger.png?w=840" class="alignnone size-full wp-image-198" src="https://peterrombouts.nl/wp-content/uploads/2019/04/blobtrigger.png" alt="blobtrigger" width="906" height="515" srcset="https://peterrombouts.nl/wp-content/uploads/2019/04/blobtrigger.png 906w, https://peterrombouts.nl/wp-content/uploads/2019/04/blobtrigger.png?w=150&amp;h=85 150w, https://peterrombouts.nl/wp-content/uploads/2019/04/blobtrigger.png?w=300&amp;h=171 300w, https://peterrombouts.nl/wp-content/uploads/2019/04/blobtrigger.png?w=768&amp;h=437 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>Now, for scanning, the following <a href="https://www.nuget.org/packages/nClam" target="_blank" rel="noopener">NuGet package for nClam</a> should be installed:</p>
+<pre id="package-manager-text" class="install-script">Install-Package nClam -Version 4.0.1</pre>
+<p>The actual code for scanning is pretty simple. Shown below is the code that grabs the file, uploads it to the Docker container and retrieves the status of the scan:</p>
+<pre>using System.IO;
+using System.Linq;
+using Microsoft.Azure.WebJobs;
+using Microsoft.Extensions.Logging;
+using nClam;
+
+namespace VirusScanFunction
+{
+    public static class ScanBlobs
+    {
+        static readonly string serverName = "localhost";
+        static readonly int serverPort = 3310;
+
+        [FunctionName("ScanBlobs")]
+        public static void Run([BlobTrigger("upload/{name}", Connection = "AzureWebJobsStorage")]Stream myBlob, string name, ILogger log)
+        {
+            // Create client
+            var clam = new ClamClient(serverName, serverPort);
+            
+            // Scanning for viruses...
+            var scanResult = clam.SendAndScanFileAsync(myBlob).Result;
+
+            switch (scanResult.Result)
+            {
+                case ClamScanResults.Clean:
+                    log.LogInformation("The file is clean!");
+                    break;
+                case ClamScanResults.VirusDetected:
+                    log.LogInformation("Virus Found!");
+                    log.LogInformation("Virus name: {0}", scanResult.InfectedFiles.First().VirusName);
+                    break;
+                case ClamScanResults.Error:
+                    log.LogInformation("Error scanning file: {0}", scanResult.RawResult);
+                    break;
+            }
+        }
+    }
+}
+
+</pre>
+<p>That is basically it! You just created your own local virusscanner for your blob storage!</p>
+<h2>Recap and considerations</h2>
+<p>Obviously this is a PoC and runs fine &#8216;on my <del>machine</del> container&#8217;. For enterprise environments you should care about what container image to use, how to handle viruses found, and what to do to mitigate problems. You obviously want to warn, and block, the person who uploaded the virus in the first place.</p>
+<h2>Conclusion</h2>
+<p>Serverless and containers allow you to setup really cool concepts, and make you think outside the box. Years ago we had to install ClamAV on a VM, where now we can use containers, spin them up, scale them, and dispose when we are done. Think of the possibilities!</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">194</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/04/createproject.png" medium="image">
+			<media:title type="html">createproject</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/04/blobtrigger.png" medium="image">
+			<media:title type="html">blobtrigger</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>LogicApps monitoring with Log Analytics</title>
+		<link>https://peterrombouts.nl/2019/04/01/logicapps-monitoring-with-log-analytics/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Mon, 01 Apr 2019 20:56:00 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[Serverless]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=174</guid>
+
+					<description><![CDATA[Azure LogicApps are incredibly powerful and I believe it should be in every developers toolbox. Enterprise integrations, ready-to-use connectors and all of this with almost no code and serverless! Alas monitoring and debugging are more complex. In this blog I will explain how to add LogicApps to Log Analytics, and even track custom properties for &#8230; <a href="https://peterrombouts.nl/2019/04/01/logicapps-monitoring-with-log-analytics/" class="more-link">Continue reading<span class="screen-reader-text"> "LogicApps monitoring with Log&#160;Analytics"</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Azure <a href="https://azure.microsoft.com/en-us/services/logic-apps/" target="_blank" rel="noopener noreferrer">LogicApps </a>are incredibly powerful and I believe it should be in every developers toolbox. Enterprise integrations, ready-to-use connectors and all of this with almost no code and serverless!</p>
+<p>Alas monitoring and debugging are more complex. In this blog I will explain how to add LogicApps to Log Analytics, and even track custom properties for filtering and alerting. Keep on reading for the exciting stuff!</p>
+<p><span id="more-174"></span></p>
+<h2>Create a LogicApp</h2>
+<p>Let&#8217;s start out with a very simple LogicApp. This app will receive a HTTP request with an array of data, and for each item, send an email:</p>
+<p><img loading="lazy" data-attachment-id="175" data-permalink="https://peterrombouts.nl/2019/04/01/logicapps-monitoring-with-log-analytics/logicappdesigner/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/04/logicappdesigner.png" data-orig-size="1190,626" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="LogicAppDesigner" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/04/logicappdesigner.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/04/logicappdesigner.png?w=840" class="alignnone size-full wp-image-175" src="https://peterrombouts.nl/wp-content/uploads/2019/04/logicappdesigner.png" alt="LogicAppDesigner" width="1190" height="626" srcset="https://peterrombouts.nl/wp-content/uploads/2019/04/logicappdesigner.png 1190w, https://peterrombouts.nl/wp-content/uploads/2019/04/logicappdesigner.png?w=150&amp;h=79 150w, https://peterrombouts.nl/wp-content/uploads/2019/04/logicappdesigner.png?w=300&amp;h=158 300w, https://peterrombouts.nl/wp-content/uploads/2019/04/logicappdesigner.png?w=768&amp;h=404 768w, https://peterrombouts.nl/wp-content/uploads/2019/04/logicappdesigner.png?w=1024&amp;h=539 1024w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<h2>Standard logging</h2>
+<p>The history of runs is shown below. You can drill down and see the actual results of each call, and see what part took how long and more details.</p>
+<p><img loading="lazy" data-attachment-id="176" data-permalink="https://peterrombouts.nl/2019/04/01/logicapps-monitoring-with-log-analytics/logicapphistory/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/04/logicapphistory.png" data-orig-size="1224,285" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="LogicAppHistory" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/04/logicapphistory.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/04/logicapphistory.png?w=840" class="alignnone size-full wp-image-176" src="https://peterrombouts.nl/wp-content/uploads/2019/04/logicapphistory.png" alt="LogicAppHistory" width="1224" height="285" srcset="https://peterrombouts.nl/wp-content/uploads/2019/04/logicapphistory.png 1224w, https://peterrombouts.nl/wp-content/uploads/2019/04/logicapphistory.png?w=150&amp;h=35 150w, https://peterrombouts.nl/wp-content/uploads/2019/04/logicapphistory.png?w=300&amp;h=70 300w, https://peterrombouts.nl/wp-content/uploads/2019/04/logicapphistory.png?w=768&amp;h=179 768w, https://peterrombouts.nl/wp-content/uploads/2019/04/logicapphistory.png?w=1024&amp;h=238 1024w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<h2>Enter the Log Analytics workspace</h2>
+<p>Standard logging seems fine, but what if you want to integrate this LogicApp and have alerting setup? First of all, setup a <a href="https://docs.microsoft.com/en-us/azure/azure-monitor/learn/quick-create-workspace" target="_blank" rel="noopener noreferrer">Log Analytics workspace</a>. When you created the Log Analytics Workspace, make sure your LogicApp sends logs to it. You can simply go to the Logs section of your LogicApp:</p>
+<p><img loading="lazy" data-attachment-id="179" data-permalink="https://peterrombouts.nl/2019/04/01/logicapps-monitoring-with-log-analytics/logicapplogs/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/04/logicapplogs.png" data-orig-size="1031,768" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="logicapplogs" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/04/logicapplogs.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/04/logicapplogs.png?w=840" class="alignnone size-full wp-image-179" src="https://peterrombouts.nl/wp-content/uploads/2019/04/logicapplogs.png" alt="logicapplogs" width="1031" height="768" srcset="https://peterrombouts.nl/wp-content/uploads/2019/04/logicapplogs.png 1031w, https://peterrombouts.nl/wp-content/uploads/2019/04/logicapplogs.png?w=150&amp;h=112 150w, https://peterrombouts.nl/wp-content/uploads/2019/04/logicapplogs.png?w=300&amp;h=223 300w, https://peterrombouts.nl/wp-content/uploads/2019/04/logicapplogs.png?w=768&amp;h=572 768w, https://peterrombouts.nl/wp-content/uploads/2019/04/logicapplogs.png?w=1024&amp;h=763 1024w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>As you can see, I already set mine up to the existing one. When that is done, you can click on the Log Analytics workspace, which brings up the <strong>overview</strong> blade of your workspace:</p>
+<p><img loading="lazy" data-attachment-id="177" data-permalink="https://peterrombouts.nl/2019/04/01/logicapps-monitoring-with-log-analytics/laworkspace/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/04/laworkspace.png" data-orig-size="1089,756" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="laworkspace" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/04/laworkspace.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/04/laworkspace.png?w=840" class="alignnone size-full wp-image-177" src="https://peterrombouts.nl/wp-content/uploads/2019/04/laworkspace.png" alt="laworkspace" width="1089" height="756" srcset="https://peterrombouts.nl/wp-content/uploads/2019/04/laworkspace.png 1089w, https://peterrombouts.nl/wp-content/uploads/2019/04/laworkspace.png?w=150&amp;h=104 150w, https://peterrombouts.nl/wp-content/uploads/2019/04/laworkspace.png?w=300&amp;h=208 300w, https://peterrombouts.nl/wp-content/uploads/2019/04/laworkspace.png?w=768&amp;h=533 768w, https://peterrombouts.nl/wp-content/uploads/2019/04/laworkspace.png?w=1024&amp;h=711 1024w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>Clicking on &#8216;View solutions&#8217; on the &#8216;Configure monitoring solutions&#8217; will open up the settings. Click on &#8216;Add&#8217; and search for <strong>Logic Apps Management</strong>. Please note that this is in <strong>preview </strong>at the moment of writing:</p>
+<p><img loading="lazy" data-attachment-id="178" data-permalink="https://peterrombouts.nl/2019/04/01/logicapps-monitoring-with-log-analytics/lamanagement/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/04/lamanagement.png" data-orig-size="1544,670" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="lamanagement" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/04/lamanagement.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/04/lamanagement.png?w=840" class="alignnone size-full wp-image-178" src="https://peterrombouts.nl/wp-content/uploads/2019/04/lamanagement.png" alt="lamanagement" width="1544" height="670" srcset="https://peterrombouts.nl/wp-content/uploads/2019/04/lamanagement.png 1544w, https://peterrombouts.nl/wp-content/uploads/2019/04/lamanagement.png?w=150&amp;h=65 150w, https://peterrombouts.nl/wp-content/uploads/2019/04/lamanagement.png?w=300&amp;h=130 300w, https://peterrombouts.nl/wp-content/uploads/2019/04/lamanagement.png?w=768&amp;h=333 768w, https://peterrombouts.nl/wp-content/uploads/2019/04/lamanagement.png?w=1024&amp;h=444 1024w, https://peterrombouts.nl/wp-content/uploads/2019/04/lamanagement.png?w=1440&amp;h=625 1440w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>If you select <strong>Create</strong> and choose the correct settings, it will show the runs and logging in the <strong>Workspace Summary</strong> section of Log Analytics:</p>
+<p><img loading="lazy" data-attachment-id="181" data-permalink="https://peterrombouts.nl/2019/04/01/logicapps-monitoring-with-log-analytics/laoverview-2/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/04/laoverview-1.png" data-orig-size="773,615" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="laoverview" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/04/laoverview-1.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/04/laoverview-1.png?w=773" class="alignnone size-full wp-image-181" src="https://peterrombouts.nl/wp-content/uploads/2019/04/laoverview-1.png" alt="laoverview" width="773" height="615" srcset="https://peterrombouts.nl/wp-content/uploads/2019/04/laoverview-1.png 773w, https://peterrombouts.nl/wp-content/uploads/2019/04/laoverview-1.png?w=150&amp;h=119 150w, https://peterrombouts.nl/wp-content/uploads/2019/04/laoverview-1.png?w=300&amp;h=239 300w, https://peterrombouts.nl/wp-content/uploads/2019/04/laoverview-1.png?w=768&amp;h=611 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 61vw, (max-width: 1362px) 45vw, 600px" /></p>
+<p>As you can see, we see a nice chart with basic info. Drill down on that and you will see all LogicApps reporting to this workspace. Note that I&#8217;ve only configured one:</p>
+<p><img loading="lazy" data-attachment-id="182" data-permalink="https://peterrombouts.nl/2019/04/01/logicapps-monitoring-with-log-analytics/lalogs/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/04/lalogs.png" data-orig-size="1306,828" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="lalogs" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/04/lalogs.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/04/lalogs.png?w=840" class="alignnone size-full wp-image-182" src="https://peterrombouts.nl/wp-content/uploads/2019/04/lalogs.png" alt="lalogs" width="1306" height="828" srcset="https://peterrombouts.nl/wp-content/uploads/2019/04/lalogs.png 1306w, https://peterrombouts.nl/wp-content/uploads/2019/04/lalogs.png?w=150&amp;h=95 150w, https://peterrombouts.nl/wp-content/uploads/2019/04/lalogs.png?w=300&amp;h=190 300w, https://peterrombouts.nl/wp-content/uploads/2019/04/lalogs.png?w=768&amp;h=487 768w, https://peterrombouts.nl/wp-content/uploads/2019/04/lalogs.png?w=1024&amp;h=649 1024w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<h2>Detailed Logging and resubmit LogicApps</h2>
+<p>If we zoom in even further we can rerun several LogicApps and view more detailed information:</p>
+<p><img loading="lazy" data-attachment-id="183" data-permalink="https://peterrombouts.nl/2019/04/01/logicapps-monitoring-with-log-analytics/lazoomedin/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/04/lazoomedin.png" data-orig-size="1607,342" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="lazoomedin" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/04/lazoomedin.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/04/lazoomedin.png?w=840" class="alignnone size-full wp-image-183" src="https://peterrombouts.nl/wp-content/uploads/2019/04/lazoomedin.png" alt="lazoomedin" width="1607" height="342" srcset="https://peterrombouts.nl/wp-content/uploads/2019/04/lazoomedin.png 1607w, https://peterrombouts.nl/wp-content/uploads/2019/04/lazoomedin.png?w=150&amp;h=32 150w, https://peterrombouts.nl/wp-content/uploads/2019/04/lazoomedin.png?w=300&amp;h=64 300w, https://peterrombouts.nl/wp-content/uploads/2019/04/lazoomedin.png?w=768&amp;h=163 768w, https://peterrombouts.nl/wp-content/uploads/2019/04/lazoomedin.png?w=1024&amp;h=218 1024w, https://peterrombouts.nl/wp-content/uploads/2019/04/lazoomedin.png?w=1440&amp;h=306 1440w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>Here we can click on Logs and zoom in even further, or we can resubmit multiple LogicApps.</p>
+<h2>Tracking custom properties</h2>
+<p>Let&#8217;s say we have many, many events coming in, and we want to track by CustomerID. For the LogicApp, we have to define tracked properties. For this go back to the LogicApp, enter Code view, and add the properties you want to track:</p>
+<pre>"runAfter": {},
+
+"trackedProperties": {
+
+  "CustomerId": "@{items('For_each')?['data']?['customerid']}",
+
+  "Flow": "Email",
+
+  "Receiver": "SomeReceiver",
+
+  "Subject": "@{items('For_each')['subject']}"
+
+}</pre>
+<p>To explain the piece of code above; I&#8217;ve added the &#8216;trackedProperties&#8217; in the forEach loop, and this will send these custom properties to Log Analytics. Obviously these properties correspond to the event we got in the HTTP Request.</p>
+<p>After running this app now, we can see tracked properties in Log Analytics! If we click on the &#8216;<strong>View</strong>&#8216; button, it will bring up the actual properties:</p>
+<p><img loading="lazy" data-attachment-id="185" data-permalink="https://peterrombouts.nl/2019/04/01/logicapps-monitoring-with-log-analytics/latracking/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/04/latracking.png" data-orig-size="1590,711" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="latracking" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/04/latracking.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/04/latracking.png?w=840" class="alignnone size-full wp-image-185" src="https://peterrombouts.nl/wp-content/uploads/2019/04/latracking.png" alt="latracking" width="1590" height="711" srcset="https://peterrombouts.nl/wp-content/uploads/2019/04/latracking.png 1590w, https://peterrombouts.nl/wp-content/uploads/2019/04/latracking.png?w=150&amp;h=67 150w, https://peterrombouts.nl/wp-content/uploads/2019/04/latracking.png?w=300&amp;h=134 300w, https://peterrombouts.nl/wp-content/uploads/2019/04/latracking.png?w=768&amp;h=343 768w, https://peterrombouts.nl/wp-content/uploads/2019/04/latracking.png?w=1024&amp;h=458 1024w, https://peterrombouts.nl/wp-content/uploads/2019/04/latracking.png?w=1440&amp;h=644 1440w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<h2>Alerts and filters</h2>
+<p>Now for the advanced scenario, we want to create a query and search on the properties:</p>
+<p><img loading="lazy" data-attachment-id="186" data-permalink="https://peterrombouts.nl/2019/04/01/logicapps-monitoring-with-log-analytics/logquery/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/04/logquery.png" data-orig-size="1479,786" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="logquery" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/04/logquery.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/04/logquery.png?w=840" class="alignnone size-full wp-image-186" src="https://peterrombouts.nl/wp-content/uploads/2019/04/logquery.png" alt="logquery" width="1479" height="786" srcset="https://peterrombouts.nl/wp-content/uploads/2019/04/logquery.png 1479w, https://peterrombouts.nl/wp-content/uploads/2019/04/logquery.png?w=150&amp;h=80 150w, https://peterrombouts.nl/wp-content/uploads/2019/04/logquery.png?w=300&amp;h=159 300w, https://peterrombouts.nl/wp-content/uploads/2019/04/logquery.png?w=768&amp;h=408 768w, https://peterrombouts.nl/wp-content/uploads/2019/04/logquery.png?w=1024&amp;h=544 1024w, https://peterrombouts.nl/wp-content/uploads/2019/04/logquery.png?w=1440&amp;h=765 1440w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>In the above sample, you can see that a simple filter on schema will bring up all tracked properties and on the right, you can see a simple query to retrieve all events for &#8216;<strong>Customer 1</strong>&#8216;. That is basically it! Now you can click on &#8216;<strong>Create Alert Rule</strong>&#8216; and do your magic there, and create alerts using these tracked properties!</p>
+<h2>Conclusion</h2>
+<p>Setting up the LogicApps to communicate with Log Analytics is a breeze (yes still preview) with the Logic Apps Management module. Tracking properties is a bit of manual labour, because you have to enter code view, but still no worries there. Do look out; if you add the tracked properties in the wrong portion of the JSON, you will not see anything working. And also don&#8217;t forget that it can take some time before all logs are updates. Happy low-coding!</p>
+<p>&nbsp;</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">174</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/04/logicappdesigner.png" medium="image">
+			<media:title type="html">LogicAppDesigner</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/04/logicapphistory.png" medium="image">
+			<media:title type="html">LogicAppHistory</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/04/logicapplogs.png" medium="image">
+			<media:title type="html">logicapplogs</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/04/laworkspace.png" medium="image">
+			<media:title type="html">laworkspace</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/04/lamanagement.png" medium="image">
+			<media:title type="html">lamanagement</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/04/laoverview-1.png" medium="image">
+			<media:title type="html">laoverview</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/04/lalogs.png" medium="image">
+			<media:title type="html">lalogs</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/04/lazoomedin.png" medium="image">
+			<media:title type="html">lazoomedin</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/04/latracking.png" medium="image">
+			<media:title type="html">latracking</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/04/logquery.png" medium="image">
+			<media:title type="html">logquery</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Managing VirtualMachines in Azure with C#</title>
+		<link>https://peterrombouts.nl/2019/01/24/managing-virtualmachines-in-azure-with-c/</link>
+					<comments>https://peterrombouts.nl/2019/01/24/managing-virtualmachines-in-azure-with-c/#comments</comments>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Thu, 24 Jan 2019 09:29:57 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[Serverless]]></category>
+		<guid isPermaLink="false">http://peterrombouts.wordpress.com/?p=131</guid>
+
+					<description><![CDATA[Managing VirtualMachines is often done using Azure Automation or PowerShell. But what if you want to do this using C#, in an Azure Function? This post shows a very simple example on how to implement this in a .Net Core 2 Azure Function. Setting up the project To get started, simply create an Azure Function &#8230; <a href="https://peterrombouts.nl/2019/01/24/managing-virtualmachines-in-azure-with-c/" class="more-link">Continue reading<span class="screen-reader-text"> "Managing VirtualMachines in Azure with&#160;C#"</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Managing VirtualMachines is often done using Azure Automation or PowerShell. But what if you want to do this using C#, in an Azure Function? This post shows a very simple example on how to implement this in a .Net Core 2 Azure Function.</p>
+<h2>
+<span id="more-131"></span><br />
+Setting up the project</h2>
+<p>To get started, simply create an Azure Function project in Visual Studio:</p>
+<p><img loading="lazy" data-attachment-id="135" data-permalink="https://peterrombouts.nl/2019/01/24/managing-virtualmachines-in-azure-with-c/createnewfunctionproject/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/01/createnewfunctionproject.png" data-orig-size="1024,700" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="createnewfunctionproject" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/01/createnewfunctionproject.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/01/createnewfunctionproject.png?w=840" class="alignnone size-full wp-image-135" src="https://peterrombouts.nl/wp-content/uploads/2019/01/createnewfunctionproject.png" alt="createnewfunctionproject" width="1024" height="700" srcset="https://peterrombouts.nl/wp-content/uploads/2019/01/createnewfunctionproject.png 1024w, https://peterrombouts.nl/wp-content/uploads/2019/01/createnewfunctionproject.png?w=150&amp;h=103 150w, https://peterrombouts.nl/wp-content/uploads/2019/01/createnewfunctionproject.png?w=300&amp;h=205 300w, https://peterrombouts.nl/wp-content/uploads/2019/01/createnewfunctionproject.png?w=768&amp;h=525 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<h2>Setting up the function</h2>
+<p>For this example I&#8217;m going to create a Function with HTTP trigger that deallocates all VMs in a resource group.</p>
+<p>To get started, create a new function called &#8216;DeallocateVMs&#8217;:</p>
+<p><img loading="lazy" data-attachment-id="137" data-permalink="https://peterrombouts.nl/2019/01/24/managing-virtualmachines-in-azure-with-c/deallocatevms/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/01/deallocatevms.png" data-orig-size="955,660" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="deallocatevms" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/01/deallocatevms.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/01/deallocatevms.png?w=840" class="alignnone size-full wp-image-137" src="https://peterrombouts.nl/wp-content/uploads/2019/01/deallocatevms.png" alt="deallocatevms" width="955" height="660" srcset="https://peterrombouts.nl/wp-content/uploads/2019/01/deallocatevms.png 955w, https://peterrombouts.nl/wp-content/uploads/2019/01/deallocatevms.png?w=150&amp;h=104 150w, https://peterrombouts.nl/wp-content/uploads/2019/01/deallocatevms.png?w=300&amp;h=207 300w, https://peterrombouts.nl/wp-content/uploads/2019/01/deallocatevms.png?w=768&amp;h=531 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>I&#8217;ve chosen the &#8216;HTTP&#8217; trigger because this is the easiest to run and debug on your local machine.</p>
+<h2>Setting up the packages</h2>
+<p>First of all, install the next NuGet packages:</p>
+<pre>Install-Package Microsoft.Azure.Management.Fluent
+Install-Package Microsoft.Azure.Management.Compute.Fluent</pre>
+<p>This allows us to make use of the Azure libraries we need to manage VMs.</p>
+<h2>Boilerplate code</h2>
+<p>The library needs to connect to Azure and have rights in the resource group you want to manage. For this, we need some boilerplate code to get the <strong>AzureCredentials</strong>:</p>
+<pre>internal static AzureCredentials GetCredentials()
+{
+    var clientId = "Enter ClientId Here";
+    var clientSecret = "Enter ClientSecret Here";
+    var tenantId = "Enter TenantId Here";
+
+    return SdkContext.AzureCredentialsFactory.FromServicePrincipal(clientId, clientSecret, tenantId, AzureEnvironment.AzureGlobalCloud);
+}</pre>
+<blockquote><p>For more info on creating Service Principals, please check out <a href="https://docs.microsoft.com/nl-nl/azure/active-directory/develop/howto-create-service-principal-portal" target="_blank" rel="noopener">this link at Microsoft</a></p></blockquote>
+<p>After getting the credentials, the client can be configured:</p>
+<pre>var azure = Azure
+    .Configure()
+    .WithLogLevel(HttpLoggingDelegatingHandler.Level.Basic)
+    .Authenticate(credentials)
+    .WithDefaultSubscription();</pre>
+<h2>Getting all VMs in a resource group</h2>
+<p>The IAzure interface allows us to list VMs, get information, and a lot more. Please check the recap of the blogpost for links to documentation.</p>
+<p>In this example we want to deallocate all VMs in a specific resource group. I&#8217;ve skipped all checks and exception handling for sake of readability:</p>
+<pre>var resourcegroup = "your-resourcegroup-name-here";
+foreach (var virtualMachine in await azure.VirtualMachines.ListByResourceGroupAsync(resourcegroup))
+{
+    log.LogInformation($"Deallocating VM {virtualMachine.Name}...");
+    await virtualMachine.DeallocateAsync();
+    log.LogInformation($"Deallocated VM {virtualMachine.Name}");
+}</pre>
+<p>That is basically it! This function will now iterate thru all virtualmachines in the resource group and deallocate them</p>
+<h2>Recap</h2>
+<p>This example does not take into account what happens when you have very large numbers of virtual machines. The code also does not take into account what the current PowerState of the machine is. In a more advanced scenario, you should check the PowerState and determine what to do. The easiest way is to check if the machine is actually running:</p>
+<pre>if (virtualMachine.PowerState == PowerState.Running)
+{
+    // Do something
+}</pre>
+<p>I&#8217;ve used a service principal with clientid and secrets, and set the rights on the managed resource groups. This is a very basic setup to show how to manage the VMs. There are alot of ways to implement security, and maybe your scenario has client certificates or other authentication options. <a href="https://github.com/Azure/azure-libraries-for-java/blob/master/AUTH.md" target="_blank" rel="noopener">This post on Github</a> shows many scenarios on authenticating with this library.</p>
+<h2>Links</h2>
+<p>For this example, I&#8217;ve used the namespaces <a href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.azure.management.compute.fluent?view=azure-dotnet" target="_blank" rel="noopener">Microsoft.Azure.Management.Compute.Fluent</a> and <a href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.azure.management.fluent?view=azure-dotnet" target="_blank" rel="noopener">Microsoft.Azure.Management.Fluent Namespace</a>. There are a lot of <a href="https://github.com/Azure/azure-libraries-for-net#virtual-machines" target="_blank" rel="noopener">examples </a>on Github using the two <a href="https://www.nuget.org/packages/Microsoft.Azure.Management.Fluent/" target="_blank" rel="noopener">NuGet</a> <a href="https://www.nuget.org/packages/Microsoft.Azure.Management.Compute.Fluent/" target="_blank" rel="noopener">packages</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://peterrombouts.nl/2019/01/24/managing-virtualmachines-in-azure-with-c/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">131</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/01/createnewfunctionproject.png" medium="image">
+			<media:title type="html">createnewfunctionproject</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/01/deallocatevms.png" medium="image">
+			<media:title type="html">deallocatevms</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>LogicApp Template Creator</title>
+		<link>https://peterrombouts.nl/2018/01/06/logicapp-template-creator/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Sat, 06 Jan 2018 09:20:46 +0000</pubDate>
+				<category><![CDATA[CICD]]></category>
+		<category><![CDATA[Serverless]]></category>
+		<category><![CDATA[VSTS]]></category>
+		<guid isPermaLink="false">http://peterrombouts.wordpress.com/?p=55</guid>
+
+					<description><![CDATA[When trying to put your LogicApp code in a CICD pipeline, it is always problematic getting your code into a proper template. Obviously switching to &#8216;LogicApp Code View&#8217; is an option, but there is a better solution to this problem. LogicAppTemplate is a PowerShell commandlet that makes is very easy to get the content (even &#8230; <a href="https://peterrombouts.nl/2018/01/06/logicapp-template-creator/" class="more-link">Continue reading<span class="screen-reader-text"> "LogicApp Template Creator"</span></a>]]></description>
+										<content:encoded><![CDATA[<p>When trying to put your LogicApp code in a CICD pipeline, it is always problematic getting your code into a proper template.<br />
+Obviously switching to &#8216;LogicApp Code View&#8217; is an option, but there is a better solution to this problem.</p>
+<p><a href="https://www.powershellgallery.com/packages/LogicAppTemplate/0.2.3" target="_blank" rel="noopener">LogicAppTemplate</a> is a PowerShell commandlet that makes is very easy to get the content (even automatically) of the app and save it to disk.</p>
+<p>The usage is very simple, open up a PowerShell window and execute the next command:<br />
+<a href="https://gist.github.com/prombouts/73ce2c5eeb8c7ca2db516223ad311732" target="_blank" rel="noopener">Check out this gist</a></p>
+<p>Big thanks to <a href="https://twitter.com/jeffhollan" target="_blank" rel="noopener">Jeff Hollan</a> who authored this!</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">55</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Disappearing code in Logic Apps</title>
+		<link>https://peterrombouts.nl/2017/12/04/disappearing-code-in-logic-apps/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Mon, 04 Dec 2017 09:20:05 +0000</pubDate>
+				<category><![CDATA[CICD]]></category>
+		<category><![CDATA[Serverless]]></category>
+		<guid isPermaLink="false">http://peterrombouts.wordpress.com/?p=53</guid>
+
+					<description><![CDATA[Recently my team and I were building and debugging LogicApps. At one point we seemed to have disappearing code within our code of these apps. Obviously something is wrong when we were editing these apps. Please note that we&#8217;ve got many LogicApps with custom code and mappings that we code using the code view, because &#8230; <a href="https://peterrombouts.nl/2017/12/04/disappearing-code-in-logic-apps/" class="more-link">Continue reading<span class="screen-reader-text"> "Disappearing code in Logic&#160;Apps"</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Recently my team and I were building and debugging LogicApps. At one point we seemed to have disappearing code within our code of these apps.<br />
+Obviously something is wrong when we were editing these apps.</p>
+<p>Please note that we&#8217;ve got many LogicApps with custom code and mappings that we code using the code view, because not all properties can be set using the designer.</p>
+<h2>The problem</h2>
+<p>The problem arises when you are in &#8216;Logic App Code View&#8217;, and switch to &#8216;Logic App Designer&#8217;.<br />
+When switching back, the following popup arises:</p>
+<p><img loading="lazy" data-attachment-id="121" data-permalink="https://peterrombouts.nl/logicappproblem/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/logicappproblem.png" data-orig-size="771,624" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="LogicAppProblem" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/logicappproblem.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/logicappproblem.png?w=771" class="alignnone size-full wp-image-121" src="https://peterrombouts.nl/wp-content/uploads/2018/12/logicappproblem.png" alt="LogicAppProblem" width="771" height="624" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/logicappproblem.png 771w, https://peterrombouts.nl/wp-content/uploads/2018/12/logicappproblem.png?w=150&amp;h=121 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/logicappproblem.png?w=300&amp;h=243 300w, https://peterrombouts.nl/wp-content/uploads/2018/12/logicappproblem.png?w=768&amp;h=622 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 61vw, (max-width: 1362px) 45vw, 600px" /></p>
+<p>In this case, we did not change anything, just switched to designer and back.<br />
+But, <strong>this is actually what triggers this problem</strong>.</p>
+<p>Thanks to &#8216;Versions&#8217; you can quickly see and use WinMerge (or any other tool) to compare the files:</p>
+<p><img loading="lazy" data-attachment-id="120" data-permalink="https://peterrombouts.nl/codeview/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/codeview.png" data-orig-size="1245,332" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="codeview" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/codeview.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/codeview.png?w=840" class="alignnone size-full wp-image-120" src="https://peterrombouts.nl/wp-content/uploads/2018/12/codeview.png" alt="codeview" width="1245" height="332" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/codeview.png 1245w, https://peterrombouts.nl/wp-content/uploads/2018/12/codeview.png?w=150&amp;h=40 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/codeview.png?w=300&amp;h=80 300w, https://peterrombouts.nl/wp-content/uploads/2018/12/codeview.png?w=768&amp;h=205 768w, https://peterrombouts.nl/wp-content/uploads/2018/12/codeview.png?w=1024&amp;h=273 1024w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>In this sample, the &#8216;queueType&#8217; magically disappeared, but in other cases other mappings of JSON object were deleted.</p>
+<h2>Conclusion</h2>
+<p>Always check, when the designer asks you to &#8216;Save changes&#8217;, if you actually made any changes.<br />
+I hope this helps someone out, it gave me and my team a real headache finding this out.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">53</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/logicappproblem.png" medium="image">
+			<media:title type="html">LogicAppProblem</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/codeview.png" medium="image">
+			<media:title type="html">codeview</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Debugging Azure Functions with LogicApps locally</title>
+		<link>https://peterrombouts.nl/2017/10/23/debugging-azure-functions-with-logicapps-locally/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Mon, 23 Oct 2017 08:18:59 +0000</pubDate>
+				<category><![CDATA[Build]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[Serverless]]></category>
+		<guid isPermaLink="false">http://peterrombouts.wordpress.com/?p=51</guid>
+
+					<description><![CDATA[Azure Functions are a great example of how serverless is conquering the cloud world we live in today. There are also many blogs in how-to-write-functions out there, of which the latest use the precompiled functions, in Visual Studio 2017. Think of a scenario, where you want to test a LogicApp against your function, but that &#8230; <a href="https://peterrombouts.nl/2017/10/23/debugging-azure-functions-with-logicapps-locally/" class="more-link">Continue reading<span class="screen-reader-text"> "Debugging Azure Functions with LogicApps&#160;locally"</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Azure Functions are a great example of how serverless is conquering the cloud world we live in today. There are also many blogs in <a href="https://visualstudiomagazine.com/articles/2017/10/01/azure-functions.aspx" target="_blank" rel="noopener">how-to-write-functions</a> out there, of which the latest use the precompiled functions, in Visual Studio 2017.</p>
+<p>Think of a scenario, where you want to test a LogicApp against your function, but that app obviously cannot connect to localhost. You have two options; You can deploy the Functions app to Azure and use remote debugging or you can use your own localhost, with the use of ngrok.</p>
+<p>This blog will explain how to debug locally, when using other services in the cloud.<br />
+<span id="more-51"></span></p>
+<h2>Azure Functions</h2>
+<p>First of all, we start off with a very simple function:</p>
+<p><a href="https://gist.github.com/prombouts/04610454758dfabe39547d01ac366789.js">https://gist.github.com/prombouts/04610454758dfabe39547d01ac366789.js</a></p>
+<p>Running this will result in something like this:</p>
+<p><img loading="lazy" data-attachment-id="66" data-permalink="https://peterrombouts.nl/1functionscli/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/1functionscli.png" data-orig-size="654,427" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="1FunctionsCLI" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/1functionscli.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/1functionscli.png?w=654" class="alignnone size-full wp-image-66" src="https://peterrombouts.nl/wp-content/uploads/2018/12/1functionscli.png" alt="1FunctionsCLI" width="654" height="427" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/1functionscli.png 654w, https://peterrombouts.nl/wp-content/uploads/2018/12/1functionscli.png?w=150&amp;h=98 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/1functionscli.png?w=300&amp;h=196 300w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 61vw, (max-width: 1362px) 45vw, 600px" /></p>
+<p>That is it; and your function is running locally. Calling it with Chrome will spit out a simple JSON:</p>
+<p><img loading="lazy" data-attachment-id="77" data-permalink="https://peterrombouts.nl/4ngroklocal/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/4ngroklocal.png" data-orig-size="543,444" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="4ngroklocal" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/4ngroklocal.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/4ngroklocal.png?w=543" class="alignnone size-full wp-image-77" src="https://peterrombouts.nl/wp-content/uploads/2018/12/4ngroklocal.png" alt="4ngroklocal" width="543" height="444" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/4ngroklocal.png 543w, https://peterrombouts.nl/wp-content/uploads/2018/12/4ngroklocal.png?w=150&amp;h=123 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/4ngroklocal.png?w=300&amp;h=245 300w" sizes="(max-width: 543px) 85vw, 543px" /></p>
+<h2>Using Ngrok</h2>
+<p>Downloading and installing ngrok is extremely easy from their webpage: <a href="https://ngrok.com/download" target="_blank" rel="noopener">https://ngrok.com/download</a>. Using the following line, we will make our localhost on port 7071 (default for Functions) project accessible from the internet:</p>
+<p><img loading="lazy" data-attachment-id="70" data-permalink="https://peterrombouts.nl/2runngrok/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/2runngrok.png" data-orig-size="712,251" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="2RunNgrok" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/2runngrok.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/2runngrok.png?w=712" class="alignnone size-full wp-image-70" src="https://peterrombouts.nl/wp-content/uploads/2018/12/2runngrok.png" alt="2RunNgrok" width="712" height="251" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/2runngrok.png 712w, https://peterrombouts.nl/wp-content/uploads/2018/12/2runngrok.png?w=150&amp;h=53 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/2runngrok.png?w=300&amp;h=106 300w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 61vw, (max-width: 1362px) 45vw, 600px" /></p>
+<p>Please note that I&#8217;ve added -host-header due to some issues that could arise when mapping to localhost from the internet.</p>
+<p>The ngrok command results in ngrok running:</p>
+<p><img loading="lazy" data-attachment-id="75" data-permalink="https://peterrombouts.nl/3ngrokrunning/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/3ngrokrunning.png" data-orig-size="736,268" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="3NgrokRunning" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/3ngrokrunning.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/3ngrokrunning.png?w=736" class="alignnone size-full wp-image-75" src="https://peterrombouts.nl/wp-content/uploads/2018/12/3ngrokrunning.png" alt="3NgrokRunning" width="736" height="268" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/3ngrokrunning.png 736w, https://peterrombouts.nl/wp-content/uploads/2018/12/3ngrokrunning.png?w=150&amp;h=55 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/3ngrokrunning.png?w=300&amp;h=109 300w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 61vw, (max-width: 1362px) 45vw, 600px" /></p>
+<h2>Testing the tunnel</h2>
+<p>By calling our function, but now using the ngrok hostname provided, we get the exact same output:</p>
+<p><img loading="lazy" data-attachment-id="78" data-permalink="https://peterrombouts.nl/4ngrokremote/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/4ngrokremote.png" data-orig-size="543,444" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="4ngrokremote" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/4ngrokremote.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/4ngrokremote.png?w=543" class="alignnone size-full wp-image-78" src="https://peterrombouts.nl/wp-content/uploads/2018/12/4ngrokremote.png" alt="4ngrokremote" width="543" height="444" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/4ngrokremote.png 543w, https://peterrombouts.nl/wp-content/uploads/2018/12/4ngrokremote.png?w=150&amp;h=123 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/4ngrokremote.png?w=300&amp;h=245 300w" sizes="(max-width: 543px) 85vw, 543px" /></p>
+<h2>Bonus Features</h2>
+<p>If you have any need of testing output of a webhook of any kind; check out <a href="https://requestb.in/" target="_blank" rel="noopener">Requestbin</a>! This site will let you create a &#8216;bin&#8217; for your requests, and will show any POST/GET or other data pointed at it. Could be very usefull when debugging output of LogicApps when you use JSON compose and want to inspect your output!</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">51</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/1functionscli.png" medium="image">
+			<media:title type="html">1FunctionsCLI</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/4ngroklocal.png" medium="image">
+			<media:title type="html">4ngroklocal</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/2runngrok.png" medium="image">
+			<media:title type="html">2RunNgrok</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/3ngrokrunning.png" medium="image">
+			<media:title type="html">3NgrokRunning</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/4ngrokremote.png" medium="image">
+			<media:title type="html">4ngrokremote</media:title>
+		</media:content>
+	</item>
+	</channel>
+</rss>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	xmlns:georss="http://www.georss.org/georss" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:media="http://search.yahoo.com/mrss/"
+	>
+
+<channel>
+	<title>AngularJS &#8211; Peter Rombouts</title>
+	<atom:link href="https://peterrombouts.nl/category/angularjs/feed/" rel="self" type="application/rss+xml" />
+	<link>https://peterrombouts.nl</link>
+	<description>All things Cloud &#124; Software &#124; Coding &#124; Integration &#124; Automation &#124; DevSecAnythingOps &#124; Cloud Native &#124; Serverless</description>
+	<lastBuildDate>Tue, 28 Jan 2020 23:00:55 +0000</lastBuildDate>
+	<language>en</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>http://wordpress.com/</generator>
+
+<image>
+	<url>https://peterrombouts.nl/wp-content/uploads/2023/11/peter.jpg?w=32</url>
+	<title>AngularJS &#8211; Peter Rombouts</title>
+	<link>https://peterrombouts.nl</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+<site xmlns="com-wordpress:feed-additions:1">155596116</site><cloud domain='peterrombouts.nl' port='80' path='/?rsscloud=notify' registerProcedure='' protocol='http-post' />
+<atom:link rel="search" type="application/opensearchdescription+xml" href="https://peterrombouts.nl/osd.xml" title="Peter Rombouts" />
+	<atom:link rel='hub' href='https://peterrombouts.nl/?pushpress=hub'/>
+	<item>
+		<title>Software Maintainability Roadshow deck</title>
+		<link>https://peterrombouts.nl/2020/01/29/software-maintainability-roadshow-deck/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Wed, 29 Jan 2020 19:30:00 +0000</pubDate>
+				<category><![CDATA[AngularJS]]></category>
+		<category><![CDATA[Azure DevOps]]></category>
+		<category><![CDATA[Build]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[Software Engineering]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=296</guid>
+
+					<description><![CDATA[]]></description>
+										<content:encoded><![CDATA[
+<div class="jetpack-video-wrapper"><iframe src='https://www.slideshare.net/slideshow/embed_code/223406396' width='840' height='688' sandbox="allow-popups allow-scripts allow-same-origin allow-presentation" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">296</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>End-to-End testing AngularJS apps from Visual Studio</title>
+		<link>https://peterrombouts.nl/2016/06/15/end-to-end-testing-angularjs-apps-from-visual-studio/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Wed, 15 Jun 2016 08:01:42 +0000</pubDate>
+				<category><![CDATA[AngularJS]]></category>
+		<category><![CDATA[CICD]]></category>
+		<guid isPermaLink="false">http://peterrombouts.wordpress.com/?p=31</guid>
+
+					<description><![CDATA[There are many methods of testing your application. Great tools like Selenium are widely used, and developers (should) write unit tests for their code. In a DevOps team, we want to run tests automated, ideally using continuous integration tools like TeamCity or Release Manager. This post will show an example of testing your AngularJS fully &#8230; <a href="https://peterrombouts.nl/2016/06/15/end-to-end-testing-angularjs-apps-from-visual-studio/" class="more-link">Continue reading<span class="screen-reader-text"> "End-to-End testing AngularJS apps from Visual&#160;Studio"</span></a>]]></description>
+										<content:encoded><![CDATA[<p>There are many methods of testing your application. Great tools like <a href="http://www.seleniumhq.org/" target="_blank" rel="noopener">Selenium</a> are widely used, and developers (should) write unit tests for their code. In a DevOps team, we want to run tests automated, ideally using continuous integration tools like TeamCity or Release Manager.</p>
+<p>This post will show an example of testing your AngularJS fully automated from within Visual Studio or your continuous integration tooling.<br />
+<span id="more-31"></span></p>
+<h2>Setting up your environment</h2>
+<p>Instead of defining the unit tests manually, we will be using SpecFlow. It’s <a href="https://github.com/cucumber/cucumber/wiki/Gherkin" target="_blank" rel="noopener">Gherkin</a> syntax will allow you to specify human-readable tests that automagically generate the unit test skeleton files. SpecFlow has integration installers for almost all versions. See <a href="http://www.specflow.org/documentation/Installation/" target="_blank" rel="noopener">this link</a> to install your version. In this post we will be using Visual Studio 2015 professional.</p>
+<h2>Writing your first SpecFlow feature file</h2>
+<p>After setting up your environment correctly, adding a new item will show the following dialog:</p>
+<p><img data-attachment-id="91" data-permalink="https://peterrombouts.nl/specflow_feature_file/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/specflow_feature_file.png" data-orig-size="1194,825" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="specflow_feature_file" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/specflow_feature_file.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/specflow_feature_file.png?w=840" class="alignnone size-full wp-image-91" src="https://peterrombouts.nl/wp-content/uploads/2018/12/specflow_feature_file.png" alt="specflow_feature_file" width="1194" height="825" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/specflow_feature_file.png 1194w, https://peterrombouts.nl/wp-content/uploads/2018/12/specflow_feature_file.png?w=150&amp;h=104 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/specflow_feature_file.png?w=300&amp;h=207 300w, https://peterrombouts.nl/wp-content/uploads/2018/12/specflow_feature_file.png?w=768&amp;h=531 768w, https://peterrombouts.nl/wp-content/uploads/2018/12/specflow_feature_file.png?w=1024&amp;h=708 1024w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>We will create a file called ‘TodoTester.feature’. In this example we will make a test that uses a sample app located at <a href="http://todomvc.com/examples/angularjs/" target="_blank" rel="noopener">http://todomvc.com/examples/angularjs/</a>.</p>
+<p>In this simple test, we will add some items to the todo list, and remove some items from the todo list.</p>
+<p>First of all, we write our scenario in the feature file. As you can see, the Gherkin syntax is human-readable and can be setup together with our client/product owner/business consultant. SpecFlow will enable you to generate the unit-test file.</p>
+<p><img data-attachment-id="94" data-permalink="https://peterrombouts.nl/todofeaturefile/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/todofeaturefile.png" data-orig-size="771,284" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="todofeaturefile" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/todofeaturefile.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/todofeaturefile.png?w=771" class="alignnone size-full wp-image-94" src="https://peterrombouts.nl/wp-content/uploads/2018/12/todofeaturefile.png" alt="todofeaturefile" width="771" height="284" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/todofeaturefile.png 771w, https://peterrombouts.nl/wp-content/uploads/2018/12/todofeaturefile.png?w=150&amp;h=55 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/todofeaturefile.png?w=300&amp;h=111 300w, https://peterrombouts.nl/wp-content/uploads/2018/12/todofeaturefile.png?w=768&amp;h=283 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 61vw, (max-width: 1362px) 45vw, 600px" /></p>
+<p>In the feature file above, we have defined some steps in the Gherkin syntax. Right-clicking the file will enable us to create the steps and copy them to a .cs file. In this project, the file is called StepDefinition1.cs. The skeleton methods can been seen below:</p>
+<p><img data-attachment-id="92" data-permalink="https://peterrombouts.nl/specflow_skeleton/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/specflow_skeleton.png" data-orig-size="575,663" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="specflow_skeleton" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/specflow_skeleton.png?w=260" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/specflow_skeleton.png?w=575" class="alignnone size-full wp-image-92" src="https://peterrombouts.nl/wp-content/uploads/2018/12/specflow_skeleton.png" alt="specflow_skeleton" width="575" height="663" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/specflow_skeleton.png 575w, https://peterrombouts.nl/wp-content/uploads/2018/12/specflow_skeleton.png?w=130&amp;h=150 130w, https://peterrombouts.nl/wp-content/uploads/2018/12/specflow_skeleton.png?w=260&amp;h=300 260w" sizes="(max-width: 575px) 85vw, 575px" /></p>
+<p>The great plus of this is that we can keep our changes ‘in sync’ by updating the method from the feature file. And, shown in the example above, the tool is smart enough to extract variables from within the feature file.</p>
+<h2>Writing the unit test for AngularJS</h2>
+<p>One of the problems of end-to-end testing is that most webdrivers like Selenium cannot detect if AngularJS’ async calls are done loading. A workaround for this problem is to wait for some kind of element is present, or wait until a spinner of some kind has been removed. A better way is to use a driver that natively works with AngularJS projects.</p>
+<p><a href="https://www.nuget.org/packages/Protractor/" target="_blank" rel="noopener">Protractor</a> is a library, built on top of the Selenium WebDriver and understands the behaviour of AngularJS. It wraps drivers like ChromeDriver and enables them to understand AngularJS. Installing this package is very easy using the Install-Package syntax, and the setup is easy in code, see the example below:</p>
+<p><img loading="lazy" data-attachment-id="86" data-permalink="https://peterrombouts.nl/init_chromedriver/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/init_chromedriver.png" data-orig-size="689,268" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="init_chromedriver" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/init_chromedriver.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/init_chromedriver.png?w=689" class="alignnone size-full wp-image-86" src="https://peterrombouts.nl/wp-content/uploads/2018/12/init_chromedriver.png" alt="init_chromedriver" width="689" height="268" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/init_chromedriver.png 689w, https://peterrombouts.nl/wp-content/uploads/2018/12/init_chromedriver.png?w=150&amp;h=58 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/init_chromedriver.png?w=300&amp;h=117 300w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 61vw, (max-width: 1362px) 45vw, 600px" /></p>
+<p>After initialization, the next step is to write the code for the skeleton method, as shown in the screenshot below:</p>
+<p><img loading="lazy" data-attachment-id="90" data-permalink="https://peterrombouts.nl/simple_unit_test/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/simple_unit_test.png" data-orig-size="595,724" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="simple_unit_test" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/simple_unit_test.png?w=247" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/simple_unit_test.png?w=595" class="alignnone size-full wp-image-90" src="https://peterrombouts.nl/wp-content/uploads/2018/12/simple_unit_test.png" alt="simple_unit_test" width="595" height="724" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/simple_unit_test.png 595w, https://peterrombouts.nl/wp-content/uploads/2018/12/simple_unit_test.png?w=123&amp;h=150 123w, https://peterrombouts.nl/wp-content/uploads/2018/12/simple_unit_test.png?w=247&amp;h=300 247w" sizes="(max-width: 595px) 85vw, 595px" /></p>
+<h2>Running the test</h2>
+<p>Running the test will spin up Chrome, execute all steps programmed in the test, and quit the runner and webdriver. A succesful test will give the following feedback within Visual Studio:</p>
+<p><img loading="lazy" data-attachment-id="96" data-permalink="https://peterrombouts.nl/unit_test_session/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/unit_test_session.png" data-orig-size="943,313" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unit_test_session" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/unit_test_session.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/unit_test_session.png?w=840" class="alignnone size-full wp-image-96" src="https://peterrombouts.nl/wp-content/uploads/2018/12/unit_test_session.png" alt="unit_test_session" width="943" height="313" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/unit_test_session.png 943w, https://peterrombouts.nl/wp-content/uploads/2018/12/unit_test_session.png?w=150&amp;h=50 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/unit_test_session.png?w=300&amp;h=100 300w, https://peterrombouts.nl/wp-content/uploads/2018/12/unit_test_session.png?w=768&amp;h=255 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<h2>Running the test from our build server</h2>
+<p>While the Chrome webdriver (wrapped in the NgDriver) works perfectly on our development machine, we also want to run these test on other platforms, using a headless driver. PhantomJS is a headless driver, suited for these situations. The setup in code is as follows:</p>
+<p><img loading="lazy" data-attachment-id="87" data-permalink="https://peterrombouts.nl/phantomjsdriver/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/phantomjsdriver.png" data-orig-size="690,260" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="phantomjsdriver" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/phantomjsdriver.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/phantomjsdriver.png?w=690" class="alignnone size-full wp-image-87" src="https://peterrombouts.nl/wp-content/uploads/2018/12/phantomjsdriver.png" alt="phantomjsdriver" width="690" height="260" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/phantomjsdriver.png 690w, https://peterrombouts.nl/wp-content/uploads/2018/12/phantomjsdriver.png?w=150&amp;h=57 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/phantomjsdriver.png?w=300&amp;h=113 300w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 61vw, (max-width: 1362px) 45vw, 600px" /></p>
+<p>Because the <a href="http://phantomjs.org/" target="_blank" rel="noopener">PhantomJS WebDriver</a> is also wrapped in the NgWebDriver, there is no need for further code adjustments, our unit tests will work exactly the same.</p>
+<h2>Bonus features</h2>
+<p>This post explains just the basics of SpecFlow / Protractor / NgWebDriver, but there are many features that can be of great use in testing scenario’s. One of these is taking screenshots after tests, explained in code below:</p>
+<p><img loading="lazy" data-attachment-id="93" data-permalink="https://peterrombouts.nl/take_screenshot/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2018/12/take_screenshot.png" data-orig-size="754,205" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="take_screenshot" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2018/12/take_screenshot.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2018/12/take_screenshot.png?w=754" class="alignnone size-full wp-image-93" src="https://peterrombouts.nl/wp-content/uploads/2018/12/take_screenshot.png" alt="take_screenshot" width="754" height="205" srcset="https://peterrombouts.nl/wp-content/uploads/2018/12/take_screenshot.png 754w, https://peterrombouts.nl/wp-content/uploads/2018/12/take_screenshot.png?w=150&amp;h=41 150w, https://peterrombouts.nl/wp-content/uploads/2018/12/take_screenshot.png?w=300&amp;h=82 300w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 61vw, (max-width: 1362px) 45vw, 600px" /></p>
+<p>This will take a screenshot and save it to disk. This can come in handy when tests fail and, in addition to the stacktrace from our buildserver, can help speed up finding issues.</p>
+<h2>Recap</h2>
+<p>In this post I’ve tried to tie the SpecFlow / Protractor / WebDriver tools together to show a simple example of end-to-end testing. In the DevOps fashion, we are able to run these tests on any platform, from your favourite IDE or from your buildserver, any time, all the time.</p>
+<p>Using the Protractor library there is no need to add extra logic to wait for AngularJS calls to end, and using SpecFlows Gherkin syntax it is possible to write human-readable tests together with your stakeholders.</p>
+<p>Please feel free to contact me in case you have any questions!</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">31</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/specflow_feature_file.png" medium="image">
+			<media:title type="html">specflow_feature_file</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/todofeaturefile.png" medium="image">
+			<media:title type="html">todofeaturefile</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/specflow_skeleton.png" medium="image">
+			<media:title type="html">specflow_skeleton</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/init_chromedriver.png" medium="image">
+			<media:title type="html">init_chromedriver</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/simple_unit_test.png" medium="image">
+			<media:title type="html">simple_unit_test</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/unit_test_session.png" medium="image">
+			<media:title type="html">unit_test_session</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/phantomjsdriver.png" medium="image">
+			<media:title type="html">phantomjsdriver</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2018/12/take_screenshot.png" medium="image">
+			<media:title type="html">take_screenshot</media:title>
+		</media:content>
+	</item>
+	</channel>
+</rss>

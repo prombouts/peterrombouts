@@ -1,0 +1,1498 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	xmlns:georss="http://www.georss.org/georss" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:media="http://search.yahoo.com/mrss/"
+	>
+
+<channel>
+	<title>Azure &#8211; Peter Rombouts</title>
+	<atom:link href="https://peterrombouts.nl/category/azure/feed/" rel="self" type="application/rss+xml" />
+	<link>https://peterrombouts.nl</link>
+	<description>All things Cloud &#124; Software &#124; Coding &#124; Integration &#124; Automation &#124; DevSecAnythingOps &#124; Cloud Native &#124; Serverless</description>
+	<lastBuildDate>Thu, 06 Jul 2023 07:48:06 +0000</lastBuildDate>
+	<language>en</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>http://wordpress.com/</generator>
+
+<image>
+	<url>https://peterrombouts.nl/wp-content/uploads/2023/11/peter.jpg?w=32</url>
+	<title>Azure &#8211; Peter Rombouts</title>
+	<link>https://peterrombouts.nl</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+<site xmlns="com-wordpress:feed-additions:1">155596116</site><cloud domain='peterrombouts.nl' port='80' path='/?rsscloud=notify' registerProcedure='' protocol='http-post' />
+<atom:link rel="search" type="application/opensearchdescription+xml" href="https://peterrombouts.nl/osd.xml" title="Peter Rombouts" />
+	<atom:link rel='hub' href='https://peterrombouts.nl/?pushpress=hub'/>
+	<item>
+		<title>Monitor (IoT) devices with Node-RED and Azure LogicApps</title>
+		<link>https://peterrombouts.nl/2022/08/13/monitor-iot-devices-with-node-red-and-azure-logicapps/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Sat, 13 Aug 2022 08:28:07 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[Software Engineering]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=792</guid>
+
+					<description><![CDATA[Originally posted on SogetiLabs:https://labs.sogeti.com/monitor-iot-devices-with-node-red-and-azure-logicapps/ In this blog I&#8217;m going to explain how to monitor your IoT or other devices without having to open up ports, install agents or require access to your network. We will rely on Node-RED, Azure LogicApps and Azure Monitor Alerts. Opening up ports you say? If you like to tinker, like &#8230; <a href="https://peterrombouts.nl/2022/08/13/monitor-iot-devices-with-node-red-and-azure-logicapps/" class="more-link">Continue reading<span class="screen-reader-text"> "Monitor (IoT) devices with Node-RED and Azure&#160;LogicApps"</span></a>]]></description>
+										<content:encoded><![CDATA[
+<p><small><em>Originally posted on SogetiLabs:<br></em></small><a href="https://labs.sogeti.com/monitor-iot-devices-with-node-red-and-azure-logicapps/" target="_blank" rel="noreferrer noopener">https://labs.sogeti.com/monitor-iot-devices-with-node-red-and-azure-logicapps/</a></p>
+
+
+
+<p>In this blog I&#8217;m going to explain how to monitor your IoT or other devices without having to open up ports, install agents or require access to your network. We will rely on Node-RED, Azure LogicApps and Azure Monitor Alerts.</p>
+
+
+
+<span id="more-792"></span>
+
+
+
+<h2 class="wp-block-heading">Opening up ports you say?</h2>
+
+
+
+<p>If you like to tinker, like me, and have a Raspberri Pi somewhere in your network, you probably want to now if it is running properly, and what the temperature is. You could open up a port on your modem/router and check from the outside (with something like uptimerobot) if the device is up and running. </p>
+
+
+
+<p>There are some problems with this approach. First of all, you will need a fixed IP, or some crappy DNS service that will fail once in a while (rendering your monitoring useless). The second problem is, a simple ping is not really helpful so you want to setup a probe of some sort, or allow SSH access.</p>
+
+
+
+<p>Opening up ports also open up the possibility of people other than you logging onto your network with all kinds of mayhem as a result.</p>
+
+
+
+<h2 class="wp-block-heading">Example: Temperature monitoring on a Raspberry Pi</h2>
+
+
+
+<p>So how can we solve the problem? Let&#8217;s take a simple example. My Raspberry Pi is located near my fuse box. Yes, I&#8217;ve fitted it with heatsinks but still temperature is important to monitor, as a higher temperature will decrease the lifespan. How to monitor this without opening up ports?</p>
+
+
+
+<p>In come <a rel="noreferrer noopener" href="https://nodered.org/" target="_blank">Node-RED</a> and <a rel="noreferrer noopener" href="https://azure.microsoft.com/services/logic-apps/" target="_blank">Azure LogicApps</a>!</p>
+
+
+
+<h3 class="wp-block-heading">Prepare your Pi</h3>
+
+
+
+<p>For sake of shortening this article, I&#8217;m not diving into the full setup. But if you run a factory default Raspberry Pi, Node-RED is by default installed. Otherwise find the installation instructions <a href="https://nodered.org/docs/getting-started/raspberrypi" target="_blank" rel="noreferrer noopener">over here</a>.</p>
+
+
+
+<h3 class="wp-block-heading">Setup a LogicApp</h3>
+
+
+
+<p>We will start with a really simple LogicApp, that receives a POST request from Node-RED, and parse the information. It will then determine if it needs to notify you, or not. We also will save the temperature into a table storage (bonus) to see the history over time.</p>
+
+
+
+<figure class="wp-block-image size-large"><img width="793" height="654" data-attachment-id="804" data-permalink="https://peterrombouts.nl/2022/08/13/monitor-iot-devices-with-node-red-and-azure-logicapps/logicappnodered/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/08/logicappnodered.png" data-orig-size="793,654" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="logicappnodered" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/08/logicappnodered.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/08/logicappnodered.png?w=793" src="https://peterrombouts.nl/wp-content/uploads/2022/08/logicappnodered.png?w=793" alt="" class="wp-image-804" srcset="https://peterrombouts.nl/wp-content/uploads/2022/08/logicappnodered.png 793w, https://peterrombouts.nl/wp-content/uploads/2022/08/logicappnodered.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/08/logicappnodered.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/08/logicappnodered.png?w=768 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 61vw, (max-width: 1362px) 45vw, 600px" /><figcaption class="wp-element-caption">LogicApp screenshot</figcaption></figure>
+
+
+
+<p>Explanation or the LogicApp:</p>
+
+
+
+<ol class="wp-block-list">
+<li>The first step is a HTTP trigger. We want to receive a POST from the Node-RED flow running on our Raspberri Py</li>
+
+
+
+<li>As we are going to receive a temperature, we need to initialize a float variable to hold that value. While initializing we also decode the incoming message. Node-RED will send a base64 encoded string, so a simple function in LogicApps helps us to create a float: &#8216;<strong>@float(base64ToString(triggerBody()?[&#8216;$content&#8217;]))</strong>&#8216;</li>
+
+
+
+<li>After this, we want to save the result in a storage table. Just so we can see the history of the values, and perhaps plot some graph in the future, food for another blog.</li>
+
+
+
+<li>Finally we want to check if the temperature is reaching a treshold. In this example the treshold is 70 degrees Celsius. So if the temperature goes above that value, I&#8217;ve setup an email to myself in the &#8216;True&#8217; block of the LogicApp.</li>
+</ol>
+
+
+
+<p>To download the LogicApp code, see <a href="https://gist.github.com/prombouts/7fa11d4af56516db45ef0d4d2bea1942" target="_blank" rel="noreferrer noopener">the gist over here</a>.</p>
+
+
+
+<h3 class="wp-block-heading">Create your Node-RED flow</h3>
+
+
+
+<p>Now that we&#8217;ve setup the receiving end of our solution, we need to setup the Raspberry Pi flow. The following Node-RED flow will get the temperature, and call the Azure LogicApp every 15 minutes!</p>
+
+
+
+<figure class="wp-block-image size-large"><img width="1024" height="430" data-attachment-id="805" data-permalink="https://peterrombouts.nl/2022/08/13/monitor-iot-devices-with-node-red-and-azure-logicapps/noderedflow/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/08/noderedflow.png" data-orig-size="1155,486" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="noderedflow" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/08/noderedflow.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/08/noderedflow.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/08/noderedflow.png?w=1024" alt="" class="wp-image-805" srcset="https://peterrombouts.nl/wp-content/uploads/2022/08/noderedflow.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/08/noderedflow.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/08/noderedflow.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/08/noderedflow.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/08/noderedflow.png 1155w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption class="wp-element-caption">Node-RED flow</figcaption></figure>
+
+
+
+<p>Explanation of the above flow:</p>
+
+
+
+<ol class="wp-block-list">
+<li>The timestamp node runs every 15 minutes, simply for trigger usage</li>
+
+
+
+<li>The second node gets the actual temperature from the Raspberry Pi OS</li>
+
+
+
+<li>As this temperature has text in it, we need to extract the value only without any text</li>
+
+
+
+<li>We call the LogicApp and it will post the value</li>
+</ol>
+
+
+
+<p>This example is really simple, and you can download the code of <a rel="noreferrer noopener" href="https://gist.github.com/prombouts/98233a00106730bcd53b134c4f49cb87" target="_blank">the gist here</a>.</p>
+
+
+
+<p>And we are done! You now have a fully working example of checking your temperature, and getting notified when the temperature goes beyond your set treshold.</p>
+
+
+
+<h2 class="wp-block-heading">Heartbeat</h2>
+
+
+
+<p>No, not <a rel="noreferrer noopener" href="https://youtu.be/5CR4lSORZ_Q" target="_blank">Don Johnsons song</a>; You know how a doctor checks if you are alive right? Listening to your heartbeat is one of those ways.</p>
+
+
+
+<p>The problem with the temperature monitoring is that when my Pi dies or hangs, I&#8217;m <strong>unaware </strong>of any issues. A <strong>heartbeat </strong>check will fix this problem.</p>
+
+
+
+<p>If you setup the temperature monitoring, we basically already have a periodical call from the Pi towards Azure. And boom, that is basically a heartbeat!</p>
+
+
+
+<p>In come <a href="https://docs.microsoft.com/azure/azure-monitor/alerts/alerts-overview" target="_blank" rel="noreferrer noopener">Azure Monitor Alerts</a>!</p>
+
+
+
+<p>Alerts in Azure can trigger on fails, but also on successes. Simply put, if we <strong>do not</strong> receive a call, the device is offline. In my example scenario I&#8217;m calling the LogicApp every 15 minutes. So, if I have less than 3 calls in an hour, something is wrong!</p>
+
+
+
+<h3 class="wp-block-heading">Setting up Azure Alerts</h3>
+
+
+
+<p>Creating alerts is pretty simple. Just go to the alerting section of your LogicApp, in the portal:</p>
+
+
+
+<figure class="wp-block-image size-large"><img width="1024" height="536" data-attachment-id="807" data-permalink="https://peterrombouts.nl/2022/08/13/monitor-iot-devices-with-node-red-and-azure-logicapps/alerting/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/08/alerting.png" data-orig-size="1059,555" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="alerting" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/08/alerting.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/08/alerting.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/08/alerting.png?w=1024" alt="" class="wp-image-807" srcset="https://peterrombouts.nl/wp-content/uploads/2022/08/alerting.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/08/alerting.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/08/alerting.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/08/alerting.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/08/alerting.png 1059w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption class="wp-element-caption">Setup LogicApp alerts</figcaption></figure>
+
+
+
+<p>Just click on &#8216;Alerts&#8217; and create the rule!</p>
+
+
+
+<p>To simplify things, I copy/pasted/cropped the alert screen below:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="591" data-attachment-id="810" data-permalink="https://peterrombouts.nl/2022/08/13/monitor-iot-devices-with-node-red-and-azure-logicapps/heartbeat/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/08/heartbeat.png" data-orig-size="1045,604" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="heartbeat" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/08/heartbeat.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/08/heartbeat.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/08/heartbeat.png?w=1024" alt="" class="wp-image-810" srcset="https://peterrombouts.nl/wp-content/uploads/2022/08/heartbeat.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/08/heartbeat.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/08/heartbeat.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/08/heartbeat.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/08/heartbeat.png 1045w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption class="wp-element-caption">Configure Alerts</figcaption></figure>
+
+
+
+<p>As you can see above, we trigger based on number of <strong>Runs Completed</strong>. Like previously mentioned, we run the trigger every 15 minutes. So, in the above case I trigger the alert when I have <strong>less than</strong> 2 completed LogicApp runs in one hour. You can also go up to 3 completed runs, but I don&#8217;t care if my Pi is down for a short while.</p>
+
+
+
+<p>And there you have it; a working example of a heartbeat!</p>
+
+
+
+<h2 class="wp-block-heading">Concluding</h2>
+
+
+
+<p>In this blog I&#8217;ve explained how you can setup monitoring for your device (in this case a Raspberry Pi temperature) and how you can use those calls as a simple heartbeat. </p>
+
+
+
+<p>Basically I now have a warning system for my temperature and as a bonus, when my device goes down, I get a warning and everything without needing remote access!</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">792</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/08/logicappnodered.png?w=793" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/08/noderedflow.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/08/alerting.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/08/heartbeat.png?w=1024" medium="image" />
+	</item>
+		<item>
+		<title>Start with Unity: Setting up your development environment for your Oculus Quest 2</title>
+		<link>https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Thu, 16 Jun 2022 07:10:00 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[Software Engineering]]></category>
+		<category><![CDATA[SogetiLabs]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=712</guid>
+
+					<description><![CDATA[Originally posted on SogetiLabs:https://labs.sogeti.com/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/ So you have a Oculus Quest 2 lying around and want to develop with Unity? You&#8217;re at the right address. This blogpost will help you setup your environment. Setup your machine I&#8217;ve chosen to setup a virtual machine in the Microsoft Azure cloud. Why? Basically because my laptop has too much &#8230; <a href="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/" class="more-link">Continue reading<span class="screen-reader-text"> "Start with Unity: Setting up your development environment for your Oculus Quest&#160;2"</span></a>]]></description>
+										<content:encoded><![CDATA[
+<p><small><em>Originally posted on SogetiLabs:<br></em></small><a href="https://labs.sogeti.com/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/" target="_blank" rel="noreferrer noopener">https://labs.sogeti.com/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/</a></p>
+
+
+
+<p>So you have a Oculus Quest 2 lying around and want to develop with Unity? You&#8217;re at the right address. This blogpost will help you setup your environment.</p>
+
+
+
+<span id="more-712"></span>
+
+
+
+<h2 class="wp-block-heading">Setup your machine</h2>
+
+
+
+<p>I&#8217;ve chosen to setup a virtual machine in the Microsoft Azure cloud. Why? Basically because my laptop has too much crap installed and I want to develop on a clean, nice, Windows 11 machine. </p>
+
+
+
+<p>For this I use <a href="https://azure.microsoft.com/services/devtest-lab" target="_blank" rel="noreferrer noopener">Azure DevTest labs</a>, so I can setup a new machine really quick, and make use of auto start and shutdown features to save money!</p>
+
+
+
+<p>I&#8217;m not diving into DevTest labs, but the specs of my machine are as follows:</p>
+
+
+
+<figure class="wp-block-table"><table><tbody><tr><td>Size</td><td>Standard_D8as_v5</td></tr><tr><td>Operating system</td><td>Windows</td></tr><tr><td>Base Image</td><td>Visual Studio 2019 Community (latest release) on Windows 11 Enterprise N (x64)</td></tr><tr><td>Disk</td><td>512GB SSD</td></tr><tr><td>RAM</td><td>32GB</td></tr></tbody></table></figure>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>Yes that is a 8 core machine. At this moment I advise you to convince your boss to give you a MSDN Enterprise subscription.</p><cite>Sincerely, your creditcard</cite></blockquote>
+
+
+
+<p>You also could run with a 4 core machine, but the 8 core is a lot snappier, obviously more cores is always better.</p>
+
+
+
+<h2 class="wp-block-heading">Install Tooling</h2>
+
+
+
+<p>When you started your VM, you will see the default screen of Windows 11. Due to the preinstalled tooling, Visual Studio 2019 Community and Unity Hub are already installed:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="576" data-attachment-id="727" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity1/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity1.png" data-orig-size="1920,1080" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity1" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity1.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity1.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity1.png?w=1024" alt="" class="wp-image-727" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity1.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity1.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity1.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity1.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity1.png?w=1440 1440w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity1.png 1920w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Brand new Windows 11 install</figcaption></figure>
+
+
+
+<p>First things first. We need to install the &#8216;Media Feature Pack&#8217; in Windows 11. If you do not install this, your build will fail in Unity later on, so go to Settings, select &#8216;Add an optional feature&#8217; and search for Media Feature Pack:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="800" data-attachment-id="729" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity2/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity2.png" data-orig-size="1279,1000" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity2" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity2.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity2.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity2.png?w=1024" alt="" class="wp-image-729" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity2.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity2.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity2.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity2.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity2.png 1279w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Add Media Feature Pack</figcaption></figure>
+
+
+
+<p>This step will require you to reboot your machine. Thanks to the 8 core VM this will be really quick.</p>
+
+
+
+<p>After the reboot, open the Unity Hub:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="576" data-attachment-id="731" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity3/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity3.png" data-orig-size="1920,1080" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity3" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity3.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity3.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity3.png?w=1024" alt="" class="wp-image-731" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity3.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity3.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity3.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity3.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity3.png?w=1440 1440w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity3.png 1920w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Old version of Unity Hub</figcaption></figure>
+
+
+
+<p>As you can see above, it will ask you to update. Please note that by default the &#8216;beta&#8217; channel is selected. Clicking on the cogwheel in the top right will allow you to revert to the &#8216;normal&#8217; feed. You can then update to the latest Hub (3.1.2) at time of this writing.</p>
+
+
+
+<p>And&#8230; Yes! You&#8217;ve just installed Unity Hub!</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="602" data-attachment-id="733" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity4/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity4.png" data-orig-size="1281,754" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity4" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity4.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity4.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity4.png?w=1024" alt="" class="wp-image-733" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity4.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity4.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity4.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity4.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity4.png 1281w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Welcome to Unity Hub 3.1.2</figcaption></figure>
+
+
+
+<p>Make sure you create a Unity account so you can create and select a license later on.</p>
+
+
+
+<p>After opening Unity Hub, you can install the actual editor. You can run multiple side by side, but in this case I just grabbed the latest one, and clicked Install:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="603" data-attachment-id="735" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity5/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity5.png" data-orig-size="1280,754" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity5" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity5.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity5.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity5.png?w=1024" alt="" class="wp-image-735" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity5.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity5.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity5.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity5.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity5.png 1280w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Install the Unity Editor</figcaption></figure>
+
+
+
+<p>When the install is finished, we need to add some modules:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="603" data-attachment-id="739" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity7-1/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity7-1.png" data-orig-size="1280,754" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity7-1" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity7-1.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity7-1.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity7-1.png?w=1024" alt="" class="wp-image-739" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity7-1.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity7-1.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity7-1.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity7-1.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity7-1.png 1280w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Go to the add modules</figcaption></figure>
+
+
+
+<p>As the Oculus Quest 2 runs on Android, select the Android Build Support like below:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="604" data-attachment-id="740" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity8/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity8.png" data-orig-size="1280,755" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity8" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity8.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity8.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity8.png?w=1024" alt="" class="wp-image-740" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity8.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity8.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity8.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity8.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity8.png 1280w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Android Build Support</figcaption></figure>
+
+
+
+<p>Congratulations! You&#8217;ve prepared your machine for creating Unity projects! The next part will explain creating your first Unity project.</p>
+
+
+
+<h2 class="wp-block-heading">My First Unity Project</h2>
+
+
+
+<p>To create your first project; fire up Unity Hub, and select &#8216;New Project&#8217;:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="603" data-attachment-id="744" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity9/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity9.png" data-orig-size="1280,754" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity9" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity9.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity9.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity9.png?w=1024" alt="" class="wp-image-744" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity9.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity9.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity9.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity9.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity9.png 1280w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Create new project</figcaption></figure>
+
+
+
+<p>As you can see above, I&#8217;ve selected a empty 3D (URP) project, named it &#8216;My First Project&#8217;. Click on &#8216;Create project&#8217; to get started.</p>
+
+
+
+<p>After some time, your editor will be loaded. But by default it won&#8217;t target Android. For this go to &#8216;File&#8217; -&gt; &#8216;Build Settings&#8230;&#8217;:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="785" data-attachment-id="746" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity10/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity10.png" data-orig-size="1253,961" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity10" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity10.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity10.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity10.png?w=1024" alt="" class="wp-image-746" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity10.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity10.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity10.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity10.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity10.png 1253w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Build Settings</figcaption></figure>
+
+
+
+<p>Select &#8216;Android&#8217; and click on &#8216;Switch Platform&#8217; to make sure you target Android. After that, select &#8216;Player Settings&#8230;&#8217;:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1005" height="900" data-attachment-id="748" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity11/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity11.png" data-orig-size="1005,900" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity11" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity11.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity11.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity11.png?w=1005" alt="" class="wp-image-748" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity11.png 1005w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity11.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity11.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity11.png?w=768 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Player Settings</figcaption></figure>
+
+
+
+<p>As you can see above, I&#8217;ve set the company name, and the product name to something of my choosing. Also make sure you check the &#8216;Auto Graphics API&#8217; checkbox or you will get reminded when you want to build. </p>
+
+
+
+<p>Also important is to set your Package Name correctly. Scrolling down in the Player Settings, will allow you to set that name. If you choose an invalid name the program wil nag about it, so keep it simple:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1005" height="900" data-attachment-id="750" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity12/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity12.png" data-orig-size="1005,900" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity12" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity12.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity12.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity12.png?w=1005" alt="" class="wp-image-750" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity12.png 1005w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity12.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity12.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity12.png?w=768 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Package Name</figcaption></figure>
+
+
+
+<h2 class="wp-block-heading">Adding Packages and setting the Scene</h2>
+
+
+
+<p>To be able to run this project actually on the VR glasses, you will need to install some packages. This might seem tedious, but it is needed every time you create a new project.</p>
+
+
+
+<p>Go to the Package Manager via the Windows menu:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="649" height="496" data-attachment-id="767" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity17/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity17.png" data-orig-size="649,496" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity17" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity17.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity17.png?w=649" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity17.png?w=649" alt="" class="wp-image-767" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity17.png 649w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity17.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity17.png?w=300 300w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 61vw, (max-width: 1362px) 45vw, 600px" /><figcaption>Package Manager location</figcaption></figure>
+
+
+
+<p>And install the packages highlighted below:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="802" height="569" data-attachment-id="769" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity18/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity18.png" data-orig-size="802,569" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity18" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity18.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity18.png?w=802" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity18.png?w=802" alt="" class="wp-image-769" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity18.png 802w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity18.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity18.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity18.png?w=768 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 61vw, (max-width: 1362px) 45vw, 600px" /><figcaption>Install important packages</figcaption></figure>
+
+
+
+<p>Finally make sure your scene is a &#8216;XRRig&#8217; one, like shown below:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="376" height="263" data-attachment-id="770" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity19/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity19.png" data-orig-size="376,263" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity19" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity19.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity19.png?w=376" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity19.png?w=376" alt="" class="wp-image-770" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity19.png 376w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity19.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity19.png?w=300 300w" sizes="(max-width: 376px) 85vw, 376px" /><figcaption>XR Rig Scene</figcaption></figure>
+
+
+
+<p>Just play around with the &#8216;Plus&#8217; button to see how everything works.</p>
+
+
+
+<h2 class="wp-block-heading">If you build it, they will come</h2>
+
+
+
+<p>Obviously (for me) you will need to build the actual application. As we are building an Android App, it will create an APK file:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="647" data-attachment-id="752" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity13/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity13.png" data-orig-size="1334,843" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity13" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity13.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity13.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity13.png?w=1024" alt="" class="wp-image-752" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity13.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity13.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity13.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity13.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity13.png 1334w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Build</figcaption></figure>
+
+
+
+<p>The screenshot above shows what happens after clicking the Build button. You will get a popup and should be able to select a name and location for your file.</p>
+
+
+
+<p>And you are done! You&#8217;ve successfully built your first APK file for the Oculus Quest 2.</p>
+
+
+
+<h2 class="wp-block-heading">Deploying to your Oculus Quest 2</h2>
+
+
+
+<p>There are several ways of deploying Android applications to a device. Doing it outside of a appstore is called sideloading, and can be done using a tool.</p>
+
+
+
+<p>First of all you will need the USB drivers, and a USB cable. <a href="https://developer.oculus.com/downloads/package/oculus-adb-drivers/" target="_blank" rel="noreferrer noopener">Follow this guide</a> to install the drivers otherwise it won&#8217;t work.</p>
+
+
+
+<p>Next, make sure your Oculus Quest 2 has &#8216;Developer mode&#8217; enabled. <a href="https://developer.oculus.com/documentation/native/android/mobile-device-setup/" target="_blank" rel="noreferrer noopener">This easy guide</a> will help you do just that. It is basically setting a switch to &#8216;on&#8217;.</p>
+
+
+
+<p>In my quest (pun intented) of finding the absolute most easy way of doing this, I stumbled upon <a rel="noreferrer noopener" href="https://sidequestvr.com/" target="_blank">SideQuest</a>. Go to &#8216;Get SideQuest&#8217; install it, and you&#8217;re good to go.</p>
+
+
+
+<p>So, if your drivers are installed, and your glasses are linked to your PC, you can click on the icon shown below, and select your APK file:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="406" data-attachment-id="756" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity15/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity15.png" data-orig-size="1112,441" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity15" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity15.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity15.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity15.png?w=1024" alt="" class="wp-image-756" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity15.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity15.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity15.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity15.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity15.png 1112w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Sideloading your application</figcaption></figure>
+
+
+
+<p>That is it. You&#8217;ve just finished all the steps and installed your application on your Oculus Quest 2.</p>
+
+
+
+<h2 class="wp-block-heading">Bonus: Stream your Oculus Quest 2</h2>
+
+
+
+<p>The disadvantage of having only one pair of glasses is that other people in the room cannot see what your are seeing. To solve this you can stream your viewport to a laptop.</p>
+
+
+
+<p>For this you need a USB cable, and a software too . The cool thing is that the same SideQuest app for deploying your package to the Oculus Quest 2 can be used to stream your viewport to your laptop!</p>
+
+
+
+<p>The same tool for sideloading can be used:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="507" data-attachment-id="758" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity16/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity16.png" data-orig-size="1678,832" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity16" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity16.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity16.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity16.png?w=1024" alt="" class="wp-image-758" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity16.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity16.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity16.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity16.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity16.png?w=1440 1440w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity16.png 1678w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Stream to your laptop</figcaption></figure>
+
+
+
+<p>Click on the TV icon, click on &#8216;Quest 2 Crop&#8217; and &#8216;Start Stream&#8217;. In the following video I will show the application we just sideloaded to finalize the demo:</p>
+
+
+
+<figure class="wp-block-embed is-type-video is-provider-youtube wp-block-embed-youtube wp-embed-aspect-16-9 wp-has-aspect-ratio"><div class="wp-block-embed__wrapper">
+<iframe class="youtube-player" width="840" height="473" src="https://www.youtube.com/embed/YH8tyIAa040?version=3&#038;rel=1&#038;showsearch=0&#038;showinfo=1&#038;iv_load_policy=1&#038;fs=1&#038;hl=en&#038;autohide=2&#038;wmode=transparent" allowfullscreen="true" style="border:0;" sandbox="allow-scripts allow-same-origin allow-popups allow-presentation allow-popups-to-escape-sandbox"></iframe>
+</div><figcaption>Screen Stream of VR</figcaption></figure>
+
+
+
+<h2 class="wp-block-heading">Costs and Licensing</h2>
+
+
+
+<p><strong>Check your license!</strong> Personal use is free but for companies and enterprises you <strong>definitely need a license </strong>for both Unity and Visual Studio!</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>If your revenue or funds raised in connection with your use of Unity are more than $100K in the last 12 months, choose one of our subscription plans.</p><cite>Unity licensing</cite></blockquote>
+
+
+
+<p>An unlimited number of users within an organization can use Visual Studio Community for the following scenarios: in a classroom learning environment, for academic research, or for contributing to open source projects.</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>In non-enterprise organizations, up to five users can use Visual Studio Community. In enterprise organizations (meaning those with &gt;250 PCs or &gt;$1 Million US Dollars in annual revenue), no use is permitted beyond the open source, academic research, and classroom learning environment scenarios described above.</p><cite>Visual Studio Community  licensing for organisations</cite></blockquote>
+
+
+
+<h2 class="wp-block-heading">Concluding</h2>
+
+
+
+<p>So, it is easy to develop for VR? No it is not.</p>
+
+
+
+<p>Yes it is relatively easy to get started, but remember that this is only the beginning. Like with programming, a Hello World example is easy, but creating an application that holds value can be really complicated and needs a team of people working on it.</p>
+
+
+
+<p>Feel free to leave your comment on this site or contact me through on of my social channels on: <a href="https://peterrombouts.nl/about-me/" target="_blank" rel="noreferrer noopener">https://peterrombouts.nl/about-me/</a>  </p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">712</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity1.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity2.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity3.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity4.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity5.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity7-1.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity8.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity9.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity10.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity11.png?w=1005" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity12.png?w=1005" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity17.png?w=649" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity18.png?w=802" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity19.png?w=376" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity13.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity15.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity16.png?w=1024" medium="image" />
+	</item>
+		<item>
+		<title>Cloud Economics and Terraform; How to start</title>
+		<link>https://peterrombouts.nl/2021/09/10/cloud-economics-and-terraform-how-to-start/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Fri, 10 Sep 2021 08:56:00 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[Azure DevOps]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[SogetiLabs]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=588</guid>
+
+					<description><![CDATA[Originally posted on SogetiLabs: https://labs.sogeti.com/cloud-economics-and-terraform-how-to-start/ It is really easy to blow all your budget when you do not know the impact of the choices you make in the cloud. And while there are many tools available to run analysis on your bill, or showing where your money went, would it not be smarter to shift &#8230; <a href="https://peterrombouts.nl/2021/09/10/cloud-economics-and-terraform-how-to-start/" class="more-link">Continue reading<span class="screen-reader-text"> "Cloud Economics and Terraform; How to&#160;start"</span></a>]]></description>
+										<content:encoded><![CDATA[
+<p> <small><em>Originally posted on SogetiLabs: <br></em></small><a href="https://labs.sogeti.com/cloud-economics-and-terraform-how-to-start/" target="_blank" rel="noreferrer noopener"><small><em>https://labs.sogeti.com/cloud-economics-and-terraform-how-to-start</em></small>/</a></p>
+
+
+
+<p></p>
+
+
+
+<p>It is really easy to blow all your budget when you do not know the impact of the choices you make in the cloud. And while there are many tools available to run analysis on your bill, or showing where your money went, would it not be smarter to <strong>shift everything left</strong>? </p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>34 per cent of large enterprises set a budget of at least $10m a year while 62 per cent of small business went for under $100k. Of those spanking between $2m and $10m on the cloud, almost half overspent (compared to 27 per cent of those budgeting until $100k</p><cite><a href="https://www.hashicorp.com/blog/cloud-budgets-busted-almost-40-overspent-last-year" target="_blank" rel="noreferrer noopener nofollow">https://www.hashicorp.com/blog/cloud-budgets-busted-almost-40-overspent-last-year</a></cite></blockquote>
+
+
+
+<p>In a race for speed of delivery, putting restrictions on cloud environments can be contra-productive. On the other hand money can fly out the window if you do not keep everything in check. So what is the solution?</p>
+
+
+
+<span id="more-588"></span>
+
+
+
+<h2 class="wp-block-heading">Training and Awareness</h2>
+
+
+
+<p>First of all it should be obvious that anyone involved in cloud project should also be trained appropriately. Part of our work as consultants and architects is to also include the running and operational costs of a cloud solution. But to sometimes the costs can sneak into a project, especially when using systems like Kubernetes or any other cluster based system. These can have high impact on your costs because the VMs underneath those systems can be costly to run.</p>
+
+
+
+<h2 class="wp-block-heading">Automate, automate and automate!</h2>
+
+
+
+<p>In comes <a href="https://www.infracost.io/" target="_blank" rel="noreferrer noopener nofollow">Infracost</a>. This really great open source tool has many integrations with CICD systems and can be simply added to your Azure DevOps, Gitlab or GitHub flows (and many more).</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>Infracost calculates cloud costs based on Terraform. Cost estimates can be shown in the terminal or put in pull requests using our CI/CD integrations. This helps you understand the cost of services before you use them, and take action to optimize costs within your existing workflow.</p><cite><a href="https://www.infracost.io" target="_blank" rel="noreferrer noopener nofollow">https://www.infracost.io</a></cite></blockquote>
+
+
+
+<p>The tool can add a simple cloud estimation to your pipelines, and this will make your DevOps teams <strong>instantly</strong> see the changes their code have on the bill and your project:</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img loading="lazy" src="https://labs.sogeti.com/wp-content/uploads/2021/08/pr-step-2-1024x543.png" alt="" class="wp-image-233995" width="481" height="254" /><figcaption><em>GitHub example</em></figcaption></figure>
+
+
+
+<h2 class="wp-block-heading">How to get started</h2>
+
+
+
+<p>The documentation of the tool is great, and many examples for the most used CICD tools are documented at <a href="https://www.infracost.io/docs/integrations/cicd" target="_blank" rel="noreferrer noopener nofollow">https://www.infracost.io/docs/integrations/cicd</a>. Did I mention they have a <a href="https://www.infracost.io/pricing/" target="_blank" rel="noreferrer noopener nofollow">free Community version</a> available? This means you can start, right now, with using and testing this tool!</p>
+
+
+
+<h2 class="wp-block-heading">Concluding</h2>
+
+
+
+<p>In the end it is not about tooling, it all starts with training and awareness. But it is better to check than to get caught by a surprise when the bill comes in. This tool by <a href="https://www.infracost.io/" target="_blank" rel="noreferrer noopener nofollow">Infracost</a> is a really great way to start tracking your costs and estimates at the earliest stage in development as possible, give it a spin!</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">588</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://labs.sogeti.com/wp-content/uploads/2021/08/pr-step-2-1024x543.png" medium="image" />
+	</item>
+		<item>
+		<title>Static Code Analysis of Infrastructure as Code</title>
+		<link>https://peterrombouts.nl/2021/05/13/static-code-analysis-of-infrastructure-as-code/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Thu, 13 May 2021 08:50:15 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[Azure DevOps]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[Software Engineering]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=487</guid>
+
+					<description><![CDATA[In this blogpost I will show a basic primer of using KICS together with Azure DevOps, to scan Terraform Infrastructure-as-Code. Kics an open source solution for static code analysis of Infrastructure as Code. https://kics.io/ What is KICS, and why should I care? KICS finds security vulnerabilities, compliance issues, and infrastructure misconfigurations in the following Infrastructure &#8230; <a href="https://peterrombouts.nl/2021/05/13/static-code-analysis-of-infrastructure-as-code/" class="more-link">Continue reading<span class="screen-reader-text"> "Static Code Analysis of Infrastructure as&#160;Code"</span></a>]]></description>
+										<content:encoded><![CDATA[
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="132" data-attachment-id="527" data-permalink="https://peterrombouts.nl/afbeelding-5/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png" data-orig-size="1310,169" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="afbeelding-5" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png?w=1024" alt="" class="wp-image-527" srcset="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png 1310w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>KICS logo</figcaption></figure>
+
+
+
+<p>In this blogpost I will show a basic primer of using <a rel="noreferrer noopener" href="https://kics.io/" target="_blank">KICS </a>together with Azure DevOps, to scan Terraform Infrastructure-as-Code.</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>Kics an open source solution for static code analysis of Infrastructure as Code.</p><cite><a href="https://kics.io/" rel="nofollow">https://kics.io/</a></cite></blockquote>
+
+
+
+<span id="more-487"></span>
+
+
+
+<h2 class="wp-block-heading">What is KICS, and why should I care?</h2>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>KICS finds security vulnerabilities, compliance issues, and infrastructure misconfigurations in the following Infrastructure as Code solutions: Terraform, Kubernetes, Docker, AWS CloudFormation, Ansible, Helm, and OpenAPI 3.0 specifications</p></blockquote>
+
+
+
+<p>The open source tool is brought to you by Checkmarx but is a true open source community project.</p>
+
+
+
+<p>I&#8217;ve blogged before about the <a rel="noreferrer noopener" href="https://peterrombouts.nl/2020/11/24/everything-is-code-why-and-how-you-should-test-your-terraform/" target="_blank">importance of testing your IaC</a>, and this tool makes it pretty easy to incorporate exactly this into your pipelines.</p>
+
+
+
+<p>At this moment in time I&#8217;m experimenting with the usage and because some of the examples do not really work out-of-the-box, I&#8217;ve decided to put them in this blog.</p>
+
+
+
+<h2 class="wp-block-heading">Running KICS locally</h2>
+
+
+
+<p>You can run KICS locally, and the documentation of KICS shows a very easy example running it with a <a rel="noreferrer noopener" href="https://docs.kics.io/latest/getting-started/" target="_blank">Docker container</a>. This is a easy way of testing and playing around with the tool:</p>
+
+
+
+<pre class="wp-block-preformatted">docker pull checkmarx/kics:latest
+docker run -v {​​​​path_to_host_folder_to_scan}​​​​:/path /
+    checkmarx/kics:latest scan -p "/path" -o "/path/results.json"</pre>
+
+
+
+<h2 class="wp-block-heading">Setting up KICS in Azure DevOps</h2>
+
+
+
+<p>A more likely scenario is that you want to run KICS as part of your CICD strategy, automated and triggered by, for example, a pull request. But how to start?</p>
+
+
+
+<p>First of all, you should have a repository in DevOps. In my example, I&#8217;ve created two folders with some Terraform code, and one Yaml pipeline:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="465" data-attachment-id="502" data-permalink="https://peterrombouts.nl/afbeelding/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png" data-orig-size="1224,556" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="afbeelding" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png?w=1024" alt="" class="wp-image-502" srcset="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png 1224w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Screenshot of Azure DevOps repo</figcaption></figure>
+
+
+
+<p>In these &#8216;terraform-example1&#8217; and &#8216;terraform-example2&#8217; I&#8217;ve added some representative examples for Azure. Resources ranging from storage accounts, Windows Virtual Desktop resources to IAM and Virtual Machines. </p>
+
+
+
+<p>As I have two example folders setup, I&#8217;ve created two pipelines. The Yaml file is the same, but using variables I can let KICS scan different folders. Basically it looks like this:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="475" data-attachment-id="505" data-permalink="https://peterrombouts.nl/afbeelding-1/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png" data-orig-size="1035,481" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="afbeelding-1" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png?w=1024" alt="" class="wp-image-505" srcset="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png 1035w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>KICS Pipeline overview in Azure DevOps</figcaption></figure>
+
+
+
+<p>Opening up KicsExample1 and viewing the variables shows the following:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="319" data-attachment-id="507" data-permalink="https://peterrombouts.nl/afbeelding-2/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png" data-orig-size="1780,556" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="afbeelding-2" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png?w=1024" alt="" class="wp-image-507" srcset="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png?w=1440 1440w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png 1780w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Pipeline variable screenshot</figcaption></figure>
+
+
+
+<p>Important to note here, is that I&#8217;ve added the complete path to the working directory. My directory is &#8216;terraform-example1&#8217; but as you can find in the documentation, the path on the build agent will be <strong>/home/vsts/work/1/s/terraform-example1/</strong>. For the second pipeline example, I obviously set<strong>/home/vsts/work/1/s/terraform-example2/</strong> as variable.</p>
+
+
+
+<h2 class="wp-block-heading">Running the KICS Azure DevOps pipeline</h2>
+
+
+
+<p>So, for the actual magic to happen, let us run the pipeline and look at the outcome:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="615" data-attachment-id="510" data-permalink="https://peterrombouts.nl/afbeelding-3/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png" data-orig-size="1626,977" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="afbeelding-3" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png?w=1024" alt="" class="wp-image-510" srcset="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png?w=1440 1440w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png 1626w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Pipeline run summary</figcaption></figure>
+
+
+
+<p>As we can see; due to some trickery with VSO logs, I&#8217;m able to put the feedback from KICS into the actual summary! In this case, I&#8217;ve taken the example from KICS and wrote the output errors to Azure DevOps. You can look at the example code how I did this.</p>
+
+
+
+<h2 class="wp-block-heading">Analyzing and debuging the results</h2>
+
+
+
+<p>In the previous paragraph we ran the KICS pipeline, and it came back with some errors. Now, we want to see what the actual problem is. For this we can drill down to the run:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="633" data-attachment-id="512" data-permalink="https://peterrombouts.nl/afbeelding-4/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png" data-orig-size="1530,946" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="afbeelding-4" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png?w=1024" alt="" class="wp-image-512" srcset="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png?w=1440 1440w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png 1530w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Run details in Azure DevOps</figcaption></figure>
+
+
+
+<p>One of the issues found in my first example, is the following error:</p>
+
+
+
+<pre class="wp-block-preformatted">Storage Account Not Using Latest TLS Encryption Version, Severity: MEDIUM, Results: 1 
+Description: Ensure Storage Account is using the latest version of TLS encryption 
+Platform: Terraform</pre>
+
+
+
+<p>This issue is quite self-explanatory. KICS runs many queries, and you are able to tweak and adjust them. </p>
+
+
+
+<p>The second issue found is on the keyvault in my example:</p>
+
+
+
+<pre class="wp-block-preformatted">Vault Auditing Disabled, Severity: HIGH, Results: 1 
+Description: Ensure that logging for Azure KeyVault is 'Enabled' 
+Platform: Terraform</pre>
+
+
+
+<p>This also is based on a best practice, and it warns you about the disabled auditing. The great thing about this tool is that is also gives descriptions on how to fix your errors!</p>
+
+
+
+<h2 class="wp-block-heading">Concluding</h2>
+
+
+
+<p>There are many ways on securing your infrastructure as code and testing statically. In my previous blog about Open Policy Agent I also wrote about this. The great thing about KICS is that it is really easy to setup, and for my example in Terraform they have <a rel="noreferrer noopener" href="https://docs.kics.io/latest/queries/terraform-queries/" target="_blank">many well-documented queries</a> and how to resolve the issues found.</p>
+
+
+
+<p>Implementing KICS as your first line of defence is really easy and gives direct feedback in your DevOps process.</p>
+
+
+
+<h2 class="wp-block-heading">Give me the code!</h2>
+
+
+
+<p>The example pipeline has been put in to <a rel="noreferrer noopener" href="https://gist.github.com/prombouts/181485bf44500be88b182f7cf2dcc60e" target="_blank">this public gist</a>. Do not forget to pass in the variable PWD with the location of your project!</p>
+
+
+
+<p>Any questions or remarks? Feel free to reach out via any of <a href="https://peterrombouts.nl/about-me/" target="_blank" rel="noreferrer noopener">my public profiles</a> or the <a href="https://peterrombouts.nl/contact/" target="_blank" rel="noreferrer noopener">contact page</a> on this site.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">487</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png?w=1024" medium="image" />
+	</item>
+		<item>
+		<title>Why you should stop spinning up VMs</title>
+		<link>https://peterrombouts.nl/2021/02/23/why-you-should-stop-spinning-up-vms/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Tue, 23 Feb 2021 07:48:00 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[SogetiLabs]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=419</guid>
+
+					<description><![CDATA[Originally posted on SogetiLabs: https://labs.sogeti.com/why-you-should-stop-spinning-up-vms If I would get paid a euro for each time someone says &#8216;Let&#8217;s spin up a VM for that!&#8217; or &#8216;We have this VM running anyway&#8217;, I would have been a rich man. Although I do advocate reuse, stuffing many services on a machine &#8216;because it runs there anyway&#8217; will &#8230; <a href="https://peterrombouts.nl/2021/02/23/why-you-should-stop-spinning-up-vms/" class="more-link">Continue reading<span class="screen-reader-text"> "Why you should stop spinning up&#160;VMs"</span></a>]]></description>
+										<content:encoded><![CDATA[
+<p><small><em>Originally posted on SogetiLabs: <a href="https://labs.sogeti.com/why-you-should-stop-spinning-up-vms">https://labs.sogeti.com/why-you-should-stop-spinning-up-vms</a></em></small></p>
+
+
+
+<p></p>
+
+
+
+<p>If I would get paid a euro for each time someone says &#8216;Let&#8217;s spin up a VM for that!&#8217; or &#8216;We have this VM running anyway&#8217;, I would have been a rich man.</p>
+
+
+
+<p>Although I do advocate reuse, stuffing many services on a machine &#8216;because it runs there anyway&#8217; will cause a huge problem if there is a shift in architecture or platform. In the end all services need to be carved out and that can be a real pain in the behind. Also it does not really scale, for obvious reasons.</p>
+
+
+
+<span id="more-419"></span>
+
+
+
+<h2 class="wp-block-heading">Yes let&#8217;s put everything in a pod/container!</h2>
+
+
+
+<p>A big cluster of VMs is still just infrastructure chewing away your money in the cloud. Do not forget that in many cases, a k8s cluster, Service Fabric cluster or whatever-cluster-cloud-native-you-like in the end is mostly a bunch of VMs running 24/7 for a lot of money.</p>
+
+
+
+<h2 class="wp-block-heading">We underestimate the power of simplicity</h2>
+
+
+
+<p>Let&#8217;s take an example. If you want to run a simple process, for example ingest some data and put it in a store, you could go full ETL/ELT. Alternatively you can leverage simple things, like <a href="https://azure.microsoft.com/en-us/services/functions/" target="_blank" rel="noreferrer noopener">Azure Functions</a> or <a href="https://azure.microsoft.com/en-us/services/logic-apps/" target="_blank" rel="noreferrer noopener">LogicApps</a>. With connectors to almost all services, it is really easy and simple to ingest data using these services. </p>
+
+
+
+<p>And it&#8217;s cheap too!</p>
+
+
+
+<p>Azure Functions (ran in Azure) run really cheap, as the first million(!) executions are free anyway.</p>
+
+
+
+<h2 class="wp-block-heading">What about portability?</h2>
+
+
+
+<p>If you start out with Azure Functions on the Azure Platform, and later on need to run on a cluster like Kubernetes, you&#8217;re in luck. Azure Functions run <a href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-create-function-linux-custom-image" target="_blank" rel="noreferrer noopener">basically anywhere </a>so hosting them in a container or pod, should be a piece of cake. Development is also easy exactly because of the portability.</p>
+
+
+
+<h2 class="wp-block-heading">How to start?</h2>
+
+
+
+<p>Microsoft has done really great work in the training area. For Azure Functions, you can simply go to: <a href="https://docs.microsoft.com/en-us/learn/modules/create-serverless-logic-with-azure-functions/">Create serverless logic with Azure Functions &#8211; Learn | Microsoft Docs</a>. This module will get you started easily.</p>
+
+
+
+<p>Want to kickstart your development? Reach out and we&#8217;ll help!</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">419</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Everything is Code. Why and how you should test your Terraform</title>
+		<link>https://peterrombouts.nl/2020/11/24/everything-is-code-why-and-how-you-should-test-your-terraform/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Tue, 24 Nov 2020 09:46:11 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[Serverless]]></category>
+		<category><![CDATA[SogetiLabs]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=392</guid>
+
+					<description><![CDATA[Originally posted on SogetiLabs: https://labs.sogeti.com/everything-is-code-why-and-how-you-should-test-your-terraform/ I’ve written in a previous blog that for writing maintainable code, you really should automate your tests. Currently we see Terraform really taking off as the standard to provision and deploy almost everything in cloud like Azure and AWS. In this short blogpost I will show how you can start testing your &#8230; <a href="https://peterrombouts.nl/2020/11/24/everything-is-code-why-and-how-you-should-test-your-terraform/" class="more-link">Continue reading<span class="screen-reader-text"> "Everything is Code. Why and how you should test your&#160;Terraform"</span></a>]]></description>
+										<content:encoded><![CDATA[
+<p><small><em>Originally posted on SogetiLabs: <a href="https://labs.sogeti.com/everything-is-code-why-and-how-you-should-test-your-terraform/" target="_blank" rel="noreferrer noopener">https://labs.sogeti.com/everything-is-code-why-and-how-you-should-test-your-terraform/</a></em></small></p>
+
+
+
+<p></p>
+
+
+
+<p>I’ve written in a previous blog that for writing maintainable code, you really should automate your tests. Currently we see <a rel="noreferrer noopener" href="https://www.terraform.io/" target="_blank">Terraform</a> really taking off as the standard to provision and deploy almost everything in cloud like Azure and AWS. In this short blogpost I will show how you can start testing your Terraform code using the <a rel="noreferrer noopener" href="https://www.openpolicyagent.org/docs/latest/terraform/" target="_blank">Open Policy Agent</a>.</p>
+
+
+
+<span id="more-392"></span>
+
+
+
+<h2 class="wp-block-heading">Infrastructure-as-Code</h2>
+
+
+
+<p>With Terraform, engineers write declarative statements that, when applied, result in for example a network, of a database:</p>
+
+
+
+<figure class="wp-block-image"><img src="https://www.terraform.io/assets/images/terraform-overview/declarative-config-files@4x-1bd3b268.png" alt="Write Declarative Configuration Files" /></figure>
+
+
+
+<p>This obviously is great because you can automate and repeat your steps minimizing the manual labour of setting up services. Next to that, you can reuse components so all provisioned services will adhere to the same standard.</p>
+
+
+
+<h2 class="wp-block-heading">What about standards and compliancy?</h2>
+
+
+
+<p>In the previous example, a network will be created with some IP range, in a specific location from Google.</p>
+
+
+
+<p>If you use any cloud, you should have some policies in place. It is not a free-for-all, do whatever you want, scenario. It could be very important where your data resides. In that case you don’t want to enable teams to deploy in non-compliant regions.</p>
+
+
+
+<p>With code however, especially in the sample shown above, it is not directly clear what is allowed. Some examples of questions DevOps team may have are:</p>
+
+
+
+<ul class="wp-block-list"><li>Am I allowed to create a public IP address on a machine or database?</li><li>Am I allowed to deploy services in the US or only in Europe?</li></ul>
+
+
+
+<p>Worst case, the team finds out when they deploy their services onto their cloud environment. In case of Azure, policies can block a certain location, blocking the entire deployment of their stack.</p>
+
+
+
+<p>This means they have to go back to trace why something is wrong, adjust the code, go through all steps again and hope they did not miss anything.</p>
+
+
+
+<h2 class="wp-block-heading">Shift left</h2>
+
+
+
+<p>One solution to this problem is to test as early as possible. If a team gets feedback on their code, this will save a lot of time in the stages later on. It will also give the teams the confidence they are doing things right!</p>
+
+
+
+<h3 class="wp-block-heading">Open Policy Agent (OPA)</h3>
+
+
+
+<p><a href="https://www.openpolicyagent.org/" target="_blank" rel="noreferrer noopener">OPA</a>&nbsp;states the following on their website:</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>Stop using a different policy language, policy model, and policy API for every product and service you use. Use OPA for a unified toolset and framework for policy across the cloud native stack.<br><br>Whether for one service or for all your services, use OPA to decouple policy from the service’s code so you can release, analyze, and review policies (which security and compliance teams love) without sacrificing availability or performance.</p><cite>Source: Open Policy Agent website</cite></blockquote>
+
+
+
+<h3 class="wp-block-heading">Using OPA for testing your Terraform plans</h3>
+
+
+
+<p>You can use Open Policy Agent for a variety of use cases.&nbsp;<a href="https://www.openpolicyagent.org/docs/latest/terraform/" target="_blank" rel="noreferrer noopener">Testing Terraform plans</a>&nbsp;is only one of them, but really interesting for DevOps team.</p>
+
+
+
+<p>The language for writing the OPA policy is called&nbsp;<a href="https://www.openpolicyagent.org/docs/latest/policy-language/" target="_blank" rel="noreferrer noopener">rego</a>. It is easy to understand and should be relatively simple to learn. To get a grasp, take a look at the explanation of the language on the OPA site:&nbsp;<a href="https://www.openpolicyagent.org/docs/latest/policy-language/" target="_blank" rel="noreferrer noopener">https://www.openpolicyagent.org/docs/latest/policy-language/</a>.</p>
+
+
+
+<p>A very complete manual is located at&nbsp;<a href="https://www.openpolicyagent.org/docs/latest/terraform/" target="_blank" rel="noreferrer noopener">https://www.openpolicyagent.org/docs/latest/terraform/</a>&nbsp;and helps you understand writing a test.</p>
+
+
+
+<p>The great thing about the tool, is that you can use it in your pipelines, running the eval command in for example Azure DevOps. There is even an installertask for&nbsp;<a href="https://github.com/microsoft/azure-pipelines-tasks/tree/master/Tasks/OpenPolicyAgentInstallerV0" target="_blank" rel="noreferrer noopener">Azure Pipelines</a>.</p>
+
+
+
+<h2 class="wp-block-heading">Getting started</h2>
+
+
+
+<p>If you are using Terraform, just download OPA, and go to the&nbsp;<a href="https://www.openpolicyagent.org/docs/latest/terraform/#getting-started" target="_blank" rel="noreferrer noopener">getting started</a>&nbsp;page. Use the given example to test against your own Terraform plan outputs.</p>
+
+
+
+<p>Just want to play around with the rego language? The site&nbsp;<a href="https://play.openpolicyagent.org/" target="_blank" rel="noreferrer noopener">https://play.openpolicyagent.org/</a>&nbsp;contains several examples, and makes exploring easy, as it is an online playground without the need for installing anything!</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">392</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://www.terraform.io/assets/images/terraform-overview/declarative-config-files@4x-1bd3b268.png" medium="image">
+			<media:title type="html">Write Declarative Configuration Files</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Is low code replacing traditional development?</title>
+		<link>https://peterrombouts.nl/2020/07/20/is-low-code-replacing-traditional-development/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Mon, 20 Jul 2020 06:12:59 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[Serverless]]></category>
+		<category><![CDATA[SogetiLabs]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=338</guid>
+
+					<description><![CDATA[Originally posted on SogetiLabs: https://labs.sogeti.com/is-low-code-replacing-traditional-development/ Spoiler alert; no. Low code vs Traditional Dev My colleague, friend and SogetiLabs Fellow Daniel Laskewitz and I frequently talk about this topic. His field of expertise as Microsoft MVP covers the Microsoft PowerPlatform including low code systems like Power Automate (formerly Flow). All too often people see a division &#8230; <a href="https://peterrombouts.nl/2020/07/20/is-low-code-replacing-traditional-development/" class="more-link">Continue reading<span class="screen-reader-text"> "Is low code replacing traditional&#160;development?"</span></a>]]></description>
+										<content:encoded><![CDATA[
+<p><small><em>Originally posted on SogetiLabs: <a rel="noreferrer noopener" href="https://labs.sogeti.com/is-low-code-replacing-traditional-development/" target="_blank">https://labs.sogeti.com/is-low-code-replacing-traditional-development/</a></em></small></p>
+
+
+
+<p></p>
+
+
+
+<p>Spoiler alert; no.</p>
+
+
+
+<h2 class="wp-block-heading">Low code vs Traditional Dev</h2>
+
+
+
+<p>My colleague, friend and SogetiLabs Fellow <a rel="noreferrer noopener" href="https://labs.sogeti.com/experts/daniel-laskewitz/" target="_blank">Daniel Laskewitz</a> and I frequently talk about this topic. His field of expertise as Microsoft MVP covers the Microsoft PowerPlatform including low code systems like Power Automate (formerly Flow).</p>
+
+
+
+<p>All too often people see a division between low code and traditional development using languages like C#, Java, TypeScript and Go.<br>In the real world however, these systems work together perfectly.</p>
+
+
+
+<p>Most of the times, you cannot solve a problem with <em>only</em> low code. Think about scenario’s where you should link to old legacy systems or complex API calls. In those cases low code without any enhancement cannot natively connect to those systems.</p>
+
+
+
+<h2 class="wp-block-heading">Behold custom connectors</h2>
+
+
+
+<p>In the Microsoft ecosystems, <a href="https://docs.microsoft.com/en-us/connectors/custom-connectors/" target="_blank" rel="noreferrer noopener">custom connectors</a> allow you to bridge this gap. This way, the low code system can interact with any system you write a connector for. This may be common knowledge, but the fact is that most developers do not see how big this really is.</p>
+
+
+
+<p>This means you can link any PowerApp, Microsoft Flow, or LogicApps to your custom connector, and reuse those within your entire organisation.<br>You could even publicly publish these if you have a service you want to expose. So if you are an ISV, this can help you get more traction on your product.</p>
+
+
+
+<h2 class="wp-block-heading">Bridging the gap</h2>
+
+
+
+<p>In the end it all comes down to developers of any system and language understanding the capabilities of the platforms they and their companies are using. For low code developers this means sometimes calling in the help of traditional developers. And more importantly, this also means traditional developers should learn that these low code systems can help you simplify (and thus speed up!) your development by using ready-to-roll systems and connectors available to you.</p>
+
+
+
+<p>As there are <a rel="noreferrer noopener" href="https://docs.microsoft.com/en-us/connectors/connector-reference/" target="_blank">over 325 connectors</a> available, that should really speed making connections up!</p>
+
+
+
+<h2 class="wp-block-heading">Get started!</h2>
+
+
+
+<p>Want to explore custom connectors? Look at <a href="https://docs.microsoft.com/en-us/connectors/custom-connectors/samples" target="_blank" rel="noreferrer noopener">these resources</a> or feel free to contact me or Daniel, we strongly believe bridging this gap between low code and traditional dev is key for succes in the future of development!</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">338</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Infrastructure-as-Code with Pulumi</title>
+		<link>https://peterrombouts.nl/2019/12/16/infrastructure-as-code-with-pulumi/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Mon, 16 Dec 2019 14:49:36 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[Azure DevOps]]></category>
+		<category><![CDATA[CICD]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=272</guid>
+
+					<description><![CDATA[Using a public cloud like Microsoft Azure or Amazon AWS? Chances are you&#8217;ve been using templates like ARM or CloudFormation. Hashicorp has done a terrific job making Terraform with the ability to template any API, and deploy and manage stacks in Azure, AWS and many, many more. I&#8217;ve been following Pulumi for a while, and &#8230; <a href="https://peterrombouts.nl/2019/12/16/infrastructure-as-code-with-pulumi/" class="more-link">Continue reading<span class="screen-reader-text"> "Infrastructure-as-Code with Pulumi"</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Using a public cloud like Microsoft Azure or Amazon AWS? Chances are you&#8217;ve been using templates like <a href="https://docs.microsoft.com/en-us/azure/azure-resource-manager/template-tutorial-create-first-template?tabs=azure-powershell" target="_blank" rel="noopener">ARM</a> or <a href="https://aws.amazon.com/cloudformation/" target="_blank" rel="noopener">CloudFormation</a>.</p>
+<p>Hashicorp has done a terrific job making <a href="https://www.terraform.io/" target="_blank" rel="noopener">Terraform</a> with the ability to template <strong>any</strong> API, and deploy and manage stacks in Azure, AWS and many, many more.</p>
+<p>I&#8217;ve been following <a href="https://www.pulumi.com/" target="_blank" rel="noopener">Pulumi </a>for a while, and their approach is a bit different than the previous stated tools.</p>
+<p><span id="more-272"></span></p>
+<p>Pulumi states their product as follows:</p>
+<blockquote><p>Modern Infrastructure as Code.</p>
+<p>Declare cloud infrastructure using real languages. Enable developers and operators to work better together.</p></blockquote>
+<p>With &#8216;real&#8217; languages they mean programming languages. At this moment JavaScript, TypeScript, Python, Go, or any .NET language, including C#, F#, and VB are supported. I did some testing with C#, and although it is in preview, it works great:</p>
+<p><img loading="lazy" data-attachment-id="274" data-permalink="https://peterrombouts.nl/pulumi_0_languages/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_0_languages.png" data-orig-size="767,520" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Pulumi_0_Languages" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_0_languages.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_0_languages.png?w=767" class="alignnone size-full wp-image-274" src="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_0_languages.png" alt="Pulumi_0_Languages" width="767" height="520" srcset="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_0_languages.png 767w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_0_languages.png?w=150&amp;h=102 150w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_0_languages.png?w=300&amp;h=203 300w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 61vw, (max-width: 1362px) 45vw, 600px" /></p>
+<h2>Installing Pulumi</h2>
+<p>The install is pretty simple. <a href="https://www.pulumi.com/docs/get-started/install/" target="_blank" rel="noopener">This page</a> will get you up and running in no time. I personally used Chocolatey but you can download the tool for Windows, MacOS and Linux if you want.</p>
+<h2>Getting Started with Azure</h2>
+<p>The getting started guides work great. The only thing you need (in my example for Azure) is an account. The page <a href="https://www.pulumi.com/docs/get-started/azure/" target="_blank" rel="noopener">https://www.pulumi.com/docs/get-started/azure/</a> show you a step-by-step guide.</p>
+<h3>Deploying resources</h3>
+<p>I&#8217;ve picked a simple setup, having one resource group in Azure, with one Storage Account. To deploy the stack to Azure, a simple &#8216;pulumi up&#8217; command fires up Pulumi. Just like Terraform, you can see what will happen if you deploy this command. In this case you see that a Stack in Pulumi is created, and a resourceGroup and storage account will be setup in Azure:</p>
+<p><img loading="lazy" data-attachment-id="275" data-permalink="https://peterrombouts.nl/pulumi_1_deployfirsttime/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_1_deployfirsttime.png" data-orig-size="1604,800" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Pulumi_1_deployfirsttime" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_1_deployfirsttime.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_1_deployfirsttime.png?w=840" class="alignnone size-full wp-image-275" src="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_1_deployfirsttime.png" alt="Pulumi_1_deployfirsttime" width="1604" height="800" srcset="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_1_deployfirsttime.png 1604w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_1_deployfirsttime.png?w=150&amp;h=75 150w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_1_deployfirsttime.png?w=300&amp;h=150 300w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_1_deployfirsttime.png?w=768&amp;h=383 768w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_1_deployfirsttime.png?w=1024&amp;h=511 1024w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_1_deployfirsttime.png?w=1440&amp;h=718 1440w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>After choosing &#8216;yes&#8217;, you will see Pulumi actually deploying your stack. In the picture below the account has been created, and we see the output plus duration (don&#8217;t worry, the storage account has been deleted so the key not valid anymore):</p>
+<p><img loading="lazy" data-attachment-id="276" data-permalink="https://peterrombouts.nl/pulumi_2_deploymentcreated/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_2_deploymentcreated.png" data-orig-size="1607,820" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Pulumi_2_deploymentcreated" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_2_deploymentcreated.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_2_deploymentcreated.png?w=840" class="alignnone size-full wp-image-276" src="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_2_deploymentcreated.png" alt="Pulumi_2_deploymentcreated" width="1607" height="820" srcset="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_2_deploymentcreated.png 1607w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_2_deploymentcreated.png?w=150&amp;h=77 150w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_2_deploymentcreated.png?w=300&amp;h=153 300w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_2_deploymentcreated.png?w=768&amp;h=392 768w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_2_deploymentcreated.png?w=1024&amp;h=523 1024w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_2_deploymentcreated.png?w=1440&amp;h=735 1440w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<h3>Updating resources</h3>
+<p>The next step shows what happens if we update something in the stack. In this case, we have updated that the storage account only allows HTTPS traffic. The pulumi up command shows us the expected changes, and shows us it will update the storage account:</p>
+<p><img loading="lazy" data-attachment-id="277" data-permalink="https://peterrombouts.nl/pulumi_3_incrementalupdate/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_3_incrementalupdate.png" data-orig-size="1610,841" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Pulumi_3_incrementalupdate" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_3_incrementalupdate.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_3_incrementalupdate.png?w=840" class="alignnone size-full wp-image-277" src="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_3_incrementalupdate.png" alt="Pulumi_3_incrementalupdate" width="1610" height="841" srcset="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_3_incrementalupdate.png 1610w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_3_incrementalupdate.png?w=150&amp;h=78 150w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_3_incrementalupdate.png?w=300&amp;h=157 300w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_3_incrementalupdate.png?w=768&amp;h=401 768w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_3_incrementalupdate.png?w=1024&amp;h=535 1024w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_3_incrementalupdate.png?w=1440&amp;h=752 1440w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>After choosing yes, the update will start, and it will display the next image. As you can see, 1 resource was updated, and 2 were unchanged:</p>
+<p><img loading="lazy" data-attachment-id="278" data-permalink="https://peterrombouts.nl/pulumi_4_incrementcompleted/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_4_incrementcompleted.png" data-orig-size="1606,822" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Pulumi_4_incrementcompleted" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_4_incrementcompleted.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_4_incrementcompleted.png?w=840" class="alignnone size-full wp-image-278" src="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_4_incrementcompleted.png" alt="Pulumi_4_incrementcompleted" width="1606" height="822" srcset="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_4_incrementcompleted.png 1606w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_4_incrementcompleted.png?w=150&amp;h=77 150w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_4_incrementcompleted.png?w=300&amp;h=154 300w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_4_incrementcompleted.png?w=768&amp;h=393 768w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_4_incrementcompleted.png?w=1024&amp;h=524 1024w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_4_incrementcompleted.png?w=1440&amp;h=737 1440w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<h3>Destroying resources</h3>
+<p>To destroy your resources, pulumi destroy will tear down everything, up until the stack in Pulumi itself:</p>
+<h3><img loading="lazy" data-attachment-id="279" data-permalink="https://peterrombouts.nl/pulumi_5_destroy/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_5_destroy.png" data-orig-size="1611,683" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Pulumi_5_destroy" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_5_destroy.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_5_destroy.png?w=840" class="alignnone size-full wp-image-279" src="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_5_destroy.png" alt="Pulumi_5_destroy" width="1611" height="683" srcset="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_5_destroy.png 1611w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_5_destroy.png?w=150&amp;h=64 150w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_5_destroy.png?w=300&amp;h=127 300w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_5_destroy.png?w=768&amp;h=326 768w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_5_destroy.png?w=1024&amp;h=434 1024w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_5_destroy.png?w=1440&amp;h=611 1440w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></h3>
+<h2>Wait, Pulumi Stack?</h2>
+<p>Pulumi defines stacks of your deploys. To quote them on this:</p>
+<blockquote><p>Every Pulumi program is deployed to a stack. A stack is an isolated, independently configurable instance of a Pulumi program. Stacks are commonly used to denote different phases of development (such as development, staging and production) or feature branches (such as feature-x-dev, jane-feature-x-dev).</p></blockquote>
+<p>So, you can look at these like your set of resources. You can group them under Projects so it can be easier to manage. The webinterface of Pulumi is clean, and you can inspect all of your stacks and settings there:</p>
+<p><img loading="lazy" data-attachment-id="285" data-permalink="https://peterrombouts.nl/2019/12/16/infrastructure-as-code-with-pulumi/pulumistack/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumistack.png" data-orig-size="1854,889" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="PulumiStack" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumistack.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumistack.png?w=840" class="alignnone size-full wp-image-285" src="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumistack.png" alt="PulumiStack" width="1854" height="889" srcset="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumistack.png 1854w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumistack.png?w=150&amp;h=72 150w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumistack.png?w=300&amp;h=144 300w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumistack.png?w=768&amp;h=368 768w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumistack.png?w=1024&amp;h=491 1024w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumistack.png?w=1440&amp;h=690 1440w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<h2>Conclusion</h2>
+<p>This short blog is just to show you that there is more than the standard way of working with the cloud. Obviously you can use various APIs, SDKs or templates, but these sometimes can be a bit overwhelming for developers. Pulumi lets you choose your language, and makes sure your developers do not need to learn another language and still use the modern infrastructure-as-code techniques!</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">272</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_0_languages.png" medium="image">
+			<media:title type="html">Pulumi_0_Languages</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_1_deployfirsttime.png" medium="image">
+			<media:title type="html">Pulumi_1_deployfirsttime</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_2_deploymentcreated.png" medium="image">
+			<media:title type="html">Pulumi_2_deploymentcreated</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_3_incrementalupdate.png" medium="image">
+			<media:title type="html">Pulumi_3_incrementalupdate</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_4_incrementcompleted.png" medium="image">
+			<media:title type="html">Pulumi_4_incrementcompleted</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_5_destroy.png" medium="image">
+			<media:title type="html">Pulumi_5_destroy</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumistack.png" medium="image">
+			<media:title type="html">PulumiStack</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Sync your Outlook 365 calendar to Google Calendar with LogicApps</title>
+		<link>https://peterrombouts.nl/2019/12/04/sync-your-outlook-365-calendar-to-google-calendar-with-logicapps/</link>
+					<comments>https://peterrombouts.nl/2019/12/04/sync-your-outlook-365-calendar-to-google-calendar-with-logicapps/#comments</comments>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Wed, 04 Dec 2019 18:18:42 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[Serverless]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=253</guid>
+
+					<description><![CDATA[Sometimes it is hard to keep your spouse up-to-date on all the sessions and events work-related. Most of the times I&#8217;ve been able to duplicate calendar items that are relevant for my &#8216;better half&#8217;. Obviously manual work makes me sad and I forget to sync some events causing a collision in the calendars. If, like &#8230; <a href="https://peterrombouts.nl/2019/12/04/sync-your-outlook-365-calendar-to-google-calendar-with-logicapps/" class="more-link">Continue reading<span class="screen-reader-text"> "Sync your Outlook 365 calendar to Google Calendar with&#160;LogicApps"</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Sometimes it is hard to keep your spouse up-to-date on all the sessions and events work-related. Most of the times I&#8217;ve been able to duplicate calendar items that are relevant for my &#8216;better half&#8217;.</p>
+<p>Obviously manual work makes me sad and I forget to sync some events causing a collision in the calendars. If, like me, you have kids you&#8217;ll understand this results in hoping your babysitter can make time because you forgot to add some items in your calendar <strong><em>manually</em></strong>.</p>
+<p><span id="more-253"></span></p>
+<h2>LogicApps to the rescue</h2>
+<p><a href="https://azure.microsoft.com/en-us/services/logic-apps/" target="_blank" rel="noopener">LogicApps</a> (and also <a href="https://flow.microsoft.com/" target="_blank" rel="noopener">Microsoft Flow</a>) have connectors to both Office 365 and Google. Seems like a sure bet to get my sync going!</p>
+<h3>Setup Google Calendar</h3>
+<p>First of all, I&#8217;ve created a <strong>new</strong> calendar in Google. I want to separate my personal items from work, and want the ability to enable/disable the view. A new calendar is the easiest way of doing this. Also if you share your Work calendar, the people you share your calendars with, can easily differentiate between what is work and private. Google has an excellent manual, click on <a href="https://support.google.com/calendar/answer/37095?hl=en" target="_blank" rel="noopener">this link to follow the setup</a> of your new calendar.</p>
+<h3>Setup LogicApp</h3>
+<p>First, you will have to setup your LogicApp. If you don&#8217;t know how, follow <a href="https://docs.microsoft.com/en-us/azure/logic-apps/quickstart-create-first-logic-app-workflow#sign-in-to-the-azure-portal" target="_blank" rel="noopener">this tutorial from Microsoft</a>.</p>
+<p>The first step is to add the trigger for Outlook. I&#8217;ve used the following trigger:<img loading="lazy" data-attachment-id="257" data-permalink="https://peterrombouts.nl/2019/12/04/sync-your-outlook-365-calendar-to-google-calendar-with-logicapps/calendaro365/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/11/calendaro365.png" data-orig-size="1189,577" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="CalendarO365" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/11/calendaro365.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/11/calendaro365.png?w=840" class="alignnone size-full wp-image-257" src="https://peterrombouts.nl/wp-content/uploads/2019/11/calendaro365.png" alt="CalendarO365" width="1189" height="577" srcset="https://peterrombouts.nl/wp-content/uploads/2019/11/calendaro365.png 1189w, https://peterrombouts.nl/wp-content/uploads/2019/11/calendaro365.png?w=150&amp;h=73 150w, https://peterrombouts.nl/wp-content/uploads/2019/11/calendaro365.png?w=300&amp;h=146 300w, https://peterrombouts.nl/wp-content/uploads/2019/11/calendaro365.png?w=768&amp;h=373 768w, https://peterrombouts.nl/wp-content/uploads/2019/11/calendaro365.png?w=1024&amp;h=497 1024w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>This will allow me to react on added, updated and deleted events. I check this every hour, and track upcoming events 300 days in the future. Because I don&#8217;t really care about days in the past, I set that to 5 days. Adjust these to facilitate your own needs. I&#8217;ve set the interval to 15 minutes, which works for me. If you have a long interval, you could get 429 errors from Google because you&#8217;re pushing too many changes to the Calendar at once.</p>
+<h3>Handling events</h3>
+<p>The LogicApp receives adds, updates and deletions. In my very simple sync, I add the Outlook ID to the description field of the event. Because I&#8217;m not interested (or lazy) in the actual updated info, I&#8217;ll just delete all events with the incoming ID, and create the event as new:</p>
+<p><img loading="lazy" data-attachment-id="260" data-permalink="https://peterrombouts.nl/2019/12/04/sync-your-outlook-365-calendar-to-google-calendar-with-logicapps/listanddelete/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/12/listanddelete.png" data-orig-size="857,656" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="ListAndDelete" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/12/listanddelete.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/12/listanddelete.png?w=840" class="alignnone size-full wp-image-260" src="https://peterrombouts.nl/wp-content/uploads/2019/12/listanddelete.png" alt="ListAndDelete" width="857" height="656" srcset="https://peterrombouts.nl/wp-content/uploads/2019/12/listanddelete.png 857w, https://peterrombouts.nl/wp-content/uploads/2019/12/listanddelete.png?w=150&amp;h=115 150w, https://peterrombouts.nl/wp-content/uploads/2019/12/listanddelete.png?w=300&amp;h=230 300w, https://peterrombouts.nl/wp-content/uploads/2019/12/listanddelete.png?w=768&amp;h=588 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>So at this point any item created from Outlook is deleted.</p>
+<h3>Insert Google Calendar items</h3>
+<p>Because we deleted the existing calendar item, we do not care if this is a update or create. The only events we can ignore are the <strong>deleted</strong> ones as we already deleted the calendar items. We use a switch for this:</p>
+<p><img loading="lazy" data-attachment-id="261" data-permalink="https://peterrombouts.nl/2019/12/04/sync-your-outlook-365-calendar-to-google-calendar-with-logicapps/switch/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/12/switch.png" data-orig-size="1657,444" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Switch" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/12/switch.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/12/switch.png?w=840" class="alignnone size-full wp-image-261" src="https://peterrombouts.nl/wp-content/uploads/2019/12/switch.png" alt="Switch" width="1657" height="444" srcset="https://peterrombouts.nl/wp-content/uploads/2019/12/switch.png 1657w, https://peterrombouts.nl/wp-content/uploads/2019/12/switch.png?w=150&amp;h=40 150w, https://peterrombouts.nl/wp-content/uploads/2019/12/switch.png?w=300&amp;h=80 300w, https://peterrombouts.nl/wp-content/uploads/2019/12/switch.png?w=768&amp;h=206 768w, https://peterrombouts.nl/wp-content/uploads/2019/12/switch.png?w=1024&amp;h=274 1024w, https://peterrombouts.nl/wp-content/uploads/2019/12/switch.png?w=1440&amp;h=386 1440w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>As you can see, the default action is to create an event, and in the <strong>deleted</strong> case we simply do nothing.</p>
+<p>The events of Outlook differ a tiny bit from the events in Google. If we zoom in on the event creation, please notice the <strong>Z</strong> behind the datetimes:</p>
+<p><img loading="lazy" data-attachment-id="262" data-permalink="https://peterrombouts.nl/2019/12/04/sync-your-outlook-365-calendar-to-google-calendar-with-logicapps/createevent/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/12/createevent.png" data-orig-size="760,337" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="CreateEvent" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/12/createevent.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/12/createevent.png?w=760" class="alignnone size-full wp-image-262" src="https://peterrombouts.nl/wp-content/uploads/2019/12/createevent.png" alt="CreateEvent" width="760" height="337" srcset="https://peterrombouts.nl/wp-content/uploads/2019/12/createevent.png 760w, https://peterrombouts.nl/wp-content/uploads/2019/12/createevent.png?w=150&amp;h=67 150w, https://peterrombouts.nl/wp-content/uploads/2019/12/createevent.png?w=300&amp;h=133 300w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 61vw, (max-width: 1362px) 45vw, 600px" /></p>
+<p>If you do not add those, Google will not accept the JSON as it will give an error on invalid data. Also seen here is the <strong>Outlook ID</strong> I use to identify the events coming in from Outlook 365.</p>
+<h3>Finishing up</h3>
+<p>At this moment you can save the logic app and you are done! You can obviously do more fancypants stuff like adding more info to the events, or handling CRUD more elegantly than me, but the basics are there for you to play with!</p>
+<p>Below is an example of my personal calendars, and the newly synced black work calendar:</p>
+<p><img loading="lazy" data-attachment-id="265" data-permalink="https://peterrombouts.nl/2019/12/04/sync-your-outlook-365-calendar-to-google-calendar-with-logicapps/resultcalendar/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/12/resultcalendar.png" data-orig-size="1331,798" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="ResultCalendar" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/12/resultcalendar.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/12/resultcalendar.png?w=840" class="alignnone size-full wp-image-265" src="https://peterrombouts.nl/wp-content/uploads/2019/12/resultcalendar.png" alt="ResultCalendar" width="1331" height="798" srcset="https://peterrombouts.nl/wp-content/uploads/2019/12/resultcalendar.png 1331w, https://peterrombouts.nl/wp-content/uploads/2019/12/resultcalendar.png?w=150&amp;h=90 150w, https://peterrombouts.nl/wp-content/uploads/2019/12/resultcalendar.png?w=300&amp;h=180 300w, https://peterrombouts.nl/wp-content/uploads/2019/12/resultcalendar.png?w=768&amp;h=460 768w, https://peterrombouts.nl/wp-content/uploads/2019/12/resultcalendar.png?w=1024&amp;h=614 1024w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<h3>Costs</h3>
+<p>But wait; This stuff costs money right? Absolutely. But if I look at the costs forecast in Azure, I see the following chart:</p>
+<p><img loading="lazy" data-attachment-id="266" data-permalink="https://peterrombouts.nl/2019/12/04/sync-your-outlook-365-calendar-to-google-calendar-with-logicapps/costslogicapp/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/12/costslogicapp.png" data-orig-size="1267,386" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="CostsLogicApp" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/12/costslogicapp.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/12/costslogicapp.png?w=840" class="alignnone size-full wp-image-266" src="https://peterrombouts.nl/wp-content/uploads/2019/12/costslogicapp.png" alt="CostsLogicApp" width="1267" height="386" srcset="https://peterrombouts.nl/wp-content/uploads/2019/12/costslogicapp.png 1267w, https://peterrombouts.nl/wp-content/uploads/2019/12/costslogicapp.png?w=150&amp;h=46 150w, https://peterrombouts.nl/wp-content/uploads/2019/12/costslogicapp.png?w=300&amp;h=91 300w, https://peterrombouts.nl/wp-content/uploads/2019/12/costslogicapp.png?w=768&amp;h=234 768w, https://peterrombouts.nl/wp-content/uploads/2019/12/costslogicapp.png?w=1024&amp;h=312 1024w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>It is safe to say that for less than one euro, you get alot of bang per buck!</p>
+<h2>Conclusion</h2>
+<p>It is easy to sync your calendar using LogicApps or Flow. Using the connectors the possibilities are virtually limitless! If you have any manual operations you want to automate, look at the connectors and create your own app for automation. Have any other ideas, please share them with the community!</p>
+<p>For the code of this app, <a href="https://gist.github.com/prombouts/1af788011900ff0bb7d8ad548eabd8e3" target="_blank" rel="noopener">click here to view the gist</a>.</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://peterrombouts.nl/2019/12/04/sync-your-outlook-365-calendar-to-google-calendar-with-logicapps/feed/</wfw:commentRss>
+			<slash:comments>6</slash:comments>
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">253</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/11/calendaro365.png" medium="image">
+			<media:title type="html">CalendarO365</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/12/listanddelete.png" medium="image">
+			<media:title type="html">ListAndDelete</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/12/switch.png" medium="image">
+			<media:title type="html">Switch</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/12/createevent.png" medium="image">
+			<media:title type="html">CreateEvent</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/12/resultcalendar.png" medium="image">
+			<media:title type="html">ResultCalendar</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/12/costslogicapp.png" medium="image">
+			<media:title type="html">CostsLogicApp</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Software Maintainability in the Cloud Era</title>
+		<link>https://peterrombouts.nl/2019/10/14/software-maintainability-in-the-cloud-era/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Mon, 14 Oct 2019 07:33:17 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[Azure DevOps]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[Serverless]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=236</guid>
+
+					<description><![CDATA[Originally posted on SogetiLabs: https://labs.sogeti.com/software-maintainability-in-the-cloud-era/ The shift to cloud, and with that, to PaaS services or low code alternatives like LogicApps push the actual code developers see and use to the background. There is an ISO standard on software quality, and the maintenance best practices are well written and explained in the book Building Maintainable &#8230; <a href="https://peterrombouts.nl/2019/10/14/software-maintainability-in-the-cloud-era/" class="more-link">Continue reading<span class="screen-reader-text"> "Software Maintainability in the Cloud&#160;Era"</span></a>]]></description>
+										<content:encoded><![CDATA[
+<p><small><em>Originally posted on SogetiLabs: <a href="https://labs.sogeti.com/software-maintainability-in-the-cloud-era/" rel="nofollow">https://labs.sogeti.com/software-maintainability-in-the-cloud-era/</a></em></small></p>
+
+
+
+<p></p>
+
+
+
+<p>The shift to cloud, and with that, to PaaS services or low code alternatives like <a rel="noopener" href="https://azure.microsoft.com/en-us/services/logic-apps/" target="_blank">LogicApps</a> push the actual code developers see and use to the background.</p>
+
+
+
+<p>There is an <a href="https://www.iso.org/standard/35733.html" target="_blank" rel="noopener">ISO standard</a> on software quality, and the maintenance best practices are well written and explained in the book <a href="https://www.amazon.com/Building-Maintainable-Software-Guidelines-Future-Proof/dp/1491954523" target="_blank" rel="noopener">Building Maintainable Software</a>. Within low code systems, applying these guidelines can be less obvious and it can be a difficult task automating and testing the quality of your code with tools like <a href="https://www.sonarqube.org/" target="_blank" rel="noopener">SonarQube</a>.</p>
+
+
+
+<p>Should we even worry about the underlying code? Absolutely. The principles still adhere and creating a spaghetti of your low code systems can cause major issues on maintenance or adding new features.</p>
+
+
+
+<p>Let&#8217;s focus on three points of the maintainability guidelines:</p>
+
+
+
+<ol class="wp-block-list"><li>Write code once</li><li>Couple architecture components loosely</li><li>Automate development pipeline and tests</li></ol>
+
+
+
+<p>In <strong>no way</strong> these are the most important items, but for this example an easy entry into the low code space.</p>
+
+
+
+<h2 class="wp-block-heading">1. Write code once</h2>
+
+
+
+<p>Just like any other audit of software, you still can avoid writing duplicate code. In a platform like LogicApps it can be easy to repeat a custom call to something like a custom HTTP API.</p>
+
+
+
+<p>In traditional languages like C#, you have many options to reuse your code. You could create a library, or you can create a package and make it available via NuGet. Within low code systems, these same packaging mechanisms not always exist.</p>
+
+
+
+<p>Taking the example of LogicApps, the solution could be to create <a href="https://docs.microsoft.com/en-us/connectors/custom-connectors/" target="_blank" rel="noopener">Custom Connectors</a>. These will wrap your custom API calls into a reusable component you can share within your organisation, or even outside.</p>
+
+
+
+<h2 class="wp-block-heading">2. Couple architecture components loosely</h2>
+
+
+
+<p>If your components are tightly coupled, it can be troublesome to replace or refactor your components. The impact will be on each and every other component that has a high coupling with your part.</p>
+
+
+
+<p>Again taking the LogicApps for example, let&#8217;s state our LogicApp calls another component directly using HTTP. The Azure Portal gives you this out of the box, letting you call <a href="https://azure.microsoft.com/en-us/services/functions/" target="_blank" rel="noopener">Azure Functions</a> directly from your LogicApp.</p>
+
+
+
+<p>This goes agains the principle of loosely coupling. The reason is that your call is directly bound to that function, so changing the interface or location of your function, impacts the LogicApp directly. In this case, it would simply break and stop working.</p>
+
+
+
+<p>To solve this problem, a simple solution is to decouple the LogicApp and the Azure Function using a queueing mechanism. This way, the message to the Azure Function is put on a queue by the LogicApp, and the Azure Function listens on a queue. Now, if the developer of the Azure Function changes location or even use another platform, there is no need to change the LogicApp.</p>
+
+
+
+<p><em>Obviously this would require you to make an agreement on the contents of the messages on the queue. </em></p>
+
+
+
+<h2 class="wp-block-heading">3. Automate development pipeline and test</h2>
+
+
+
+<p>Automating your CICD pipelines allows you to more easily build, test and deploy your code. In case of a language like C# or Java, you can easily run tests, build your code, and create packages or deployments. A tool like <a href="https://azure.microsoft.com/en-us/services/devops/" target="_blank" rel="noopener">Azure DevOps</a> can combine these steps and lets you create a wealth of quality gates, checks and processes to guide your team.</p>
+
+
+
+<p>When using low code platforms, it can be cumbersome to get the code into your version control systems. Nevertheless, many of those platforms do give you the tooling. LogiApps for example has <a href="https://docs.microsoft.com/en-us/azure/logic-apps/logic-apps-create-azure-resource-manager-templates" target="_blank" rel="noopener">template creators</a>, and systems like OutSystems have their own CICD ecosystem.</p>
+
+
+
+<p>In the end the automation allows you to more easily add steps to your CICD process, and allow you to deploy more frequently without any hassle. The addition of automated testing will absolutely be beneficial to the overall quality of your product.</p>
+
+
+
+<h2 class="wp-block-heading">Concluding</h2>
+
+
+
+<p>Treat your low code just like you would any other codebase. Almost all guidelines of mainainability can be mapped to your product. Some can may require a bit more investment, but in the end I truly believe it will help building a maintainable and high-quality (low) code base.</p>
+
+
+
+<p>If you want to expand on the process part of high-quality software, please also take a look at the follow-up book of this series: <a href="https://www.amazon.com/Building-Software-Teams-Practices-Development/dp/149195177X" target="_blank" rel="noopener">Building Software Teams</a></p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">236</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+	</item>
+	</channel>
+</rss>

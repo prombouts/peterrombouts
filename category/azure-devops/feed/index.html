@@ -1,0 +1,889 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	xmlns:georss="http://www.georss.org/georss" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:media="http://search.yahoo.com/mrss/"
+	>
+
+<channel>
+	<title>Azure DevOps &#8211; Peter Rombouts</title>
+	<atom:link href="https://peterrombouts.nl/category/azure-devops/feed/" rel="self" type="application/rss+xml" />
+	<link>https://peterrombouts.nl</link>
+	<description>All things Cloud &#124; Software &#124; Coding &#124; Integration &#124; Automation &#124; DevSecAnythingOps &#124; Cloud Native &#124; Serverless</description>
+	<lastBuildDate>Fri, 29 Apr 2022 07:19:14 +0000</lastBuildDate>
+	<language>en</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>http://wordpress.com/</generator>
+
+<image>
+	<url>https://peterrombouts.nl/wp-content/uploads/2023/11/peter.jpg?w=32</url>
+	<title>Azure DevOps &#8211; Peter Rombouts</title>
+	<link>https://peterrombouts.nl</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+<site xmlns="com-wordpress:feed-additions:1">155596116</site><cloud domain='peterrombouts.nl' port='80' path='/?rsscloud=notify' registerProcedure='' protocol='http-post' />
+<atom:link rel="search" type="application/opensearchdescription+xml" href="https://peterrombouts.nl/osd.xml" title="Peter Rombouts" />
+	<atom:link rel='hub' href='https://peterrombouts.nl/?pushpress=hub'/>
+	<item>
+		<title>GitOps Primer</title>
+		<link>https://peterrombouts.nl/2022/05/16/gitops-primer/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Mon, 16 May 2022 07:17:00 +0000</pubDate>
+				<category><![CDATA[Azure DevOps]]></category>
+		<category><![CDATA[Build]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[Software Engineering]]></category>
+		<category><![CDATA[SogetiLabs]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=689</guid>
+
+					<description><![CDATA[Originally posted on SogetiLabs:https://labs.sogeti.com/gitops-primer/ With the rise of cloud, cloud-native and a lot of other buzzwords, we also see the rise of all kinds of Dev(fill here)Ops practices. While I’m an avid advocate of the DevOps mindset, all the buzz around pipelines sounds old-school to me. What is GitOps? GitOps evolved from DevOps. The specific &#8230; <a href="https://peterrombouts.nl/2022/05/16/gitops-primer/" class="more-link">Continue reading<span class="screen-reader-text"> "GitOps Primer"</span></a>]]></description>
+										<content:encoded><![CDATA[
+<p><small><em>Originally posted on SogetiLabs:<br></em></small><a href="https://labs.sogeti.com/gitops-primer/">https://labs.sogeti.com/gitops-primer/</a></p>
+
+
+
+<p>With the rise of cloud, cloud-native and a lot of other buzzwords, we also see the rise of all kinds of Dev(fill here)Ops practices. While I’m an avid advocate of the DevOps mindset, all the buzz around pipelines sounds old-school to me.</p>
+
+
+
+<h2 class="wp-block-heading">What is GitOps?</h2>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>GitOps evolved from DevOps. The specific state of deployment configuration is version-controlled (using Git for example). Changes to configuration can be managed using code review practices, and can be rolled back using version-controlling.</p><cite><a href="https://en.wikipedia.org/wiki/DevOps#GitOps" target="_blank" rel="noreferrer noopener">https://en.wikipedia.org/wiki/DevOps#GitOps</a></cite></blockquote>
+
+
+
+<p>A quick look at Wikipedia brings you the above description. It is stuffed away somewhere in the DevOps article. Like with DevOps, there is a whole religion around what tool is the best to use, and people even claim to be ‘DevOps Engineers’ whatever that may be. In most cases they mean ‘cloud infrastructure’ because DevOps is a <strong>mindset</strong>, and not a <strong>function</strong>.</p>
+
+
+
+<p>It doesn’t help that some tools like Azure DevOps are actually called this way, but hey, VSTS is also not really a snappy name IMHO.</p>
+
+
+
+<p>To explain GitOps in my own words and in a single sentence: Instead of <strong>pushing </strong>your code and deploy, your system <strong>pulls </strong>the software from the version control system.</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>A nice one-liner by WeaveWorks is: <strong>GitOps is Continuous Delivery meets Cloud Native</strong></p><cite><a href="https://www.weave.works/technologies/gitops/" target="_blank" rel="noreferrer noopener">https://www.weave.works/technologies/gitops/</a></cite></blockquote>
+
+
+
+<h2 class="wp-block-heading">GitOps versus DevOps Pipelines</h2>
+
+
+
+<p>So, it is the same as DevOps Pipelines right? No it is not. From a distance it can <em>seem</em> to be the same. In a way your code, if configured correctly, will be deployed automatically with CICD.</p>
+
+
+
+<p>The fundamental difference is that your system (for example Kubernetes) and not your DevOps CICD pipeline, is in the lead. Remember, the settings <strong>of the k8s system itself</strong> also need a repository.</p>
+
+
+
+<p>Let’s look at a typical CICD setup:</p>
+
+
+
+<figure class="wp-block-image"><img src="https://cloudblogs.microsoft.com/uploads/prod/sites/37/2018/11/DevOps-workflow-with-containers_image-1.png" alt="DevOps workflow with containers" /><figcaption>Source: <a href="https://cloudblogs.microsoft.com/opensource/2018/11/27/tutorial-azure-devops-setup-cicd-pipeline-kubernetes-docker-helm/" target="_blank" rel="noreferrer noopener">https://cloudblogs.microsoft.com/opensource/2018/11/27/tutorial-azure-devops-setup-cicd-pipeline-kubernetes-docker-helm/</a></figcaption></figure>
+
+
+
+<p>As you can see in the example above, the Azure DevOps pipelines are in the lead. The Build step pulls in the code, the Release step creates the artifact and pushes it towards a registry, and also installs it on AKS. But this does not include the state of your cluster.</p>
+
+
+
+<p>Let’s say your DevOps pipeline trigger failed, or someone made changes manually to the AKS applications or configuration. AKS has no idea where the code is located so it cannot check if there are any changes. This is where GitOps can be a solution. Let’s look at the following example:</p>
+
+
+
+<figure class="wp-block-image"><img src="https://docs.microsoft.com/en-us/azure/azure-arc/kubernetes/media/gitops-arch.png" alt="GitOps CI/CD architecture" /><figcaption>Source: <a href="https://docs.microsoft.com/en-us/azure/azure-arc/kubernetes/conceptual-gitops-ci-cd" target="_blank" rel="noreferrer noopener">https://docs.microsoft.com/en-us/azure/azure-arc/kubernetes/conceptual-gitops-ci-cd</a></figcaption></figure>
+
+
+
+<p>In the example above you can see that (in this case Flux) is used to pull the desired state towards your Kubernetes cluster. This pulling makes sure that you are always up-to-date. And it can also detect changes so if anything or anyone changes the configuration manually, this ‘drift’ will be resolved by the desired state pulling with Flux!</p>
+
+
+
+<p>Yes, this complicates your setup, but you <strong>always</strong> know that your clusters are exactly how you described them in the desired state. Especially in situations with Kubernetes, deployment and configuration can be really complex, so these tools make sure you are <strong>in control</strong> of your systems.</p>
+
+
+
+<h2 class="wp-block-heading">Example of GitOps tools</h2>
+
+
+
+<p><strong>So I need Kubernetes</strong>? No. In theory any system can use the GitOps setup, but for Kubernetes a lot of tools and so called operators are readily available.</p>
+
+
+
+<p>In the previous paragraph, Flux is drawn in the picture. There are many more tools out there, but we see convergence on two major tools: <strong><a href="https://fluxcd.io/" target="_blank" rel="noreferrer noopener">Flux</a> </strong>and<a href="https://argo-cd.readthedocs.io/en/stable/" target="_blank" rel="noreferrer noopener"><strong>Argo</strong></a>. The resources section at the end of the blog shows more tools and resources if you want to dive in the deep end of GitOps.</p>
+
+
+
+<p>There is a nice writeup (<em>sponsored by Red Hat</em>) on deciding between Flux and Argo. Depending on your situation it can fall either way. <a href="https://thenewstack.io/gitops-on-kubernetes-deciding-between-argo-cd-and-flux/" target="_blank" rel="noreferrer noopener">GitOps on Kubernetes: Deciding Between Argo CD and Flux – The New Stack</a>.</p>
+
+
+
+<h2 class="wp-block-heading">OpenGitOps</h2>
+
+
+
+<p>The emergence of GitOps led to the OpenGitOps project.</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p><strong>OpenGitOps</strong> is a set of open-source standards, best practices, and community-focused education to help organizations adopt a structured, standardized approach to implementing <strong>GitOps</strong>.</p><cite><a href="https://opengitops.dev/" target="_blank" rel="noreferrer noopener">https://opengitops.dev/</a></cite></blockquote>
+
+
+
+<p>The principles of GitOps are four-fold:</p>
+
+
+
+<ol class="wp-block-list"><li><strong>Declarative</strong><br><em>A&nbsp;<a href="https://github.com/open-gitops/documents/blob/v1.0.0/GLOSSARY.md#software-system" target="_blank" rel="noreferrer noopener">system</a>&nbsp;managed by GitOps must have its desired state expressed&nbsp;<a href="https://github.com/open-gitops/documents/blob/v1.0.0/GLOSSARY.md#declarative-description" target="_blank" rel="noreferrer noopener">declaratively</a>.</em></li><li><strong>Versioned and Immutable</strong><br><em>Desired state is&nbsp;<a href="https://github.com/open-gitops/documents/blob/v1.0.0/GLOSSARY.md#state-store" target="_blank" rel="noreferrer noopener">stored</a>&nbsp;in a way that enforces immutability, versioning and retains a complete version history.</em></li><li><strong>Pulled Automatically</strong><br><em>Software agents automatically pull the desired state declarations from the source.</em></li><li><strong>Continuously Reconciled</strong><br><em>Software agents&nbsp;<a href="https://github.com/open-gitops/documents/blob/v1.0.0/GLOSSARY.md#continuous" target="_blank" rel="noreferrer noopener">continuously</a>&nbsp;observe actual system state and&nbsp;<a href="https://github.com/open-gitops/documents/blob/v1.0.0/GLOSSARY.md#reconciliation" target="_blank" rel="noreferrer noopener">attempt to apply</a>&nbsp;the desired state.</em></li></ol>
+
+
+
+<p>“The GitOps Working Group is a WG under the CNCF App Delivery SIG.</p>
+
+
+
+<p>The focus of the GitOps WG is to clearly define a vendor-neutral, principle-led meaning of GitOps. This will establish a foundation for interoperability between tools, conformance, and certification. Lasting programs, documents, and code are planned to live within the&nbsp;<a href="https://github.com/open-gitops" target="_blank" rel="noreferrer noopener">OpenGitOps</a>&nbsp;project.”</p>
+
+
+
+<p>The main goal of the OpenGitOps CNCF Sandbox project is to define a vendor-neutral, principle-led meaning of GitOps. This will establish a foundation for interoperability between tools, conformance, and certification through lasting programs, documents, and code.</p>
+
+
+
+<h2 class="wp-block-heading">Concluding</h2>
+
+
+
+<p>GitOps has been around for several years, and continues to evolve. CNCF has OpenGitOps as Sandbox project and embraced Flux and Argo as Incubating projects. The shift in mindset can be difficult, as some people still try to embrace DevOps as a principle.</p>
+
+
+
+<p>Watch this space for more information and an upcoming eBook on our take and practices surrounding GitOps!</p>
+
+
+
+<h2 class="wp-block-heading">Resources and further reading</h2>
+
+
+
+<figure class="wp-block-table"><table><tbody><tr><td>OpenGitOps</td><td><a href="https://opengitops.dev/" target="_blank" rel="noreferrer noopener">https://opengitops.dev/</a></td></tr><tr><td>GitOps eBook</td><td><a href="https://www.gitops.tech/" target="_blank" rel="noreferrer noopener">https://www.gitops.tech/</a></td></tr><tr><td>Weaveworks Guide to GitOps</td><td><a href="https://www.weave.works/technologies/gitops/" target="_blank" rel="noreferrer noopener">https://www.weave.works/technologies/gitops/</a></td></tr><tr><td>Harness</td><td><a href="https://harness.io/blog/devops/what-is-gitops/" target="_blank" rel="noreferrer noopener">https://harness.io/blog/devops/what-is-gitops/</a></td></tr><tr><td>Flux</td><td><a href="https://fluxcd.io/" target="_blank" rel="noreferrer noopener">https://fluxcd.io/</a></td></tr><tr><td>Argo CD</td><td><a href="https://argo-cd.readthedocs.io/en/stable/" target="_blank" rel="noreferrer noopener">https://argo-cd.readthedocs.io/en/stable/</a></td></tr><tr><td>Jenkins X</td><td><a href="https://jenkins-x.io/" target="_blank" rel="noreferrer noopener">https://jenkins-x.io/</a></td></tr><tr><td>CNCF</td><td><a href="https://www.cncf.io/" target="_blank" rel="noreferrer noopener">https://www.cncf.io/</a></td></tr></tbody></table></figure>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">689</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://cloudblogs.microsoft.com/uploads/prod/sites/37/2018/11/DevOps-workflow-with-containers_image-1.png" medium="image">
+			<media:title type="html">DevOps workflow with containers</media:title>
+		</media:content>
+
+		<media:content url="https://docs.microsoft.com/en-us/azure/azure-arc/kubernetes/media/gitops-arch.png" medium="image">
+			<media:title type="html">GitOps CI/CD architecture</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Cloud Economics and Terraform; How to start</title>
+		<link>https://peterrombouts.nl/2021/09/10/cloud-economics-and-terraform-how-to-start/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Fri, 10 Sep 2021 08:56:00 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[Azure DevOps]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[SogetiLabs]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=588</guid>
+
+					<description><![CDATA[Originally posted on SogetiLabs: https://labs.sogeti.com/cloud-economics-and-terraform-how-to-start/ It is really easy to blow all your budget when you do not know the impact of the choices you make in the cloud. And while there are many tools available to run analysis on your bill, or showing where your money went, would it not be smarter to shift &#8230; <a href="https://peterrombouts.nl/2021/09/10/cloud-economics-and-terraform-how-to-start/" class="more-link">Continue reading<span class="screen-reader-text"> "Cloud Economics and Terraform; How to&#160;start"</span></a>]]></description>
+										<content:encoded><![CDATA[
+<p> <small><em>Originally posted on SogetiLabs: <br></em></small><a href="https://labs.sogeti.com/cloud-economics-and-terraform-how-to-start/" target="_blank" rel="noreferrer noopener"><small><em>https://labs.sogeti.com/cloud-economics-and-terraform-how-to-start</em></small>/</a></p>
+
+
+
+<p></p>
+
+
+
+<p>It is really easy to blow all your budget when you do not know the impact of the choices you make in the cloud. And while there are many tools available to run analysis on your bill, or showing where your money went, would it not be smarter to <strong>shift everything left</strong>? </p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>34 per cent of large enterprises set a budget of at least $10m a year while 62 per cent of small business went for under $100k. Of those spanking between $2m and $10m on the cloud, almost half overspent (compared to 27 per cent of those budgeting until $100k</p><cite><a href="https://www.hashicorp.com/blog/cloud-budgets-busted-almost-40-overspent-last-year" target="_blank" rel="noreferrer noopener nofollow">https://www.hashicorp.com/blog/cloud-budgets-busted-almost-40-overspent-last-year</a></cite></blockquote>
+
+
+
+<p>In a race for speed of delivery, putting restrictions on cloud environments can be contra-productive. On the other hand money can fly out the window if you do not keep everything in check. So what is the solution?</p>
+
+
+
+<span id="more-588"></span>
+
+
+
+<h2 class="wp-block-heading">Training and Awareness</h2>
+
+
+
+<p>First of all it should be obvious that anyone involved in cloud project should also be trained appropriately. Part of our work as consultants and architects is to also include the running and operational costs of a cloud solution. But to sometimes the costs can sneak into a project, especially when using systems like Kubernetes or any other cluster based system. These can have high impact on your costs because the VMs underneath those systems can be costly to run.</p>
+
+
+
+<h2 class="wp-block-heading">Automate, automate and automate!</h2>
+
+
+
+<p>In comes <a href="https://www.infracost.io/" target="_blank" rel="noreferrer noopener nofollow">Infracost</a>. This really great open source tool has many integrations with CICD systems and can be simply added to your Azure DevOps, Gitlab or GitHub flows (and many more).</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>Infracost calculates cloud costs based on Terraform. Cost estimates can be shown in the terminal or put in pull requests using our CI/CD integrations. This helps you understand the cost of services before you use them, and take action to optimize costs within your existing workflow.</p><cite><a href="https://www.infracost.io" target="_blank" rel="noreferrer noopener nofollow">https://www.infracost.io</a></cite></blockquote>
+
+
+
+<p>The tool can add a simple cloud estimation to your pipelines, and this will make your DevOps teams <strong>instantly</strong> see the changes their code have on the bill and your project:</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img src="https://labs.sogeti.com/wp-content/uploads/2021/08/pr-step-2-1024x543.png" alt="" class="wp-image-233995" width="481" height="254" /><figcaption><em>GitHub example</em></figcaption></figure>
+
+
+
+<h2 class="wp-block-heading">How to get started</h2>
+
+
+
+<p>The documentation of the tool is great, and many examples for the most used CICD tools are documented at <a href="https://www.infracost.io/docs/integrations/cicd" target="_blank" rel="noreferrer noopener nofollow">https://www.infracost.io/docs/integrations/cicd</a>. Did I mention they have a <a href="https://www.infracost.io/pricing/" target="_blank" rel="noreferrer noopener nofollow">free Community version</a> available? This means you can start, right now, with using and testing this tool!</p>
+
+
+
+<h2 class="wp-block-heading">Concluding</h2>
+
+
+
+<p>In the end it is not about tooling, it all starts with training and awareness. But it is better to check than to get caught by a surprise when the bill comes in. This tool by <a href="https://www.infracost.io/" target="_blank" rel="noreferrer noopener nofollow">Infracost</a> is a really great way to start tracking your costs and estimates at the earliest stage in development as possible, give it a spin!</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">588</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://labs.sogeti.com/wp-content/uploads/2021/08/pr-step-2-1024x543.png" medium="image" />
+	</item>
+		<item>
+		<title>Static Code Analysis of Infrastructure as Code</title>
+		<link>https://peterrombouts.nl/2021/05/13/static-code-analysis-of-infrastructure-as-code/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Thu, 13 May 2021 08:50:15 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[Azure DevOps]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[Software Engineering]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=487</guid>
+
+					<description><![CDATA[In this blogpost I will show a basic primer of using KICS together with Azure DevOps, to scan Terraform Infrastructure-as-Code. Kics an open source solution for static code analysis of Infrastructure as Code. https://kics.io/ What is KICS, and why should I care? KICS finds security vulnerabilities, compliance issues, and infrastructure misconfigurations in the following Infrastructure &#8230; <a href="https://peterrombouts.nl/2021/05/13/static-code-analysis-of-infrastructure-as-code/" class="more-link">Continue reading<span class="screen-reader-text"> "Static Code Analysis of Infrastructure as&#160;Code"</span></a>]]></description>
+										<content:encoded><![CDATA[
+<figure class="wp-block-image size-large"><img width="1024" height="132" data-attachment-id="527" data-permalink="https://peterrombouts.nl/afbeelding-5/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png" data-orig-size="1310,169" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="afbeelding-5" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png?w=1024" alt="" class="wp-image-527" srcset="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png 1310w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>KICS logo</figcaption></figure>
+
+
+
+<p>In this blogpost I will show a basic primer of using <a rel="noreferrer noopener" href="https://kics.io/" target="_blank">KICS </a>together with Azure DevOps, to scan Terraform Infrastructure-as-Code.</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>Kics an open source solution for static code analysis of Infrastructure as Code.</p><cite><a href="https://kics.io/" rel="nofollow">https://kics.io/</a></cite></blockquote>
+
+
+
+<span id="more-487"></span>
+
+
+
+<h2 class="wp-block-heading">What is KICS, and why should I care?</h2>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>KICS finds security vulnerabilities, compliance issues, and infrastructure misconfigurations in the following Infrastructure as Code solutions: Terraform, Kubernetes, Docker, AWS CloudFormation, Ansible, Helm, and OpenAPI 3.0 specifications</p></blockquote>
+
+
+
+<p>The open source tool is brought to you by Checkmarx but is a true open source community project.</p>
+
+
+
+<p>I&#8217;ve blogged before about the <a rel="noreferrer noopener" href="https://peterrombouts.nl/2020/11/24/everything-is-code-why-and-how-you-should-test-your-terraform/" target="_blank">importance of testing your IaC</a>, and this tool makes it pretty easy to incorporate exactly this into your pipelines.</p>
+
+
+
+<p>At this moment in time I&#8217;m experimenting with the usage and because some of the examples do not really work out-of-the-box, I&#8217;ve decided to put them in this blog.</p>
+
+
+
+<h2 class="wp-block-heading">Running KICS locally</h2>
+
+
+
+<p>You can run KICS locally, and the documentation of KICS shows a very easy example running it with a <a rel="noreferrer noopener" href="https://docs.kics.io/latest/getting-started/" target="_blank">Docker container</a>. This is a easy way of testing and playing around with the tool:</p>
+
+
+
+<pre class="wp-block-preformatted">docker pull checkmarx/kics:latest
+docker run -v {​​​​path_to_host_folder_to_scan}​​​​:/path /
+    checkmarx/kics:latest scan -p "/path" -o "/path/results.json"</pre>
+
+
+
+<h2 class="wp-block-heading">Setting up KICS in Azure DevOps</h2>
+
+
+
+<p>A more likely scenario is that you want to run KICS as part of your CICD strategy, automated and triggered by, for example, a pull request. But how to start?</p>
+
+
+
+<p>First of all, you should have a repository in DevOps. In my example, I&#8217;ve created two folders with some Terraform code, and one Yaml pipeline:</p>
+
+
+
+<figure class="wp-block-image size-large"><img width="1024" height="465" data-attachment-id="502" data-permalink="https://peterrombouts.nl/afbeelding/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png" data-orig-size="1224,556" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="afbeelding" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png?w=1024" alt="" class="wp-image-502" srcset="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png 1224w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Screenshot of Azure DevOps repo</figcaption></figure>
+
+
+
+<p>In these &#8216;terraform-example1&#8217; and &#8216;terraform-example2&#8217; I&#8217;ve added some representative examples for Azure. Resources ranging from storage accounts, Windows Virtual Desktop resources to IAM and Virtual Machines. </p>
+
+
+
+<p>As I have two example folders setup, I&#8217;ve created two pipelines. The Yaml file is the same, but using variables I can let KICS scan different folders. Basically it looks like this:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="475" data-attachment-id="505" data-permalink="https://peterrombouts.nl/afbeelding-1/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png" data-orig-size="1035,481" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="afbeelding-1" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png?w=1024" alt="" class="wp-image-505" srcset="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png 1035w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>KICS Pipeline overview in Azure DevOps</figcaption></figure>
+
+
+
+<p>Opening up KicsExample1 and viewing the variables shows the following:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="319" data-attachment-id="507" data-permalink="https://peterrombouts.nl/afbeelding-2/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png" data-orig-size="1780,556" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="afbeelding-2" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png?w=1024" alt="" class="wp-image-507" srcset="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png?w=1440 1440w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png 1780w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Pipeline variable screenshot</figcaption></figure>
+
+
+
+<p>Important to note here, is that I&#8217;ve added the complete path to the working directory. My directory is &#8216;terraform-example1&#8217; but as you can find in the documentation, the path on the build agent will be <strong>/home/vsts/work/1/s/terraform-example1/</strong>. For the second pipeline example, I obviously set<strong>/home/vsts/work/1/s/terraform-example2/</strong> as variable.</p>
+
+
+
+<h2 class="wp-block-heading">Running the KICS Azure DevOps pipeline</h2>
+
+
+
+<p>So, for the actual magic to happen, let us run the pipeline and look at the outcome:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="615" data-attachment-id="510" data-permalink="https://peterrombouts.nl/afbeelding-3/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png" data-orig-size="1626,977" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="afbeelding-3" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png?w=1024" alt="" class="wp-image-510" srcset="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png?w=1440 1440w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png 1626w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Pipeline run summary</figcaption></figure>
+
+
+
+<p>As we can see; due to some trickery with VSO logs, I&#8217;m able to put the feedback from KICS into the actual summary! In this case, I&#8217;ve taken the example from KICS and wrote the output errors to Azure DevOps. You can look at the example code how I did this.</p>
+
+
+
+<h2 class="wp-block-heading">Analyzing and debuging the results</h2>
+
+
+
+<p>In the previous paragraph we ran the KICS pipeline, and it came back with some errors. Now, we want to see what the actual problem is. For this we can drill down to the run:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="633" data-attachment-id="512" data-permalink="https://peterrombouts.nl/afbeelding-4/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png" data-orig-size="1530,946" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="afbeelding-4" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png?w=1024" alt="" class="wp-image-512" srcset="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png?w=1440 1440w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png 1530w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Run details in Azure DevOps</figcaption></figure>
+
+
+
+<p>One of the issues found in my first example, is the following error:</p>
+
+
+
+<pre class="wp-block-preformatted">Storage Account Not Using Latest TLS Encryption Version, Severity: MEDIUM, Results: 1 
+Description: Ensure Storage Account is using the latest version of TLS encryption 
+Platform: Terraform</pre>
+
+
+
+<p>This issue is quite self-explanatory. KICS runs many queries, and you are able to tweak and adjust them. </p>
+
+
+
+<p>The second issue found is on the keyvault in my example:</p>
+
+
+
+<pre class="wp-block-preformatted">Vault Auditing Disabled, Severity: HIGH, Results: 1 
+Description: Ensure that logging for Azure KeyVault is 'Enabled' 
+Platform: Terraform</pre>
+
+
+
+<p>This also is based on a best practice, and it warns you about the disabled auditing. The great thing about this tool is that is also gives descriptions on how to fix your errors!</p>
+
+
+
+<h2 class="wp-block-heading">Concluding</h2>
+
+
+
+<p>There are many ways on securing your infrastructure as code and testing statically. In my previous blog about Open Policy Agent I also wrote about this. The great thing about KICS is that it is really easy to setup, and for my example in Terraform they have <a rel="noreferrer noopener" href="https://docs.kics.io/latest/queries/terraform-queries/" target="_blank">many well-documented queries</a> and how to resolve the issues found.</p>
+
+
+
+<p>Implementing KICS as your first line of defence is really easy and gives direct feedback in your DevOps process.</p>
+
+
+
+<h2 class="wp-block-heading">Give me the code!</h2>
+
+
+
+<p>The example pipeline has been put in to <a rel="noreferrer noopener" href="https://gist.github.com/prombouts/181485bf44500be88b182f7cf2dcc60e" target="_blank">this public gist</a>. Do not forget to pass in the variable PWD with the location of your project!</p>
+
+
+
+<p>Any questions or remarks? Feel free to reach out via any of <a href="https://peterrombouts.nl/about-me/" target="_blank" rel="noreferrer noopener">my public profiles</a> or the <a href="https://peterrombouts.nl/contact/" target="_blank" rel="noreferrer noopener">contact page</a> on this site.</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">487</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png?w=1024" medium="image" />
+	</item>
+		<item>
+		<title>Sogeti Java Meetup Deck</title>
+		<link>https://peterrombouts.nl/2021/04/20/sogeti-java-meetup-20th-april-2021/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Tue, 20 Apr 2021 17:30:00 +0000</pubDate>
+				<category><![CDATA[Azure DevOps]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[Software Engineering]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=459</guid>
+
+					<description><![CDATA[(20th April 2021)]]></description>
+										<content:encoded><![CDATA[
+<p>(20th April 2021)</p>
+
+
+<div class="jetpack-video-wrapper"><iframe src='https://www.slideshare.net/slideshow/embed_code/246323647' width='840' height='688' sandbox="allow-popups allow-scripts allow-same-origin allow-presentation" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">459</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Sogeti Qx Day 2020 deck</title>
+		<link>https://peterrombouts.nl/2020/10/01/sogeti-qx-day-2020-deck/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Thu, 01 Oct 2020 12:30:00 +0000</pubDate>
+				<category><![CDATA[Azure DevOps]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[Dutch]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[Software Engineering]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=356</guid>
+
+					<description><![CDATA[]]></description>
+										<content:encoded><![CDATA[<div class="jetpack-video-wrapper"><iframe src='https://www.slideshare.net/slideshow/embed_code/238642555' width='840' height='688' sandbox="allow-popups allow-scripts allow-same-origin allow-presentation" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">356</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Software Maintainability Roadshow deck</title>
+		<link>https://peterrombouts.nl/2020/01/29/software-maintainability-roadshow-deck/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Wed, 29 Jan 2020 19:30:00 +0000</pubDate>
+				<category><![CDATA[AngularJS]]></category>
+		<category><![CDATA[Azure DevOps]]></category>
+		<category><![CDATA[Build]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[Software Engineering]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=296</guid>
+
+					<description><![CDATA[]]></description>
+										<content:encoded><![CDATA[
+<div class="jetpack-video-wrapper"><iframe src='https://www.slideshare.net/slideshow/embed_code/223406396' width='840' height='688' sandbox="allow-popups allow-scripts allow-same-origin allow-presentation" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">296</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Infrastructure-as-Code with Pulumi</title>
+		<link>https://peterrombouts.nl/2019/12/16/infrastructure-as-code-with-pulumi/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Mon, 16 Dec 2019 14:49:36 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[Azure DevOps]]></category>
+		<category><![CDATA[CICD]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=272</guid>
+
+					<description><![CDATA[Using a public cloud like Microsoft Azure or Amazon AWS? Chances are you&#8217;ve been using templates like ARM or CloudFormation. Hashicorp has done a terrific job making Terraform with the ability to template any API, and deploy and manage stacks in Azure, AWS and many, many more. I&#8217;ve been following Pulumi for a while, and &#8230; <a href="https://peterrombouts.nl/2019/12/16/infrastructure-as-code-with-pulumi/" class="more-link">Continue reading<span class="screen-reader-text"> "Infrastructure-as-Code with Pulumi"</span></a>]]></description>
+										<content:encoded><![CDATA[<p>Using a public cloud like Microsoft Azure or Amazon AWS? Chances are you&#8217;ve been using templates like <a href="https://docs.microsoft.com/en-us/azure/azure-resource-manager/template-tutorial-create-first-template?tabs=azure-powershell" target="_blank" rel="noopener">ARM</a> or <a href="https://aws.amazon.com/cloudformation/" target="_blank" rel="noopener">CloudFormation</a>.</p>
+<p>Hashicorp has done a terrific job making <a href="https://www.terraform.io/" target="_blank" rel="noopener">Terraform</a> with the ability to template <strong>any</strong> API, and deploy and manage stacks in Azure, AWS and many, many more.</p>
+<p>I&#8217;ve been following <a href="https://www.pulumi.com/" target="_blank" rel="noopener">Pulumi </a>for a while, and their approach is a bit different than the previous stated tools.</p>
+<p><span id="more-272"></span></p>
+<p>Pulumi states their product as follows:</p>
+<blockquote><p>Modern Infrastructure as Code.</p>
+<p>Declare cloud infrastructure using real languages. Enable developers and operators to work better together.</p></blockquote>
+<p>With &#8216;real&#8217; languages they mean programming languages. At this moment JavaScript, TypeScript, Python, Go, or any .NET language, including C#, F#, and VB are supported. I did some testing with C#, and although it is in preview, it works great:</p>
+<p><img loading="lazy" data-attachment-id="274" data-permalink="https://peterrombouts.nl/pulumi_0_languages/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_0_languages.png" data-orig-size="767,520" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Pulumi_0_Languages" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_0_languages.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_0_languages.png?w=767" class="alignnone size-full wp-image-274" src="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_0_languages.png" alt="Pulumi_0_Languages" width="767" height="520" srcset="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_0_languages.png 767w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_0_languages.png?w=150&amp;h=102 150w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_0_languages.png?w=300&amp;h=203 300w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 61vw, (max-width: 1362px) 45vw, 600px" /></p>
+<h2>Installing Pulumi</h2>
+<p>The install is pretty simple. <a href="https://www.pulumi.com/docs/get-started/install/" target="_blank" rel="noopener">This page</a> will get you up and running in no time. I personally used Chocolatey but you can download the tool for Windows, MacOS and Linux if you want.</p>
+<h2>Getting Started with Azure</h2>
+<p>The getting started guides work great. The only thing you need (in my example for Azure) is an account. The page <a href="https://www.pulumi.com/docs/get-started/azure/" target="_blank" rel="noopener">https://www.pulumi.com/docs/get-started/azure/</a> show you a step-by-step guide.</p>
+<h3>Deploying resources</h3>
+<p>I&#8217;ve picked a simple setup, having one resource group in Azure, with one Storage Account. To deploy the stack to Azure, a simple &#8216;pulumi up&#8217; command fires up Pulumi. Just like Terraform, you can see what will happen if you deploy this command. In this case you see that a Stack in Pulumi is created, and a resourceGroup and storage account will be setup in Azure:</p>
+<p><img loading="lazy" data-attachment-id="275" data-permalink="https://peterrombouts.nl/pulumi_1_deployfirsttime/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_1_deployfirsttime.png" data-orig-size="1604,800" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Pulumi_1_deployfirsttime" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_1_deployfirsttime.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_1_deployfirsttime.png?w=840" class="alignnone size-full wp-image-275" src="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_1_deployfirsttime.png" alt="Pulumi_1_deployfirsttime" width="1604" height="800" srcset="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_1_deployfirsttime.png 1604w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_1_deployfirsttime.png?w=150&amp;h=75 150w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_1_deployfirsttime.png?w=300&amp;h=150 300w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_1_deployfirsttime.png?w=768&amp;h=383 768w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_1_deployfirsttime.png?w=1024&amp;h=511 1024w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_1_deployfirsttime.png?w=1440&amp;h=718 1440w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>After choosing &#8216;yes&#8217;, you will see Pulumi actually deploying your stack. In the picture below the account has been created, and we see the output plus duration (don&#8217;t worry, the storage account has been deleted so the key not valid anymore):</p>
+<p><img loading="lazy" data-attachment-id="276" data-permalink="https://peterrombouts.nl/pulumi_2_deploymentcreated/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_2_deploymentcreated.png" data-orig-size="1607,820" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Pulumi_2_deploymentcreated" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_2_deploymentcreated.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_2_deploymentcreated.png?w=840" class="alignnone size-full wp-image-276" src="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_2_deploymentcreated.png" alt="Pulumi_2_deploymentcreated" width="1607" height="820" srcset="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_2_deploymentcreated.png 1607w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_2_deploymentcreated.png?w=150&amp;h=77 150w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_2_deploymentcreated.png?w=300&amp;h=153 300w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_2_deploymentcreated.png?w=768&amp;h=392 768w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_2_deploymentcreated.png?w=1024&amp;h=523 1024w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_2_deploymentcreated.png?w=1440&amp;h=735 1440w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<h3>Updating resources</h3>
+<p>The next step shows what happens if we update something in the stack. In this case, we have updated that the storage account only allows HTTPS traffic. The pulumi up command shows us the expected changes, and shows us it will update the storage account:</p>
+<p><img loading="lazy" data-attachment-id="277" data-permalink="https://peterrombouts.nl/pulumi_3_incrementalupdate/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_3_incrementalupdate.png" data-orig-size="1610,841" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Pulumi_3_incrementalupdate" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_3_incrementalupdate.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_3_incrementalupdate.png?w=840" class="alignnone size-full wp-image-277" src="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_3_incrementalupdate.png" alt="Pulumi_3_incrementalupdate" width="1610" height="841" srcset="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_3_incrementalupdate.png 1610w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_3_incrementalupdate.png?w=150&amp;h=78 150w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_3_incrementalupdate.png?w=300&amp;h=157 300w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_3_incrementalupdate.png?w=768&amp;h=401 768w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_3_incrementalupdate.png?w=1024&amp;h=535 1024w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_3_incrementalupdate.png?w=1440&amp;h=752 1440w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<p>After choosing yes, the update will start, and it will display the next image. As you can see, 1 resource was updated, and 2 were unchanged:</p>
+<p><img loading="lazy" data-attachment-id="278" data-permalink="https://peterrombouts.nl/pulumi_4_incrementcompleted/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_4_incrementcompleted.png" data-orig-size="1606,822" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Pulumi_4_incrementcompleted" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_4_incrementcompleted.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_4_incrementcompleted.png?w=840" class="alignnone size-full wp-image-278" src="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_4_incrementcompleted.png" alt="Pulumi_4_incrementcompleted" width="1606" height="822" srcset="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_4_incrementcompleted.png 1606w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_4_incrementcompleted.png?w=150&amp;h=77 150w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_4_incrementcompleted.png?w=300&amp;h=154 300w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_4_incrementcompleted.png?w=768&amp;h=393 768w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_4_incrementcompleted.png?w=1024&amp;h=524 1024w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_4_incrementcompleted.png?w=1440&amp;h=737 1440w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<h3>Destroying resources</h3>
+<p>To destroy your resources, pulumi destroy will tear down everything, up until the stack in Pulumi itself:</p>
+<h3><img loading="lazy" data-attachment-id="279" data-permalink="https://peterrombouts.nl/pulumi_5_destroy/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_5_destroy.png" data-orig-size="1611,683" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="Pulumi_5_destroy" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_5_destroy.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_5_destroy.png?w=840" class="alignnone size-full wp-image-279" src="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_5_destroy.png" alt="Pulumi_5_destroy" width="1611" height="683" srcset="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_5_destroy.png 1611w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_5_destroy.png?w=150&amp;h=64 150w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_5_destroy.png?w=300&amp;h=127 300w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_5_destroy.png?w=768&amp;h=326 768w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_5_destroy.png?w=1024&amp;h=434 1024w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_5_destroy.png?w=1440&amp;h=611 1440w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></h3>
+<h2>Wait, Pulumi Stack?</h2>
+<p>Pulumi defines stacks of your deploys. To quote them on this:</p>
+<blockquote><p>Every Pulumi program is deployed to a stack. A stack is an isolated, independently configurable instance of a Pulumi program. Stacks are commonly used to denote different phases of development (such as development, staging and production) or feature branches (such as feature-x-dev, jane-feature-x-dev).</p></blockquote>
+<p>So, you can look at these like your set of resources. You can group them under Projects so it can be easier to manage. The webinterface of Pulumi is clean, and you can inspect all of your stacks and settings there:</p>
+<p><img loading="lazy" data-attachment-id="285" data-permalink="https://peterrombouts.nl/2019/12/16/infrastructure-as-code-with-pulumi/pulumistack/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumistack.png" data-orig-size="1854,889" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="PulumiStack" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumistack.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumistack.png?w=840" class="alignnone size-full wp-image-285" src="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumistack.png" alt="PulumiStack" width="1854" height="889" srcset="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumistack.png 1854w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumistack.png?w=150&amp;h=72 150w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumistack.png?w=300&amp;h=144 300w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumistack.png?w=768&amp;h=368 768w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumistack.png?w=1024&amp;h=491 1024w, https://peterrombouts.nl/wp-content/uploads/2019/12/pulumistack.png?w=1440&amp;h=690 1440w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /></p>
+<h2>Conclusion</h2>
+<p>This short blog is just to show you that there is more than the standard way of working with the cloud. Obviously you can use various APIs, SDKs or templates, but these sometimes can be a bit overwhelming for developers. Pulumi lets you choose your language, and makes sure your developers do not need to learn another language and still use the modern infrastructure-as-code techniques!</p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">272</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_0_languages.png" medium="image">
+			<media:title type="html">Pulumi_0_Languages</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_1_deployfirsttime.png" medium="image">
+			<media:title type="html">Pulumi_1_deployfirsttime</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_2_deploymentcreated.png" medium="image">
+			<media:title type="html">Pulumi_2_deploymentcreated</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_3_incrementalupdate.png" medium="image">
+			<media:title type="html">Pulumi_3_incrementalupdate</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_4_incrementcompleted.png" medium="image">
+			<media:title type="html">Pulumi_4_incrementcompleted</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumi_5_destroy.png" medium="image">
+			<media:title type="html">Pulumi_5_destroy</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2019/12/pulumistack.png" medium="image">
+			<media:title type="html">PulumiStack</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Software Maintainability in the Cloud Era</title>
+		<link>https://peterrombouts.nl/2019/10/14/software-maintainability-in-the-cloud-era/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Mon, 14 Oct 2019 07:33:17 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[Azure DevOps]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[Serverless]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=236</guid>
+
+					<description><![CDATA[Originally posted on SogetiLabs: https://labs.sogeti.com/software-maintainability-in-the-cloud-era/ The shift to cloud, and with that, to PaaS services or low code alternatives like LogicApps push the actual code developers see and use to the background. There is an ISO standard on software quality, and the maintenance best practices are well written and explained in the book Building Maintainable &#8230; <a href="https://peterrombouts.nl/2019/10/14/software-maintainability-in-the-cloud-era/" class="more-link">Continue reading<span class="screen-reader-text"> "Software Maintainability in the Cloud&#160;Era"</span></a>]]></description>
+										<content:encoded><![CDATA[
+<p><small><em>Originally posted on SogetiLabs: <a href="https://labs.sogeti.com/software-maintainability-in-the-cloud-era/" rel="nofollow">https://labs.sogeti.com/software-maintainability-in-the-cloud-era/</a></em></small></p>
+
+
+
+<p></p>
+
+
+
+<p>The shift to cloud, and with that, to PaaS services or low code alternatives like <a rel="noopener" href="https://azure.microsoft.com/en-us/services/logic-apps/" target="_blank">LogicApps</a> push the actual code developers see and use to the background.</p>
+
+
+
+<p>There is an <a href="https://www.iso.org/standard/35733.html" target="_blank" rel="noopener">ISO standard</a> on software quality, and the maintenance best practices are well written and explained in the book <a href="https://www.amazon.com/Building-Maintainable-Software-Guidelines-Future-Proof/dp/1491954523" target="_blank" rel="noopener">Building Maintainable Software</a>. Within low code systems, applying these guidelines can be less obvious and it can be a difficult task automating and testing the quality of your code with tools like <a href="https://www.sonarqube.org/" target="_blank" rel="noopener">SonarQube</a>.</p>
+
+
+
+<p>Should we even worry about the underlying code? Absolutely. The principles still adhere and creating a spaghetti of your low code systems can cause major issues on maintenance or adding new features.</p>
+
+
+
+<p>Let&#8217;s focus on three points of the maintainability guidelines:</p>
+
+
+
+<ol class="wp-block-list"><li>Write code once</li><li>Couple architecture components loosely</li><li>Automate development pipeline and tests</li></ol>
+
+
+
+<p>In <strong>no way</strong> these are the most important items, but for this example an easy entry into the low code space.</p>
+
+
+
+<h2 class="wp-block-heading">1. Write code once</h2>
+
+
+
+<p>Just like any other audit of software, you still can avoid writing duplicate code. In a platform like LogicApps it can be easy to repeat a custom call to something like a custom HTTP API.</p>
+
+
+
+<p>In traditional languages like C#, you have many options to reuse your code. You could create a library, or you can create a package and make it available via NuGet. Within low code systems, these same packaging mechanisms not always exist.</p>
+
+
+
+<p>Taking the example of LogicApps, the solution could be to create <a href="https://docs.microsoft.com/en-us/connectors/custom-connectors/" target="_blank" rel="noopener">Custom Connectors</a>. These will wrap your custom API calls into a reusable component you can share within your organisation, or even outside.</p>
+
+
+
+<h2 class="wp-block-heading">2. Couple architecture components loosely</h2>
+
+
+
+<p>If your components are tightly coupled, it can be troublesome to replace or refactor your components. The impact will be on each and every other component that has a high coupling with your part.</p>
+
+
+
+<p>Again taking the LogicApps for example, let&#8217;s state our LogicApp calls another component directly using HTTP. The Azure Portal gives you this out of the box, letting you call <a href="https://azure.microsoft.com/en-us/services/functions/" target="_blank" rel="noopener">Azure Functions</a> directly from your LogicApp.</p>
+
+
+
+<p>This goes agains the principle of loosely coupling. The reason is that your call is directly bound to that function, so changing the interface or location of your function, impacts the LogicApp directly. In this case, it would simply break and stop working.</p>
+
+
+
+<p>To solve this problem, a simple solution is to decouple the LogicApp and the Azure Function using a queueing mechanism. This way, the message to the Azure Function is put on a queue by the LogicApp, and the Azure Function listens on a queue. Now, if the developer of the Azure Function changes location or even use another platform, there is no need to change the LogicApp.</p>
+
+
+
+<p><em>Obviously this would require you to make an agreement on the contents of the messages on the queue. </em></p>
+
+
+
+<h2 class="wp-block-heading">3. Automate development pipeline and test</h2>
+
+
+
+<p>Automating your CICD pipelines allows you to more easily build, test and deploy your code. In case of a language like C# or Java, you can easily run tests, build your code, and create packages or deployments. A tool like <a href="https://azure.microsoft.com/en-us/services/devops/" target="_blank" rel="noopener">Azure DevOps</a> can combine these steps and lets you create a wealth of quality gates, checks and processes to guide your team.</p>
+
+
+
+<p>When using low code platforms, it can be cumbersome to get the code into your version control systems. Nevertheless, many of those platforms do give you the tooling. LogiApps for example has <a href="https://docs.microsoft.com/en-us/azure/logic-apps/logic-apps-create-azure-resource-manager-templates" target="_blank" rel="noopener">template creators</a>, and systems like OutSystems have their own CICD ecosystem.</p>
+
+
+
+<p>In the end the automation allows you to more easily add steps to your CICD process, and allow you to deploy more frequently without any hassle. The addition of automated testing will absolutely be beneficial to the overall quality of your product.</p>
+
+
+
+<h2 class="wp-block-heading">Concluding</h2>
+
+
+
+<p>Treat your low code just like you would any other codebase. Almost all guidelines of mainainability can be mapped to your product. Some can may require a bit more investment, but in the end I truly believe it will help building a maintainable and high-quality (low) code base.</p>
+
+
+
+<p>If you want to expand on the process part of high-quality software, please also take a look at the follow-up book of this series: <a href="https://www.amazon.com/Building-Software-Teams-Practices-Development/dp/149195177X" target="_blank" rel="noopener">Building Software Teams</a></p>
+]]></content:encoded>
+					
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">236</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Migrating from Jira to Azure DevOps</title>
+		<link>https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/</link>
+					<comments>https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/#comments</comments>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Fri, 09 Aug 2019 08:27:32 +0000</pubDate>
+				<category><![CDATA[Azure DevOps]]></category>
+		<category><![CDATA[CICD]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=212</guid>
+
+					<description><![CDATA[As far as I&#8217;m concerned, a team can use any tool they want to track their work items and planning. But, my personal favourite is Azure DevOps. Currently I&#8217;m helping some teams moving their Jira projects to DevOps and this blog explains how you can do this, too! Uniformity and standards For several reasons it &#8230; <a href="https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/" class="more-link">Continue reading<span class="screen-reader-text"> "Migrating from Jira to Azure&#160;DevOps"</span></a>]]></description>
+										<content:encoded><![CDATA[<p>As far as I&#8217;m concerned, a team can use any tool they want to track their work items and planning. But, my personal favourite is <a href="https://azure.microsoft.com/en-us/services/devops/" target="_blank" rel="noopener">Azure DevOps</a>. Currently I&#8217;m helping some teams moving their Jira projects to DevOps and this blog explains how you can do this, too!</p>
+<p><span id="more-212"></span></p>
+<h2>Uniformity and standards</h2>
+<p>For several reasons it can be frustrating if teams use multiple tools for the same purpose. For sake of uniformity, I believe it is best to have standards within your company. In the case of my current customer, that standard is Azure DevOps.</p>
+<p>Obviously you want to migrate your work from the old to the new platform. Azure DevOps has the ability to use APIs to ingest data, and you can export Jira as well. To do this manually and figure out all the moving parts, you will have quite a challenge.</p>
+<h2>Enter Solidify</h2>
+<p>I was pointed to a really great tool by the team of <a href="https://www.solidify.se/" target="_blank" rel="noopener">Solidify</a>, the <a href="https://github.com/solidify/jira-azuredevops-migrator" target="_blank" rel="noopener">Jira to Azure DevOps work item migration tool</a>.</p>
+<blockquote><p>The Jira to Azure DevOps work item migration tool lets you export data from Jira and import it as work items in Azure DevOps or Microsoft Team Foundation Server</p></blockquote>
+<p>This sounds exactly like what we need! Because every project is different, it can be tricky setting up all the mapping of statuses, and figuring out how to connect to the correct instances.</p>
+<p>The documentation of the tool is great, but this blog will give a step-by-step approach on how to do a migration.</p>
+<h2>Getting the tool</h2>
+<p>The Github link in the beginning of this post is the starting point for all documentation of the tool. To download the release directly, point your browser to <a href="https://github.com/solidify/jira-azuredevops-migrator/releases" target="_blank" rel="noopener">solidify/jira-azuredevops-migrator/releases</a>.</p>
+<h2>Preparing for your Jira export</h2>
+<p>The Github repo contains samples at <a href="https://github.com/solidify/jira-azuredevops-migrator/blob/master/docs/Samples/config-scrum.json" target="_blank" rel="noopener">this location</a>. Worth noting is that the setup of the configuration file is essential. See the first few lines of the file below:</p>
+<pre>"source-project": "MyJiraProject",
+"target-project": "DevOps Project Name",
+"query": "project = 'MyJiraProject'",
+"workspace": "C:\\Temp\\JiraExport\\",
+"epic-link-field": "Epic Link",
+"sprint-field": "Sprint",
+"download-options": 7,
+"batch-size": 20,
+"log-level": "Info",
+"attachment-folder": "Attachments",
+"user-mapping-file": "",
+"base-area-path": "",
+"base-iteration-path": "",
+"ignore-failed-links": true,
+"process-template": "Agile",</pre>
+<p>As you can see, the source and target fields correspond with your data in Jira and DevOps respectively. The process-template field corresponds to what you have setup in DevOps, like CMMI, Scrum or Agile (or Basic).</p>
+<p>Next to setup, are the mappings. As you might know, some tasks, statuses or other properties differ in Jira and DevOps. Let&#8217;s say you have a Task in Jira with status <strong>Review</strong>. You might not have the same status in DevOps, so you want to <strong>map</strong> that to another status type. The same goes for types like &#8216;User Story&#8217; or &#8216;Epic&#8217;:</p>
+<pre>"type": [
+{
+   "source": "Feature",
+   "target": "Feature"
+},
+{
+   "source": "Epic",
+   "target": "Epic"
+},
+{
+   "source": "Story",
+   "target": "User Story"
+},
+{
+    "source": "Bug",
+    "target": "Bug"
+},
+{
+    "source": "Task",
+    "target": "User Story"
+},
+{
+    "source": "Sub-task",
+    "target": "Task"
+}
+]</pre>
+<p>Within the configuration file, you should specify all these mappings. If you fail to add one, the export tool will generate an error, so you can add the missing mapping and re-export Jira.</p>
+<h2>Running the Jira Export tool</h2>
+<p>If the config file is setup, you can run the tool using the following command:</p>
+<pre>jira-export.exe -u p.rombouts@yourdomain.com -p api-token-here --url https://yourinstance.atlassian.net --config config.json</pre>
+<p>As you can see I&#8217;ve setup the command using the API token. Please refer to <a href="https://github.com/solidify/jira-azuredevops-migrator/blob/master/docs/overview.md" target="_blank" rel="noopener">this page</a> on how to get an API token for Jira. In theory a password should work, but it did not work in my case.</p>
+<h2>Inspecting the export results</h2>
+<p>When the tool runs, you will see results directly in your CLI interface:</p>
+<pre>$ jira-export.exe -u username -p apitoken --url https://something.atlassian.net --config config.json
+Jira Exporter v2.2.25
+Copyright (c) Solidify
+Wow, there's a newer release out (v2.2.31)! We recommend downloading it for latest features and fixes.
+[I][10:12:11] Connecting to Jira...
+[I][10:12:11] Retrieving Jira fields...
+[I][10:12:12] Retrieving Jira link types...
+[I][10:12:12] Export started. Exporting 705 items.
+[I][10:12:13] Initializing Jira field mapping...
+[I][10:12:14] Processing 1/705 - 'Item-790'.
+[W][10:12:14] Could not find user 'someuser1@yourdomain.com' identity in user map. Using original identity 'someuser1@yourdomain.com'.
+[W][10:12:15] Could not find user 'someuser2@yourdomain.com' identity in user map. Using original identity 'someuser2@yourdomain.com'.
+[I][10:12:15] Processing 2/705 - 'Item-789'.</pre>
+<p>As seen in the above start of the export, some users could not be found in the mapping. This is done on purpose by me; I want the exact same users from Jira to be used in Azure DevOps. Optionally you could create a users.txt file, and map users in Jira to different users in Azure DevOps. If any fields or mappings are missing, you will also see this in your console.</p>
+<p><strong>Bonus</strong>: In the export directory specified in the config tool, the output is also saved to a file called something like <strong>jira-export-log-190809-101211.txt</strong>. So you do not need to save the output yourself and just let it roll!. The export can take quite some time, so sit back and grab a coffee.</p>
+<h2>Running the Azure DevOps Import tool</h2>
+<p>If the previous step completed without any mishaps, and all looks OK in the log file, you can import your Jira exported data into Azure DevOps.</p>
+<p>Again using the same config file, you can run the following command:</p>
+<pre>wi-import --token personal-access-token-here --url https://yourorganisation.visualstudio.com --config config.json --force</pre>
+<p>As you can see I&#8217;ve setup the command using the Personal Access Token. Please refer to <a href="https://github.com/solidify/jira-azuredevops-migrator/blob/master/docs/overview.md" target="_blank" rel="noopener">this page</a> on how to get one for Azure DevOps.</p>
+<p>Again this tool will provide you with verbose information, and will also dump a logfile to the same folder as where the Jira export resided.</p>
+<p>If everything went OK; you are now good to go in Azure DevOps!</p>
+<h2>Finalizing and cleaning up</h2>
+<p>Process wise it is smart to plan this ahead, with your team. You should have a cut-over date, and make sure that access to the old Jira project is read-only, or turned off, after you&#8217;re done exporting/importing. You do <strong>not</strong> want to maintain two boards for a team!</p>
+<h2>Conclusion</h2>
+<p>Hope you find this manual useful, the tool helped me out a great deal. The documentation is excellent and it is actively maintained by the fabulous team of Solidify. Can&#8217;t thank you guys enough!</p>
+]]></content:encoded>
+					
+					<wfw:commentRss>https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/feed/</wfw:commentRss>
+			<slash:comments>16</slash:comments>
+		
+		
+		<post-id xmlns="com-wordpress:feed-additions:1">212</post-id>
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+	</item>
+	</channel>
+</rss>

@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:georss="http://www.georss.org/georss" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:media="http://search.yahoo.com/mrss/"
+	
+	>
+<channel>
+	<title>
+	Comments on: Migrating from Jira to Azure DevOps	</title>
+	<atom:link href="https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/feed/" rel="self" type="application/rss+xml" />
+	<link>https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/</link>
+	<description>All things Cloud &#124; Software &#124; Coding &#124; Integration &#124; Automation &#124; DevSecAnythingOps &#124; Cloud Native &#124; Serverless</description>
+	<lastBuildDate>Mon, 20 Jul 2020 21:46:20 +0000</lastBuildDate>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>http://wordpress.com/</generator>
+	<item>
+		<title>
+		By: Peter		</title>
+		<link>https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/comment-page-1/#comment-375</link>
+
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Mon, 20 Jul 2020 21:46:20 +0000</pubDate>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=212#comment-375</guid>
+
+					<description><![CDATA[In reply to &lt;a href=&quot;https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/comment-page-1/#comment-374&quot;&gt;Ashok&lt;/a&gt;.
+
+You should check the output files before you import them. Those files will show how you import into devops. You can check if the mapping was correct, and if that is so, check your devops settings and make sure it is OK. Also during import the warnings should be looked at. Or look at the output log for errors and warnings. ]]></description>
+			<content:encoded><![CDATA[<p>In reply to <a href="https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/comment-page-1/#comment-374">Ashok</a>.</p>
+<p>You should check the output files before you import them. Those files will show how you import into devops. You can check if the mapping was correct, and if that is so, check your devops settings and make sure it is OK. Also during import the warnings should be looked at. Or look at the output log for errors and warnings. </p>
+<p id="comment-like-375" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/?like_comment=375&#038;_wpnonce=b6b48744e3" class="comment-like-link needs-login" rel="nofollow" data-blog="155596116"><span>Like</span></a><span id="comment-like-count-375" class="comment-like-feedback">Like</span></p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: Ashok		</title>
+		<link>https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/comment-page-1/#comment-374</link>
+
+		<dc:creator><![CDATA[Ashok]]></dc:creator>
+		<pubDate>Mon, 20 Jul 2020 17:30:51 +0000</pubDate>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=212#comment-374</guid>
+
+					<description><![CDATA[In reply to &lt;a href=&quot;https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/comment-page-1/#comment-373&quot;&gt;Peter&lt;/a&gt;.
+
+{
+        &quot;source&quot;: &quot;Status&quot;,
+        &quot;target&quot;: &quot;State&quot;,
+        &quot;for&quot;: &quot;Bug&quot;,
+        &quot;mapping&quot;: {
+          &quot;values&quot;: [
+            {
+              &quot;source&quot;: &quot;OPEN&quot;,
+              &quot;target&quot;: &quot;New&quot;
+            },
+	    {
+              &quot;source&quot;: &quot;IN PROGRESS&quot;,
+              &quot;target&quot;: &quot;Committed&quot;
+            },
+            {
+              &quot;source&quot;: &quot;CLOSED&quot;,
+              &quot;target&quot;: &quot;Done&quot;
+            }
+          ]
+        }
+      },
+
+This is how i have mapped.
+In jira the status is closed but in ADO it is showing as NEW or TO DO]]></description>
+			<content:encoded><![CDATA[<p>In reply to <a href="https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/comment-page-1/#comment-373">Peter</a>.</p>
+<p>{<br />
+        &#8220;source&#8221;: &#8220;Status&#8221;,<br />
+        &#8220;target&#8221;: &#8220;State&#8221;,<br />
+        &#8220;for&#8221;: &#8220;Bug&#8221;,<br />
+        &#8220;mapping&#8221;: {<br />
+          &#8220;values&#8221;: [<br />
+            {<br />
+              &#8220;source&#8221;: &#8220;OPEN&#8221;,<br />
+              &#8220;target&#8221;: &#8220;New&#8221;<br />
+            },<br />
+	    {<br />
+              &#8220;source&#8221;: &#8220;IN PROGRESS&#8221;,<br />
+              &#8220;target&#8221;: &#8220;Committed&#8221;<br />
+            },<br />
+            {<br />
+              &#8220;source&#8221;: &#8220;CLOSED&#8221;,<br />
+              &#8220;target&#8221;: &#8220;Done&#8221;<br />
+            }<br />
+          ]<br />
+        }<br />
+      },</p>
+<p>This is how i have mapped.<br />
+In jira the status is closed but in ADO it is showing as NEW or TO DO</p>
+<p id="comment-like-374" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/?like_comment=374&#038;_wpnonce=7de641afae" class="comment-like-link needs-login" rel="nofollow" data-blog="155596116"><span>Like</span></a><span id="comment-like-count-374" class="comment-like-feedback">Like</span></p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: Peter		</title>
+		<link>https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/comment-page-1/#comment-373</link>
+
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Mon, 20 Jul 2020 06:05:35 +0000</pubDate>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=212#comment-373</guid>
+
+					<description><![CDATA[In reply to &lt;a href=&quot;https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/comment-page-1/#comment-370&quot;&gt;Ashok&lt;/a&gt;.
+
+When the export is done, carefully look at the files that have been created. You can examine those, and check whether the statuses and other attributes are what you expect them to be. You have to create the mapping for statuses that are not in the default settings.]]></description>
+			<content:encoded><![CDATA[<p>In reply to <a href="https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/comment-page-1/#comment-370">Ashok</a>.</p>
+<p>When the export is done, carefully look at the files that have been created. You can examine those, and check whether the statuses and other attributes are what you expect them to be. You have to create the mapping for statuses that are not in the default settings.</p>
+<p id="comment-like-373" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/?like_comment=373&#038;_wpnonce=fff89b1f41" class="comment-like-link needs-login" rel="nofollow" data-blog="155596116"><span>Like</span></a><span id="comment-like-count-373" class="comment-like-feedback">Like</span></p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: Ashok		</title>
+		<link>https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/comment-page-1/#comment-370</link>
+
+		<dc:creator><![CDATA[Ashok]]></dc:creator>
+		<pubDate>Thu, 16 Jul 2020 15:56:14 +0000</pubDate>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=212#comment-370</guid>
+
+					<description><![CDATA[Hi Peter,
+I am trying to migrate WI from Jira to ADO but status is not getting updated in the files which got exported.
+It is showing only New &#038; Active other status is showing as null.
+Can you please help me out with the issue.]]></description>
+			<content:encoded><![CDATA[<p>Hi Peter,<br />
+I am trying to migrate WI from Jira to ADO but status is not getting updated in the files which got exported.<br />
+It is showing only New &amp; Active other status is showing as null.<br />
+Can you please help me out with the issue.</p>
+<p id="comment-like-370" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/?like_comment=370&#038;_wpnonce=23b437a5a6" class="comment-like-link needs-login" rel="nofollow" data-blog="155596116"><span>Like</span></a><span id="comment-like-count-370" class="comment-like-feedback">Like</span></p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: Ashok		</title>
+		<link>https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/comment-page-1/#comment-369</link>
+
+		<dc:creator><![CDATA[Ashok]]></dc:creator>
+		<pubDate>Thu, 16 Jul 2020 15:38:09 +0000</pubDate>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=212#comment-369</guid>
+
+					<description><![CDATA[Hie Peter,
+I have started migrating the WI from Jira to ADO but the status is going work. It is taking only 2 values New &#038; Active it is showing Null value. Can you please help me to resolve the issue.]]></description>
+			<content:encoded><![CDATA[<p>Hie Peter,<br />
+I have started migrating the WI from Jira to ADO but the status is going work. It is taking only 2 values New &amp; Active it is showing Null value. Can you please help me to resolve the issue.</p>
+<p id="comment-like-369" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/?like_comment=369&#038;_wpnonce=ac3e8cc8d9" class="comment-like-link needs-login" rel="nofollow" data-blog="155596116"><span>Like</span></a><span id="comment-like-count-369" class="comment-like-feedback">Like</span></p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: Peter		</title>
+		<link>https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/comment-page-1/#comment-339</link>
+
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Mon, 25 May 2020 13:49:17 +0000</pubDate>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=212#comment-339</guid>
+
+					<description><![CDATA[In reply to &lt;a href=&quot;https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/comment-page-1/#comment-338&quot;&gt;Charu&lt;/a&gt;.
+
+I suggest you look at https://docs.microsoft.com/en-us/azure/devops/test/create-a-test-plan?view=azure-devops
+I do not use test suites often so I don&#039;t have any up-to-date knowledge of those suites.]]></description>
+			<content:encoded><![CDATA[<p>In reply to <a href="https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/comment-page-1/#comment-338">Charu</a>.</p>
+<p>I suggest you look at <a href="https://docs.microsoft.com/en-us/azure/devops/test/create-a-test-plan?view=azure-devops" rel="nofollow ugc">https://docs.microsoft.com/en-us/azure/devops/test/create-a-test-plan?view=azure-devops</a><br />
+I do not use test suites often so I don&#8217;t have any up-to-date knowledge of those suites.</p>
+<p id="comment-like-339" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/?like_comment=339&#038;_wpnonce=8da73a9462" class="comment-like-link needs-login" rel="nofollow" data-blog="155596116"><span>Like</span></a><span id="comment-like-count-339" class="comment-like-feedback">Like</span></p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: Charu		</title>
+		<link>https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/comment-page-1/#comment-338</link>
+
+		<dc:creator><![CDATA[Charu]]></dc:creator>
+		<pubDate>Mon, 25 May 2020 13:39:03 +0000</pubDate>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=212#comment-338</guid>
+
+					<description><![CDATA[Hey! I am using scrum process. How to create requirement based test suites in hierarchy. I want a product backlog test suite &#038; then all related child links as child suites. Is this possible!!?]]></description>
+			<content:encoded><![CDATA[<p>Hey! I am using scrum process. How to create requirement based test suites in hierarchy. I want a product backlog test suite &amp; then all related child links as child suites. Is this possible!!?</p>
+<p id="comment-like-338" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/?like_comment=338&#038;_wpnonce=a1b3cfa9e7" class="comment-like-link needs-login" rel="nofollow" data-blog="155596116"><span>Like</span></a><span id="comment-like-count-338" class="comment-like-feedback">Like</span></p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: Charu		</title>
+		<link>https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/comment-page-1/#comment-337</link>
+
+		<dc:creator><![CDATA[Charu]]></dc:creator>
+		<pubDate>Mon, 25 May 2020 10:47:34 +0000</pubDate>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=212#comment-337</guid>
+
+					<description><![CDATA[In reply to &lt;a href=&quot;https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/comment-page-1/#comment-336&quot;&gt;Peter&lt;/a&gt;.
+
+Yes Peter! Thanks. Area path &#038; Iteration path need to be configured at both project &#038; team configuration. I was missing it from team configuration and so facing issue.]]></description>
+			<content:encoded><![CDATA[<p>In reply to <a href="https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/comment-page-1/#comment-336">Peter</a>.</p>
+<p>Yes Peter! Thanks. Area path &amp; Iteration path need to be configured at both project &amp; team configuration. I was missing it from team configuration and so facing issue.</p>
+<p id="comment-like-337" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/?like_comment=337&#038;_wpnonce=e958579fa7" class="comment-like-link needs-login" rel="nofollow" data-blog="155596116"><span>Like</span></a><span id="comment-like-count-337" class="comment-like-feedback">Liked by <a href="#" class="view-likers" data-like-count="1">1 person</a></span></p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: Peter		</title>
+		<link>https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/comment-page-1/#comment-336</link>
+
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Mon, 25 May 2020 09:17:53 +0000</pubDate>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=212#comment-336</guid>
+
+					<description><![CDATA[In reply to &lt;a href=&quot;https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/comment-page-1/#comment-334&quot;&gt;Charu&lt;/a&gt;.
+
+Hi Charu, If the items are imported, you should check Area Path(s) and Iteration Paths. There is a lot of documentation available, please look at: https://docs.microsoft.com/en-us/azure/devops/boards/backlogs/set-up-your-backlog?view=azure-devops.
+
+Hope this helps!]]></description>
+			<content:encoded><![CDATA[<p>In reply to <a href="https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/comment-page-1/#comment-334">Charu</a>.</p>
+<p>Hi Charu, If the items are imported, you should check Area Path(s) and Iteration Paths. There is a lot of documentation available, please look at: <a href="https://docs.microsoft.com/en-us/azure/devops/boards/backlogs/set-up-your-backlog?view=azure-devops" rel="nofollow ugc">https://docs.microsoft.com/en-us/azure/devops/boards/backlogs/set-up-your-backlog?view=azure-devops</a>.</p>
+<p>Hope this helps!</p>
+<p id="comment-like-336" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/?like_comment=336&#038;_wpnonce=00e34f0b0b" class="comment-like-link needs-login" rel="nofollow" data-blog="155596116"><span>Like</span></a><span id="comment-like-count-336" class="comment-like-feedback">Like</span></p>
+]]></content:encoded>
+		
+			</item>
+		<item>
+		<title>
+		By: Charu		</title>
+		<link>https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/comment-page-1/#comment-334</link>
+
+		<dc:creator><![CDATA[Charu]]></dc:creator>
+		<pubDate>Sat, 23 May 2020 11:50:19 +0000</pubDate>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=212#comment-334</guid>
+
+					<description><![CDATA[I have migrated work items successfully from jira to azure. At azure items are reflecting at work item menu but not at boards. I have used scrum process. Epics, product backlog items are there but not listing at boards. What should I do?]]></description>
+			<content:encoded><![CDATA[<p>I have migrated work items successfully from jira to azure. At azure items are reflecting at work item menu but not at boards. I have used scrum process. Epics, product backlog items are there but not listing at boards. What should I do?</p>
+<p id="comment-like-334" data-liked=comment-not-liked class="comment-likes comment-not-liked"><a href="https://peterrombouts.nl/2019/08/09/migrating-from-jira-to-azure-devops/?like_comment=334&#038;_wpnonce=9ed4f10f9e" class="comment-like-link needs-login" rel="nofollow" data-blog="155596116"><span>Like</span></a><span id="comment-like-count-334" class="comment-like-feedback">Like</span></p>
+]]></content:encoded>
+		
+			</item>
+	</channel>
+</rss>

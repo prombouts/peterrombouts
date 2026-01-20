@@ -1,0 +1,1499 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	xmlns:georss="http://www.georss.org/georss" xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#" xmlns:media="http://search.yahoo.com/mrss/"
+	>
+
+<channel>
+	<title>Peter Rombouts</title>
+	<atom:link href="https://peterrombouts.nl/feed/" rel="self" type="application/rss+xml" />
+	<link>https://peterrombouts.nl</link>
+	<description>All things Cloud &#124; Software &#124; Coding &#124; Integration &#124; Automation &#124; DevSecAnythingOps &#124; Cloud Native &#124; Serverless</description>
+	<lastBuildDate>Thu, 06 Jul 2023 07:58:30 +0000</lastBuildDate>
+	<language>en</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>http://wordpress.com/</generator>
+
+<image>
+	<url>https://peterrombouts.nl/wp-content/uploads/2023/11/peter.jpg?w=32</url>
+	<title>Peter Rombouts</title>
+	<link>https://peterrombouts.nl</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+<cloud domain='peterrombouts.nl' port='80' path='/?rsscloud=notify' registerProcedure='' protocol='http-post' />
+<atom:link rel="search" type="application/opensearchdescription+xml" href="https://peterrombouts.nl/osd.xml" title="Peter Rombouts" />
+	<atom:link rel='hub' href='https://peterrombouts.nl/?pushpress=hub'/>
+	<item>
+		<title>How to learn hacking from a TV series</title>
+		<link>https://peterrombouts.nl/2023/07/06/how-to-learn-hacking-from-a-tv-series/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Thu, 06 Jul 2023 07:45:48 +0000</pubDate>
+				<category><![CDATA[SogetiLabs]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=950</guid>
+
+					<description><![CDATA[Originally posted on SogetiLabs:https://labs.sogeti.com/how-to-learn-hacking-from-a-tv-series/ Often you see people hacking in movies and series, and it is a load of bogus. Mesmerizing 3D glasses and special gloves? No one actually hacks like that. But what movies or series actually kind-of, approximate the real deal? In comes Mr. Robot! This series (I watched in on Amazon Prime) &#8230; <a href="https://peterrombouts.nl/2023/07/06/how-to-learn-hacking-from-a-tv-series/" class="more-link">Continue reading<span class="screen-reader-text"> "How to learn hacking from a TV&#160;series"</span></a>]]></description>
+										<content:encoded><![CDATA[
+<p><small><em>Originally posted on SogetiLabs:<br></em></small><a href="https://labs.sogeti.com/how-to-learn-hacking-from-a-tv-series/" target="_blank" rel="noreferrer noopener">https://labs.sogeti.com/how-to-learn-hacking-from-a-tv-series/</a></p>
+
+
+
+<p>Often you see people hacking in movies and series, and it is a load of bogus. Mesmerizing 3D glasses and special gloves? No one actually hacks like that. But what movies or series actually kind-of, approximate the real deal? In comes <a rel="noreferrer noopener" href="https://en.wikipedia.org/wiki/Mr._Robot" target="_blank">Mr. Robot</a>!</p>
+
+
+
+<span id="more-950"></span>
+
+
+
+<figure class="wp-block-image"><img src="https://e476rzxxeua.exactdn.com/wp-content/uploads/2022/10/image-2.png?strip=all&amp;lossy=1&amp;resize=970%2C192&amp;ssl=1" alt="" class="wp-image-260145" /><figcaption class="wp-element-caption">Mr. Robot Logo</figcaption></figure>
+
+
+
+<p>This series (I watched in on <a href="https://en.wikipedia.org/wiki/Amazon_Prime" target="_blank" rel="noreferrer noopener">Amazon Prime</a>) is acclaimed for the accuracy and shows how hacking can be done with actual tools that hackers use.</p>
+
+
+
+<p>I’m not a hacker. As a software engineer, I’ve always been interested in how people break into my stuff, especially using crafty ideas and social engineering. In this blog I’m highlighting some of the tricks the main character uses to hack and crack his way into many systems.</p>
+
+
+
+<h2 class="wp-block-heading">Basic starting knowledge</h2>
+
+
+
+<p>Let’s start out with some common knowledge that is needed to pull these things off. First of all (basic) <strong>programming and scripting</strong> knowledge should be present! Most tools needed are based on command-line interfaces and can be called using scripting. Also, knowing and understanding how different <strong>Operating Systems </strong>work is important. Sometimes you run on Windows, and sometimes on Linux. You should be able to find your way around in those systems regardless. Last but not least <strong>networking</strong> should be part of your bag of tricks. You really need to understand IP addresses, routing, subnets, ports and that kind of stuff. Accessing PCs or devices remotely requires understanding of these components.</p>
+
+
+
+<h2 class="wp-block-heading">Kali Linux</h2>
+
+
+
+<p>What really stood out is that the main characters default OS is <a href="https://www.kali.org/" target="_blank" rel="noreferrer noopener">Kali Linux</a>. This is the most prominent penetration testing and ethical hacking Linux distribution out there today. It runs on many different devices and pretty much runs on every laptop you have lying around. I’ve installed Kali on some old Lenovo Yoga and it runs smoothly.</p>
+
+
+
+<p>The reasons many hackers use Linux in the first place is that most tools are, basically, written specifically for that platform. Also, the open-source license is attractive, and the extensibility is enormous.</p>
+
+
+
+<h2 class="wp-block-heading">DeepSound</h2>
+
+
+
+<p>Technically speaking not hacking, but in the series, the main character often hides files. He uses a tool to embed files and pictures within audio files and burns them on a CD. This is called <a href="https://en.wikipedia.org/wiki/Steganography" target="_blank" rel="noreferrer noopener">seganography</a> and the tool used is <a href="http://jpinsoft.net/DeepSound/" target="_blank" rel="noreferrer noopener">DeepSound</a>.</p>
+
+
+
+<figure class="wp-block-image"><img src="https://e476rzxxeua.exactdn.com/wp-content/uploads/2022/11/image.jpg?strip=all&amp;lossy=1&amp;resize=647%2C375&amp;ssl=1" alt="" class="wp-image-261515" /><figcaption class="wp-element-caption">Screen capture of the show with audio CDs with embedded data.</figcaption></figure>
+
+
+
+<p>So, how does this actually work? You can simply <a href="http://jpinsoft.net/DeepSound/" target="_blank" rel="noreferrer noopener">download the tool</a> and run it! You can then open ‘carrier’ files, in this case audio was used, and ’embed’ another file in there:</p>
+
+
+
+<figure class="wp-block-image"><img src="https://e476rzxxeua.exactdn.com/wp-content/uploads/2022/11/image.png?strip=all&amp;lossy=1&amp;resize=846%2C575&amp;ssl=1" alt="" class="wp-image-261535" /><figcaption class="wp-element-caption">Image courtesy of <a href="http://jpinsoft.net/DeepSound/">DeepSound -&gt; Overview | jpinsoft.net</a></figcaption></figure>
+
+
+
+<p>As you can see in the screenshot, you can basically embed your secret files in any audio file. Nowadays audio CDs are for old people like me, but still, hiding a CD in your collection is pretty nifty if you ask me!</p>
+
+
+
+<h2 class="wp-block-heading">Internet of Things</h2>
+
+
+
+<p>In several episodes, rogue Raspberry Pi’s were used to hack HVAC (climate control) or even UPS and power supplies. While that seems a bit far-fetched, one thing stands out. The main character uses an actual search engine for internet connected devices called <strong><a href="https://www.shodan.io/" target="_blank" rel="noreferrer noopener">Shodan</a></strong>. Sometimes called the search engine for hackers, and even ‘<strong>the world’s most dangerous search engine</strong>‘, the search engine can be invaluable for hackers. Shodan basically finds webcams, traffic systems, anything connected to the web on the common ftp/ssh/telnet/snmp/sip and of course web ports.</p>
+
+
+
+<p>Running a simple search for IIS (Internet Information Services, a widely used Microsoft webserver) shows us the following results:</p>
+
+
+
+<figure class="wp-block-image"><img src="https://e476rzxxeua.exactdn.com/wp-content/uploads/2022/11/image-1.png?strip=all&amp;lossy=1&amp;resize=970%2C556&amp;ssl=1" alt="" class="wp-image-261555" /><figcaption class="wp-element-caption">Shodan.io search output for IIS</figcaption></figure>
+
+
+
+<p>You can imagine that if a vulnerability arises for IIS, you can (mis)use this information to your advantage…</p>
+
+
+
+<h2 class="wp-block-heading">Start your journey</h2>
+
+
+
+<p>While I’m not an advocate of any of the readers to start hacking everything you see, it can be really useful to understand how these things work. Everything starts with <strong>awareness</strong> and understanding these tools can open your eyes on how to connect devices, or even how to write your code.</p>
+
+
+
+<p>This blog stated some of the tools used in the show. You can freely start using Kali Linux and for example spin up a Raspberry Pi to see how the tools work.</p>
+
+
+
+<p>Final remark; <strong>watch the show</strong>! Drop me a line if you’re a fan like me!</p>
+]]></content:encoded>
+					
+		
+		
+		
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://e476rzxxeua.exactdn.com/wp-content/uploads/2022/10/image-2.png?strip=all&#038;lossy=1&#038;resize=970%2C192&#038;ssl=1" medium="image" />
+
+		<media:content url="https://e476rzxxeua.exactdn.com/wp-content/uploads/2022/11/image.jpg?strip=all&#038;lossy=1&#038;resize=647%2C375&#038;ssl=1" medium="image" />
+
+		<media:content url="https://e476rzxxeua.exactdn.com/wp-content/uploads/2022/11/image.png?strip=all&#038;lossy=1&#038;resize=846%2C575&#038;ssl=1" medium="image" />
+
+		<media:content url="https://e476rzxxeua.exactdn.com/wp-content/uploads/2022/11/image-1.png?strip=all&#038;lossy=1&#038;resize=970%2C556&#038;ssl=1" medium="image" />
+	</item>
+		<item>
+		<title>Monitor (IoT) devices with Node-RED and Azure LogicApps</title>
+		<link>https://peterrombouts.nl/2022/08/13/monitor-iot-devices-with-node-red-and-azure-logicapps/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Sat, 13 Aug 2022 08:28:07 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[Software Engineering]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=792</guid>
+
+					<description><![CDATA[Originally posted on SogetiLabs:https://labs.sogeti.com/monitor-iot-devices-with-node-red-and-azure-logicapps/ In this blog I&#8217;m going to explain how to monitor your IoT or other devices without having to open up ports, install agents or require access to your network. We will rely on Node-RED, Azure LogicApps and Azure Monitor Alerts. Opening up ports you say? If you like to tinker, like &#8230; <a href="https://peterrombouts.nl/2022/08/13/monitor-iot-devices-with-node-red-and-azure-logicapps/" class="more-link">Continue reading<span class="screen-reader-text"> "Monitor (IoT) devices with Node-RED and Azure&#160;LogicApps"</span></a>]]></description>
+										<content:encoded><![CDATA[
+<p><small><em>Originally posted on SogetiLabs:<br></em></small><a href="https://labs.sogeti.com/monitor-iot-devices-with-node-red-and-azure-logicapps/" target="_blank" rel="noreferrer noopener">https://labs.sogeti.com/monitor-iot-devices-with-node-red-and-azure-logicapps/</a></p>
+
+
+
+<p>In this blog I&#8217;m going to explain how to monitor your IoT or other devices without having to open up ports, install agents or require access to your network. We will rely on Node-RED, Azure LogicApps and Azure Monitor Alerts.</p>
+
+
+
+<span id="more-792"></span>
+
+
+
+<h2 class="wp-block-heading">Opening up ports you say?</h2>
+
+
+
+<p>If you like to tinker, like me, and have a Raspberri Pi somewhere in your network, you probably want to now if it is running properly, and what the temperature is. You could open up a port on your modem/router and check from the outside (with something like uptimerobot) if the device is up and running. </p>
+
+
+
+<p>There are some problems with this approach. First of all, you will need a fixed IP, or some crappy DNS service that will fail once in a while (rendering your monitoring useless). The second problem is, a simple ping is not really helpful so you want to setup a probe of some sort, or allow SSH access.</p>
+
+
+
+<p>Opening up ports also open up the possibility of people other than you logging onto your network with all kinds of mayhem as a result.</p>
+
+
+
+<h2 class="wp-block-heading">Example: Temperature monitoring on a Raspberry Pi</h2>
+
+
+
+<p>So how can we solve the problem? Let&#8217;s take a simple example. My Raspberry Pi is located near my fuse box. Yes, I&#8217;ve fitted it with heatsinks but still temperature is important to monitor, as a higher temperature will decrease the lifespan. How to monitor this without opening up ports?</p>
+
+
+
+<p>In come <a rel="noreferrer noopener" href="https://nodered.org/" target="_blank">Node-RED</a> and <a rel="noreferrer noopener" href="https://azure.microsoft.com/services/logic-apps/" target="_blank">Azure LogicApps</a>!</p>
+
+
+
+<h3 class="wp-block-heading">Prepare your Pi</h3>
+
+
+
+<p>For sake of shortening this article, I&#8217;m not diving into the full setup. But if you run a factory default Raspberry Pi, Node-RED is by default installed. Otherwise find the installation instructions <a href="https://nodered.org/docs/getting-started/raspberrypi" target="_blank" rel="noreferrer noopener">over here</a>.</p>
+
+
+
+<h3 class="wp-block-heading">Setup a LogicApp</h3>
+
+
+
+<p>We will start with a really simple LogicApp, that receives a POST request from Node-RED, and parse the information. It will then determine if it needs to notify you, or not. We also will save the temperature into a table storage (bonus) to see the history over time.</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="793" height="654" data-attachment-id="804" data-permalink="https://peterrombouts.nl/2022/08/13/monitor-iot-devices-with-node-red-and-azure-logicapps/logicappnodered/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/08/logicappnodered.png" data-orig-size="793,654" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="logicappnodered" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/08/logicappnodered.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/08/logicappnodered.png?w=793" src="https://peterrombouts.nl/wp-content/uploads/2022/08/logicappnodered.png?w=793" alt="" class="wp-image-804" srcset="https://peterrombouts.nl/wp-content/uploads/2022/08/logicappnodered.png 793w, https://peterrombouts.nl/wp-content/uploads/2022/08/logicappnodered.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/08/logicappnodered.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/08/logicappnodered.png?w=768 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 61vw, (max-width: 1362px) 45vw, 600px" /><figcaption class="wp-element-caption">LogicApp screenshot</figcaption></figure>
+
+
+
+<p>Explanation or the LogicApp:</p>
+
+
+
+<ol class="wp-block-list">
+<li>The first step is a HTTP trigger. We want to receive a POST from the Node-RED flow running on our Raspberri Py</li>
+
+
+
+<li>As we are going to receive a temperature, we need to initialize a float variable to hold that value. While initializing we also decode the incoming message. Node-RED will send a base64 encoded string, so a simple function in LogicApps helps us to create a float: &#8216;<strong>@float(base64ToString(triggerBody()?[&#8216;$content&#8217;]))</strong>&#8216;</li>
+
+
+
+<li>After this, we want to save the result in a storage table. Just so we can see the history of the values, and perhaps plot some graph in the future, food for another blog.</li>
+
+
+
+<li>Finally we want to check if the temperature is reaching a treshold. In this example the treshold is 70 degrees Celsius. So if the temperature goes above that value, I&#8217;ve setup an email to myself in the &#8216;True&#8217; block of the LogicApp.</li>
+</ol>
+
+
+
+<p>To download the LogicApp code, see <a href="https://gist.github.com/prombouts/7fa11d4af56516db45ef0d4d2bea1942" target="_blank" rel="noreferrer noopener">the gist over here</a>.</p>
+
+
+
+<h3 class="wp-block-heading">Create your Node-RED flow</h3>
+
+
+
+<p>Now that we&#8217;ve setup the receiving end of our solution, we need to setup the Raspberry Pi flow. The following Node-RED flow will get the temperature, and call the Azure LogicApp every 15 minutes!</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="430" data-attachment-id="805" data-permalink="https://peterrombouts.nl/2022/08/13/monitor-iot-devices-with-node-red-and-azure-logicapps/noderedflow/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/08/noderedflow.png" data-orig-size="1155,486" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="noderedflow" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/08/noderedflow.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/08/noderedflow.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/08/noderedflow.png?w=1024" alt="" class="wp-image-805" srcset="https://peterrombouts.nl/wp-content/uploads/2022/08/noderedflow.png?w=1022 1022w, https://peterrombouts.nl/wp-content/uploads/2022/08/noderedflow.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/08/noderedflow.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/08/noderedflow.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/08/noderedflow.png 1155w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption class="wp-element-caption">Node-RED flow</figcaption></figure>
+
+
+
+<p>Explanation of the above flow:</p>
+
+
+
+<ol class="wp-block-list">
+<li>The timestamp node runs every 15 minutes, simply for trigger usage</li>
+
+
+
+<li>The second node gets the actual temperature from the Raspberry Pi OS</li>
+
+
+
+<li>As this temperature has text in it, we need to extract the value only without any text</li>
+
+
+
+<li>We call the LogicApp and it will post the value</li>
+</ol>
+
+
+
+<p>This example is really simple, and you can download the code of <a rel="noreferrer noopener" href="https://gist.github.com/prombouts/98233a00106730bcd53b134c4f49cb87" target="_blank">the gist here</a>.</p>
+
+
+
+<p>And we are done! You now have a fully working example of checking your temperature, and getting notified when the temperature goes beyond your set treshold.</p>
+
+
+
+<h2 class="wp-block-heading">Heartbeat</h2>
+
+
+
+<p>No, not <a rel="noreferrer noopener" href="https://youtu.be/5CR4lSORZ_Q" target="_blank">Don Johnsons song</a>; You know how a doctor checks if you are alive right? Listening to your heartbeat is one of those ways.</p>
+
+
+
+<p>The problem with the temperature monitoring is that when my Pi dies or hangs, I&#8217;m <strong>unaware </strong>of any issues. A <strong>heartbeat </strong>check will fix this problem.</p>
+
+
+
+<p>If you setup the temperature monitoring, we basically already have a periodical call from the Pi towards Azure. And boom, that is basically a heartbeat!</p>
+
+
+
+<p>In come <a href="https://docs.microsoft.com/azure/azure-monitor/alerts/alerts-overview" target="_blank" rel="noreferrer noopener">Azure Monitor Alerts</a>!</p>
+
+
+
+<p>Alerts in Azure can trigger on fails, but also on successes. Simply put, if we <strong>do not</strong> receive a call, the device is offline. In my example scenario I&#8217;m calling the LogicApp every 15 minutes. So, if I have less than 3 calls in an hour, something is wrong!</p>
+
+
+
+<h3 class="wp-block-heading">Setting up Azure Alerts</h3>
+
+
+
+<p>Creating alerts is pretty simple. Just go to the alerting section of your LogicApp, in the portal:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="536" data-attachment-id="807" data-permalink="https://peterrombouts.nl/2022/08/13/monitor-iot-devices-with-node-red-and-azure-logicapps/alerting/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/08/alerting.png" data-orig-size="1059,555" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="alerting" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/08/alerting.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/08/alerting.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/08/alerting.png?w=1024" alt="" class="wp-image-807" srcset="https://peterrombouts.nl/wp-content/uploads/2022/08/alerting.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/08/alerting.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/08/alerting.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/08/alerting.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/08/alerting.png 1059w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption class="wp-element-caption">Setup LogicApp alerts</figcaption></figure>
+
+
+
+<p>Just click on &#8216;Alerts&#8217; and create the rule!</p>
+
+
+
+<p>To simplify things, I copy/pasted/cropped the alert screen below:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="591" data-attachment-id="810" data-permalink="https://peterrombouts.nl/2022/08/13/monitor-iot-devices-with-node-red-and-azure-logicapps/heartbeat/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/08/heartbeat.png" data-orig-size="1045,604" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="heartbeat" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/08/heartbeat.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/08/heartbeat.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/08/heartbeat.png?w=1024" alt="" class="wp-image-810" srcset="https://peterrombouts.nl/wp-content/uploads/2022/08/heartbeat.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/08/heartbeat.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/08/heartbeat.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/08/heartbeat.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/08/heartbeat.png 1045w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption class="wp-element-caption">Configure Alerts</figcaption></figure>
+
+
+
+<p>As you can see above, we trigger based on number of <strong>Runs Completed</strong>. Like previously mentioned, we run the trigger every 15 minutes. So, in the above case I trigger the alert when I have <strong>less than</strong> 2 completed LogicApp runs in one hour. You can also go up to 3 completed runs, but I don&#8217;t care if my Pi is down for a short while.</p>
+
+
+
+<p>And there you have it; a working example of a heartbeat!</p>
+
+
+
+<h2 class="wp-block-heading">Concluding</h2>
+
+
+
+<p>In this blog I&#8217;ve explained how you can setup monitoring for your device (in this case a Raspberry Pi temperature) and how you can use those calls as a simple heartbeat. </p>
+
+
+
+<p>Basically I now have a warning system for my temperature and as a bonus, when my device goes down, I get a warning and everything without needing remote access!</p>
+]]></content:encoded>
+					
+		
+		
+		
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/08/logicappnodered.png?w=793" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/08/noderedflow.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/08/alerting.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/08/heartbeat.png?w=1024" medium="image" />
+	</item>
+		<item>
+		<title>Start with Unity: Setting up your development environment for your Oculus Quest 2</title>
+		<link>https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Thu, 16 Jun 2022 07:10:00 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[Software Engineering]]></category>
+		<category><![CDATA[SogetiLabs]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=712</guid>
+
+					<description><![CDATA[Originally posted on SogetiLabs:https://labs.sogeti.com/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/ So you have a Oculus Quest 2 lying around and want to develop with Unity? You&#8217;re at the right address. This blogpost will help you setup your environment. Setup your machine I&#8217;ve chosen to setup a virtual machine in the Microsoft Azure cloud. Why? Basically because my laptop has too much &#8230; <a href="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/" class="more-link">Continue reading<span class="screen-reader-text"> "Start with Unity: Setting up your development environment for your Oculus Quest&#160;2"</span></a>]]></description>
+										<content:encoded><![CDATA[
+<p><small><em>Originally posted on SogetiLabs:<br></em></small><a href="https://labs.sogeti.com/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/" target="_blank" rel="noreferrer noopener">https://labs.sogeti.com/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/</a></p>
+
+
+
+<p>So you have a Oculus Quest 2 lying around and want to develop with Unity? You&#8217;re at the right address. This blogpost will help you setup your environment.</p>
+
+
+
+<span id="more-712"></span>
+
+
+
+<h2 class="wp-block-heading">Setup your machine</h2>
+
+
+
+<p>I&#8217;ve chosen to setup a virtual machine in the Microsoft Azure cloud. Why? Basically because my laptop has too much crap installed and I want to develop on a clean, nice, Windows 11 machine. </p>
+
+
+
+<p>For this I use <a href="https://azure.microsoft.com/services/devtest-lab" target="_blank" rel="noreferrer noopener">Azure DevTest labs</a>, so I can setup a new machine really quick, and make use of auto start and shutdown features to save money!</p>
+
+
+
+<p>I&#8217;m not diving into DevTest labs, but the specs of my machine are as follows:</p>
+
+
+
+<figure class="wp-block-table"><table><tbody><tr><td>Size</td><td>Standard_D8as_v5</td></tr><tr><td>Operating system</td><td>Windows</td></tr><tr><td>Base Image</td><td>Visual Studio 2019 Community (latest release) on Windows 11 Enterprise N (x64)</td></tr><tr><td>Disk</td><td>512GB SSD</td></tr><tr><td>RAM</td><td>32GB</td></tr></tbody></table></figure>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>Yes that is a 8 core machine. At this moment I advise you to convince your boss to give you a MSDN Enterprise subscription.</p><cite>Sincerely, your creditcard</cite></blockquote>
+
+
+
+<p>You also could run with a 4 core machine, but the 8 core is a lot snappier, obviously more cores is always better.</p>
+
+
+
+<h2 class="wp-block-heading">Install Tooling</h2>
+
+
+
+<p>When you started your VM, you will see the default screen of Windows 11. Due to the preinstalled tooling, Visual Studio 2019 Community and Unity Hub are already installed:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="576" data-attachment-id="727" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity1/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity1.png" data-orig-size="1920,1080" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity1" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity1.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity1.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity1.png?w=1024" alt="" class="wp-image-727" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity1.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity1.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity1.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity1.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity1.png 1920w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Brand new Windows 11 install</figcaption></figure>
+
+
+
+<p>First things first. We need to install the &#8216;Media Feature Pack&#8217; in Windows 11. If you do not install this, your build will fail in Unity later on, so go to Settings, select &#8216;Add an optional feature&#8217; and search for Media Feature Pack:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="800" data-attachment-id="729" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity2/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity2.png" data-orig-size="1279,1000" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity2" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity2.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity2.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity2.png?w=1024" alt="" class="wp-image-729" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity2.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity2.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity2.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity2.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity2.png 1279w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Add Media Feature Pack</figcaption></figure>
+
+
+
+<p>This step will require you to reboot your machine. Thanks to the 8 core VM this will be really quick.</p>
+
+
+
+<p>After the reboot, open the Unity Hub:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="576" data-attachment-id="731" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity3/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity3.png" data-orig-size="1920,1080" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity3" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity3.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity3.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity3.png?w=1024" alt="" class="wp-image-731" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity3.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity3.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity3.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity3.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity3.png 1920w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Old version of Unity Hub</figcaption></figure>
+
+
+
+<p>As you can see above, it will ask you to update. Please note that by default the &#8216;beta&#8217; channel is selected. Clicking on the cogwheel in the top right will allow you to revert to the &#8216;normal&#8217; feed. You can then update to the latest Hub (3.1.2) at time of this writing.</p>
+
+
+
+<p>And&#8230; Yes! You&#8217;ve just installed Unity Hub!</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="602" data-attachment-id="733" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity4/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity4.png" data-orig-size="1281,754" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity4" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity4.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity4.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity4.png?w=1024" alt="" class="wp-image-733" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity4.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity4.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity4.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity4.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity4.png 1281w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Welcome to Unity Hub 3.1.2</figcaption></figure>
+
+
+
+<p>Make sure you create a Unity account so you can create and select a license later on.</p>
+
+
+
+<p>After opening Unity Hub, you can install the actual editor. You can run multiple side by side, but in this case I just grabbed the latest one, and clicked Install:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="603" data-attachment-id="735" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity5/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity5.png" data-orig-size="1280,754" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity5" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity5.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity5.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity5.png?w=1024" alt="" class="wp-image-735" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity5.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity5.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity5.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity5.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity5.png 1280w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Install the Unity Editor</figcaption></figure>
+
+
+
+<p>When the install is finished, we need to add some modules:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="603" data-attachment-id="739" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity7-1/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity7-1.png" data-orig-size="1280,754" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity7-1" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity7-1.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity7-1.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity7-1.png?w=1024" alt="" class="wp-image-739" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity7-1.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity7-1.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity7-1.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity7-1.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity7-1.png 1280w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Go to the add modules</figcaption></figure>
+
+
+
+<p>As the Oculus Quest 2 runs on Android, select the Android Build Support like below:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="604" data-attachment-id="740" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity8/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity8.png" data-orig-size="1280,755" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity8" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity8.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity8.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity8.png?w=1024" alt="" class="wp-image-740" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity8.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity8.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity8.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity8.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity8.png 1280w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Android Build Support</figcaption></figure>
+
+
+
+<p>Congratulations! You&#8217;ve prepared your machine for creating Unity projects! The next part will explain creating your first Unity project.</p>
+
+
+
+<h2 class="wp-block-heading">My First Unity Project</h2>
+
+
+
+<p>To create your first project; fire up Unity Hub, and select &#8216;New Project&#8217;:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="603" data-attachment-id="744" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity9/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity9.png" data-orig-size="1280,754" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity9" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity9.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity9.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity9.png?w=1024" alt="" class="wp-image-744" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity9.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity9.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity9.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity9.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity9.png 1280w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Create new project</figcaption></figure>
+
+
+
+<p>As you can see above, I&#8217;ve selected a empty 3D (URP) project, named it &#8216;My First Project&#8217;. Click on &#8216;Create project&#8217; to get started.</p>
+
+
+
+<p>After some time, your editor will be loaded. But by default it won&#8217;t target Android. For this go to &#8216;File&#8217; -&gt; &#8216;Build Settings&#8230;&#8217;:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="785" data-attachment-id="746" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity10/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity10.png" data-orig-size="1253,961" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity10" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity10.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity10.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity10.png?w=1024" alt="" class="wp-image-746" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity10.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity10.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity10.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity10.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity10.png 1253w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Build Settings</figcaption></figure>
+
+
+
+<p>Select &#8216;Android&#8217; and click on &#8216;Switch Platform&#8217; to make sure you target Android. After that, select &#8216;Player Settings&#8230;&#8217;:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1005" height="900" data-attachment-id="748" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity11/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity11.png" data-orig-size="1005,900" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity11" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity11.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity11.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity11.png?w=1005" alt="" class="wp-image-748" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity11.png 1005w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity11.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity11.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity11.png?w=768 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Player Settings</figcaption></figure>
+
+
+
+<p>As you can see above, I&#8217;ve set the company name, and the product name to something of my choosing. Also make sure you check the &#8216;Auto Graphics API&#8217; checkbox or you will get reminded when you want to build. </p>
+
+
+
+<p>Also important is to set your Package Name correctly. Scrolling down in the Player Settings, will allow you to set that name. If you choose an invalid name the program wil nag about it, so keep it simple:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1005" height="900" data-attachment-id="750" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity12/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity12.png" data-orig-size="1005,900" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity12" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity12.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity12.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity12.png?w=1005" alt="" class="wp-image-750" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity12.png 1005w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity12.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity12.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity12.png?w=768 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Package Name</figcaption></figure>
+
+
+
+<h2 class="wp-block-heading">Adding Packages and setting the Scene</h2>
+
+
+
+<p>To be able to run this project actually on the VR glasses, you will need to install some packages. This might seem tedious, but it is needed every time you create a new project.</p>
+
+
+
+<p>Go to the Package Manager via the Windows menu:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="649" height="496" data-attachment-id="767" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity17/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity17.png" data-orig-size="649,496" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity17" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity17.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity17.png?w=649" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity17.png?w=649" alt="" class="wp-image-767" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity17.png 649w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity17.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity17.png?w=300 300w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 61vw, (max-width: 1362px) 45vw, 600px" /><figcaption>Package Manager location</figcaption></figure>
+
+
+
+<p>And install the packages highlighted below:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="802" height="569" data-attachment-id="769" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity18/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity18.png" data-orig-size="802,569" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity18" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity18.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity18.png?w=802" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity18.png?w=802" alt="" class="wp-image-769" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity18.png 802w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity18.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity18.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity18.png?w=768 768w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 984px) 61vw, (max-width: 1362px) 45vw, 600px" /><figcaption>Install important packages</figcaption></figure>
+
+
+
+<p>Finally make sure your scene is a &#8216;XRRig&#8217; one, like shown below:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="376" height="263" data-attachment-id="770" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity19/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity19.png" data-orig-size="376,263" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity19" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity19.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity19.png?w=376" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity19.png?w=376" alt="" class="wp-image-770" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity19.png 376w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity19.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity19.png?w=300 300w" sizes="(max-width: 376px) 85vw, 376px" /><figcaption>XR Rig Scene</figcaption></figure>
+
+
+
+<p>Just play around with the &#8216;Plus&#8217; button to see how everything works.</p>
+
+
+
+<h2 class="wp-block-heading">If you build it, they will come</h2>
+
+
+
+<p>Obviously (for me) you will need to build the actual application. As we are building an Android App, it will create an APK file:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="647" data-attachment-id="752" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity13/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity13.png" data-orig-size="1334,843" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity13" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity13.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity13.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity13.png?w=1024" alt="" class="wp-image-752" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity13.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity13.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity13.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity13.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity13.png 1334w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Build</figcaption></figure>
+
+
+
+<p>The screenshot above shows what happens after clicking the Build button. You will get a popup and should be able to select a name and location for your file.</p>
+
+
+
+<p>And you are done! You&#8217;ve successfully built your first APK file for the Oculus Quest 2.</p>
+
+
+
+<h2 class="wp-block-heading">Deploying to your Oculus Quest 2</h2>
+
+
+
+<p>There are several ways of deploying Android applications to a device. Doing it outside of a appstore is called sideloading, and can be done using a tool.</p>
+
+
+
+<p>First of all you will need the USB drivers, and a USB cable. <a href="https://developer.oculus.com/downloads/package/oculus-adb-drivers/" target="_blank" rel="noreferrer noopener">Follow this guide</a> to install the drivers otherwise it won&#8217;t work.</p>
+
+
+
+<p>Next, make sure your Oculus Quest 2 has &#8216;Developer mode&#8217; enabled. <a href="https://developer.oculus.com/documentation/native/android/mobile-device-setup/" target="_blank" rel="noreferrer noopener">This easy guide</a> will help you do just that. It is basically setting a switch to &#8216;on&#8217;.</p>
+
+
+
+<p>In my quest (pun intented) of finding the absolute most easy way of doing this, I stumbled upon <a rel="noreferrer noopener" href="https://sidequestvr.com/" target="_blank">SideQuest</a>. Go to &#8216;Get SideQuest&#8217; install it, and you&#8217;re good to go.</p>
+
+
+
+<p>So, if your drivers are installed, and your glasses are linked to your PC, you can click on the icon shown below, and select your APK file:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="406" data-attachment-id="756" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity15/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity15.png" data-orig-size="1112,441" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity15" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity15.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity15.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity15.png?w=1024" alt="" class="wp-image-756" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity15.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity15.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity15.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity15.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity15.png 1112w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Sideloading your application</figcaption></figure>
+
+
+
+<p>That is it. You&#8217;ve just finished all the steps and installed your application on your Oculus Quest 2.</p>
+
+
+
+<h2 class="wp-block-heading">Bonus: Stream your Oculus Quest 2</h2>
+
+
+
+<p>The disadvantage of having only one pair of glasses is that other people in the room cannot see what your are seeing. To solve this you can stream your viewport to a laptop.</p>
+
+
+
+<p>For this you need a USB cable, and a software too . The cool thing is that the same SideQuest app for deploying your package to the Oculus Quest 2 can be used to stream your viewport to your laptop!</p>
+
+
+
+<p>The same tool for sideloading can be used:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="507" data-attachment-id="758" data-permalink="https://peterrombouts.nl/2022/06/16/start-with-unity-setting-up-your-development-environment-for-your-oculus-quest-2/unity16/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity16.png" data-orig-size="1678,832" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="unity16" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity16.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2022/06/unity16.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2022/06/unity16.png?w=1024" alt="" class="wp-image-758" srcset="https://peterrombouts.nl/wp-content/uploads/2022/06/unity16.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity16.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity16.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity16.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2022/06/unity16.png 1678w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Stream to your laptop</figcaption></figure>
+
+
+
+<p>Click on the TV icon, click on &#8216;Quest 2 Crop&#8217; and &#8216;Start Stream&#8217;. In the following video I will show the application we just sideloaded to finalize the demo:</p>
+
+
+
+<figure class="wp-block-embed is-type-video is-provider-youtube wp-block-embed-youtube wp-embed-aspect-16-9 wp-has-aspect-ratio"><div class="wp-block-embed__wrapper">
+<div class="embed-youtube"><iframe title="OculusQuest2" width="840" height="473" src="https://www.youtube.com/embed/YH8tyIAa040?feature=oembed" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></div>
+</div><figcaption>Screen Stream of VR</figcaption></figure>
+
+
+
+<h2 class="wp-block-heading">Costs and Licensing</h2>
+
+
+
+<p><strong>Check your license!</strong> Personal use is free but for companies and enterprises you <strong>definitely need a license </strong>for both Unity and Visual Studio!</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>If your revenue or funds raised in connection with your use of Unity are more than $100K in the last 12 months, choose one of our subscription plans.</p><cite>Unity licensing</cite></blockquote>
+
+
+
+<p>An unlimited number of users within an organization can use Visual Studio Community for the following scenarios: in a classroom learning environment, for academic research, or for contributing to open source projects.</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>In non-enterprise organizations, up to five users can use Visual Studio Community. In enterprise organizations (meaning those with &gt;250 PCs or &gt;$1 Million US Dollars in annual revenue), no use is permitted beyond the open source, academic research, and classroom learning environment scenarios described above.</p><cite>Visual Studio Community  licensing for organisations</cite></blockquote>
+
+
+
+<h2 class="wp-block-heading">Concluding</h2>
+
+
+
+<p>So, it is easy to develop for VR? No it is not.</p>
+
+
+
+<p>Yes it is relatively easy to get started, but remember that this is only the beginning. Like with programming, a Hello World example is easy, but creating an application that holds value can be really complicated and needs a team of people working on it.</p>
+
+
+
+<p>Feel free to leave your comment on this site or contact me through on of my social channels on: <a href="https://peterrombouts.nl/about-me/" target="_blank" rel="noreferrer noopener">https://peterrombouts.nl/about-me/</a>  </p>
+]]></content:encoded>
+					
+		
+		
+		
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity1.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity2.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity3.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity4.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity5.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity7-1.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity8.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity9.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity10.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity11.png?w=1005" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity12.png?w=1005" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity17.png?w=649" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity18.png?w=802" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity19.png?w=376" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity13.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity15.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2022/06/unity16.png?w=1024" medium="image" />
+	</item>
+		<item>
+		<title>GitOps Primer</title>
+		<link>https://peterrombouts.nl/2022/05/16/gitops-primer/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Mon, 16 May 2022 07:17:00 +0000</pubDate>
+				<category><![CDATA[Azure DevOps]]></category>
+		<category><![CDATA[Build]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[Software Engineering]]></category>
+		<category><![CDATA[SogetiLabs]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=689</guid>
+
+					<description><![CDATA[Originally posted on SogetiLabs:https://labs.sogeti.com/gitops-primer/ With the rise of cloud, cloud-native and a lot of other buzzwords, we also see the rise of all kinds of Dev(fill here)Ops practices. While I’m an avid advocate of the DevOps mindset, all the buzz around pipelines sounds old-school to me. What is GitOps? GitOps evolved from DevOps. The specific &#8230; <a href="https://peterrombouts.nl/2022/05/16/gitops-primer/" class="more-link">Continue reading<span class="screen-reader-text"> "GitOps Primer"</span></a>]]></description>
+										<content:encoded><![CDATA[
+<p><small><em>Originally posted on SogetiLabs:<br></em></small><a href="https://labs.sogeti.com/gitops-primer/">https://labs.sogeti.com/gitops-primer/</a></p>
+
+
+
+<p>With the rise of cloud, cloud-native and a lot of other buzzwords, we also see the rise of all kinds of Dev(fill here)Ops practices. While I’m an avid advocate of the DevOps mindset, all the buzz around pipelines sounds old-school to me.</p>
+
+
+
+<h2 class="wp-block-heading">What is GitOps?</h2>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>GitOps evolved from DevOps. The specific state of deployment configuration is version-controlled (using Git for example). Changes to configuration can be managed using code review practices, and can be rolled back using version-controlling.</p><cite><a href="https://en.wikipedia.org/wiki/DevOps#GitOps" target="_blank" rel="noreferrer noopener">https://en.wikipedia.org/wiki/DevOps#GitOps</a></cite></blockquote>
+
+
+
+<p>A quick look at Wikipedia brings you the above description. It is stuffed away somewhere in the DevOps article. Like with DevOps, there is a whole religion around what tool is the best to use, and people even claim to be ‘DevOps Engineers’ whatever that may be. In most cases they mean ‘cloud infrastructure’ because DevOps is a <strong>mindset</strong>, and not a <strong>function</strong>.</p>
+
+
+
+<p>It doesn’t help that some tools like Azure DevOps are actually called this way, but hey, VSTS is also not really a snappy name IMHO.</p>
+
+
+
+<p>To explain GitOps in my own words and in a single sentence: Instead of <strong>pushing </strong>your code and deploy, your system <strong>pulls </strong>the software from the version control system.</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>A nice one-liner by WeaveWorks is: <strong>GitOps is Continuous Delivery meets Cloud Native</strong></p><cite><a href="https://www.weave.works/technologies/gitops/" target="_blank" rel="noreferrer noopener">https://www.weave.works/technologies/gitops/</a></cite></blockquote>
+
+
+
+<h2 class="wp-block-heading">GitOps versus DevOps Pipelines</h2>
+
+
+
+<p>So, it is the same as DevOps Pipelines right? No it is not. From a distance it can <em>seem</em> to be the same. In a way your code, if configured correctly, will be deployed automatically with CICD.</p>
+
+
+
+<p>The fundamental difference is that your system (for example Kubernetes) and not your DevOps CICD pipeline, is in the lead. Remember, the settings <strong>of the k8s system itself</strong> also need a repository.</p>
+
+
+
+<p>Let’s look at a typical CICD setup:</p>
+
+
+
+<figure class="wp-block-image"><img src="https://cloudblogs.microsoft.com/uploads/prod/sites/37/2018/11/DevOps-workflow-with-containers_image-1.png" alt="DevOps workflow with containers" /><figcaption>Source: <a href="https://cloudblogs.microsoft.com/opensource/2018/11/27/tutorial-azure-devops-setup-cicd-pipeline-kubernetes-docker-helm/" target="_blank" rel="noreferrer noopener">https://cloudblogs.microsoft.com/opensource/2018/11/27/tutorial-azure-devops-setup-cicd-pipeline-kubernetes-docker-helm/</a></figcaption></figure>
+
+
+
+<p>As you can see in the example above, the Azure DevOps pipelines are in the lead. The Build step pulls in the code, the Release step creates the artifact and pushes it towards a registry, and also installs it on AKS. But this does not include the state of your cluster.</p>
+
+
+
+<p>Let’s say your DevOps pipeline trigger failed, or someone made changes manually to the AKS applications or configuration. AKS has no idea where the code is located so it cannot check if there are any changes. This is where GitOps can be a solution. Let’s look at the following example:</p>
+
+
+
+<figure class="wp-block-image"><img src="https://docs.microsoft.com/en-us/azure/azure-arc/kubernetes/media/gitops-arch.png" alt="GitOps CI/CD architecture" /><figcaption>Source: <a href="https://docs.microsoft.com/en-us/azure/azure-arc/kubernetes/conceptual-gitops-ci-cd" target="_blank" rel="noreferrer noopener">https://docs.microsoft.com/en-us/azure/azure-arc/kubernetes/conceptual-gitops-ci-cd</a></figcaption></figure>
+
+
+
+<p>In the example above you can see that (in this case Flux) is used to pull the desired state towards your Kubernetes cluster. This pulling makes sure that you are always up-to-date. And it can also detect changes so if anything or anyone changes the configuration manually, this ‘drift’ will be resolved by the desired state pulling with Flux!</p>
+
+
+
+<p>Yes, this complicates your setup, but you <strong>always</strong> know that your clusters are exactly how you described them in the desired state. Especially in situations with Kubernetes, deployment and configuration can be really complex, so these tools make sure you are <strong>in control</strong> of your systems.</p>
+
+
+
+<h2 class="wp-block-heading">Example of GitOps tools</h2>
+
+
+
+<p><strong>So I need Kubernetes</strong>? No. In theory any system can use the GitOps setup, but for Kubernetes a lot of tools and so called operators are readily available.</p>
+
+
+
+<p>In the previous paragraph, Flux is drawn in the picture. There are many more tools out there, but we see convergence on two major tools: <strong><a href="https://fluxcd.io/" target="_blank" rel="noreferrer noopener">Flux</a> </strong>and<a href="https://argo-cd.readthedocs.io/en/stable/" target="_blank" rel="noreferrer noopener"><strong>Argo</strong></a>. The resources section at the end of the blog shows more tools and resources if you want to dive in the deep end of GitOps.</p>
+
+
+
+<p>There is a nice writeup (<em>sponsored by Red Hat</em>) on deciding between Flux and Argo. Depending on your situation it can fall either way. <a href="https://thenewstack.io/gitops-on-kubernetes-deciding-between-argo-cd-and-flux/" target="_blank" rel="noreferrer noopener">GitOps on Kubernetes: Deciding Between Argo CD and Flux – The New Stack</a>.</p>
+
+
+
+<h2 class="wp-block-heading">OpenGitOps</h2>
+
+
+
+<p>The emergence of GitOps led to the OpenGitOps project.</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p><strong>OpenGitOps</strong> is a set of open-source standards, best practices, and community-focused education to help organizations adopt a structured, standardized approach to implementing <strong>GitOps</strong>.</p><cite><a href="https://opengitops.dev/" target="_blank" rel="noreferrer noopener">https://opengitops.dev/</a></cite></blockquote>
+
+
+
+<p>The principles of GitOps are four-fold:</p>
+
+
+
+<ol class="wp-block-list"><li><strong>Declarative</strong><br><em>A&nbsp;<a href="https://github.com/open-gitops/documents/blob/v1.0.0/GLOSSARY.md#software-system" target="_blank" rel="noreferrer noopener">system</a>&nbsp;managed by GitOps must have its desired state expressed&nbsp;<a href="https://github.com/open-gitops/documents/blob/v1.0.0/GLOSSARY.md#declarative-description" target="_blank" rel="noreferrer noopener">declaratively</a>.</em></li><li><strong>Versioned and Immutable</strong><br><em>Desired state is&nbsp;<a href="https://github.com/open-gitops/documents/blob/v1.0.0/GLOSSARY.md#state-store" target="_blank" rel="noreferrer noopener">stored</a>&nbsp;in a way that enforces immutability, versioning and retains a complete version history.</em></li><li><strong>Pulled Automatically</strong><br><em>Software agents automatically pull the desired state declarations from the source.</em></li><li><strong>Continuously Reconciled</strong><br><em>Software agents&nbsp;<a href="https://github.com/open-gitops/documents/blob/v1.0.0/GLOSSARY.md#continuous" target="_blank" rel="noreferrer noopener">continuously</a>&nbsp;observe actual system state and&nbsp;<a href="https://github.com/open-gitops/documents/blob/v1.0.0/GLOSSARY.md#reconciliation" target="_blank" rel="noreferrer noopener">attempt to apply</a>&nbsp;the desired state.</em></li></ol>
+
+
+
+<p>“The GitOps Working Group is a WG under the CNCF App Delivery SIG.</p>
+
+
+
+<p>The focus of the GitOps WG is to clearly define a vendor-neutral, principle-led meaning of GitOps. This will establish a foundation for interoperability between tools, conformance, and certification. Lasting programs, documents, and code are planned to live within the&nbsp;<a href="https://github.com/open-gitops" target="_blank" rel="noreferrer noopener">OpenGitOps</a>&nbsp;project.”</p>
+
+
+
+<p>The main goal of the OpenGitOps CNCF Sandbox project is to define a vendor-neutral, principle-led meaning of GitOps. This will establish a foundation for interoperability between tools, conformance, and certification through lasting programs, documents, and code.</p>
+
+
+
+<h2 class="wp-block-heading">Concluding</h2>
+
+
+
+<p>GitOps has been around for several years, and continues to evolve. CNCF has OpenGitOps as Sandbox project and embraced Flux and Argo as Incubating projects. The shift in mindset can be difficult, as some people still try to embrace DevOps as a principle.</p>
+
+
+
+<p>Watch this space for more information and an upcoming eBook on our take and practices surrounding GitOps!</p>
+
+
+
+<h2 class="wp-block-heading">Resources and further reading</h2>
+
+
+
+<figure class="wp-block-table"><table><tbody><tr><td>OpenGitOps</td><td><a href="https://opengitops.dev/" target="_blank" rel="noreferrer noopener">https://opengitops.dev/</a></td></tr><tr><td>GitOps eBook</td><td><a href="https://www.gitops.tech/" target="_blank" rel="noreferrer noopener">https://www.gitops.tech/</a></td></tr><tr><td>Weaveworks Guide to GitOps</td><td><a href="https://www.weave.works/technologies/gitops/" target="_blank" rel="noreferrer noopener">https://www.weave.works/technologies/gitops/</a></td></tr><tr><td>Harness</td><td><a href="https://harness.io/blog/devops/what-is-gitops/" target="_blank" rel="noreferrer noopener">https://harness.io/blog/devops/what-is-gitops/</a></td></tr><tr><td>Flux</td><td><a href="https://fluxcd.io/" target="_blank" rel="noreferrer noopener">https://fluxcd.io/</a></td></tr><tr><td>Argo CD</td><td><a href="https://argo-cd.readthedocs.io/en/stable/" target="_blank" rel="noreferrer noopener">https://argo-cd.readthedocs.io/en/stable/</a></td></tr><tr><td>Jenkins X</td><td><a href="https://jenkins-x.io/" target="_blank" rel="noreferrer noopener">https://jenkins-x.io/</a></td></tr><tr><td>CNCF</td><td><a href="https://www.cncf.io/" target="_blank" rel="noreferrer noopener">https://www.cncf.io/</a></td></tr></tbody></table></figure>
+]]></content:encoded>
+					
+		
+		
+		
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://cloudblogs.microsoft.com/uploads/prod/sites/37/2018/11/DevOps-workflow-with-containers_image-1.png" medium="image">
+			<media:title type="html">DevOps workflow with containers</media:title>
+		</media:content>
+
+		<media:content url="https://docs.microsoft.com/en-us/azure/azure-arc/kubernetes/media/gitops-arch.png" medium="image">
+			<media:title type="html">GitOps CI/CD architecture</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>The Internet Computer</title>
+		<link>https://peterrombouts.nl/2022/04/15/the-internet-computer/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Fri, 15 Apr 2022 13:41:47 +0000</pubDate>
+				<category><![CDATA[SogetiLabs]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=680</guid>
+
+					<description><![CDATA[Originally posted on SogetiLabs: https://labs.sogeti.com/the-internet-computer/ Recently I stumbled upon something called The Internet Computer Association. The Internet Computer Association (ICA) is a Geneva-based independent members organization that advocates for the Internet Computer network while supporting and coordinating ecosystem participants. https://internetcomputer.org/ The Internet Computer To sum it up, basically the idea is to decentralize everything and &#8230; <a href="https://peterrombouts.nl/2022/04/15/the-internet-computer/" class="more-link">Continue reading<span class="screen-reader-text"> "The Internet Computer"</span></a>]]></description>
+										<content:encoded><![CDATA[
+<p> <small><em>Originally posted on SogetiLabs: <br></em></small><a href="https://labs.sogeti.com/the-internet-computer/">https://labs.sogeti.com/the-internet-computer/</a></p>
+
+
+
+<p>Recently I stumbled upon something called The Internet Computer Association.</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>The Internet Computer Association (ICA) is a Geneva-based independent members organization that advocates for the Internet Computer network while supporting and coordinating ecosystem participants.</p><cite><a href="https://internetcomputer.org/" target="_blank" rel="noreferrer noopener">https://internetcomputer.org/</a></cite></blockquote>
+
+
+
+<h2 class="wp-block-heading">The Internet Computer</h2>
+
+
+
+<p>To sum it up, basically the idea is to decentralize <strong>everything</strong> and create a <strong>unlimited</strong> computer, A.K.A. The Internet Computer. According to the ICA, any software can run decentralized, removing the needs for big cloud vendors. Obviously you still need servers to host your Internet Computer nodes on, so yes there is still need for datacenters IMHO.</p>
+
+
+
+<p>Some big tech companies are stated as fellows but the showcases on the main contributor site look like nice players: <a href="https://dfinity.org/showcase" target="_blank" rel="noreferrer noopener">https://dfinity.org/showcase</a>. The main contributor is <a href="https://dfinity.org/" target="_blank" rel="noreferrer noopener">DFINITY</a>, and as with everything blockchain, I&#8217;m always highly skeptical of the actual goals that people want to achieve.</p>
+
+
+
+<h2 class="wp-block-heading">A closer look</h2>
+
+
+
+<p>Ok, so what does it mean? How does it work? &#8216;The Internet Computer is a public blockchain that hosts smart contracts&#8217;.  Well smart contracts on the blockchain aren&#8217;t new, they&#8217;ve been around since 2015 and can be seen as small programs that run when some conditions are met. Sounds a lot like a dApp, a decentralized application.</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>A decentralized application is an application that can operate autonomously, typically through the use of smart contracts, that runs on a decentralized computing, blockchain system.</p><cite><a href="https://en.wikipedia.org/wiki/Decentralized_application" target="_blank" rel="noreferrer noopener">https://en.wikipedia.org/wiki/Decentralized_application</a></cite></blockquote>
+
+
+
+<p>Investigating this also led me to similar technologies, like <a href="https://solana.com/nl" target="_blank" rel="noreferrer noopener">Solana</a> and <a href="https://polkadot.network/" target="_blank" rel="noreferrer noopener">Polkadot</a>. The difference here is that The Internet Computer is running everything on the blockchain, not just the contracts. This means you do not need a separate hosting for the cloud workloads, but actually run everything on The Internet Computer.</p>
+
+
+
+<h2 class="wp-block-heading">Blockchain Singularity</h2>
+
+
+
+<p>Will The Internet Computer actually take over the web 3.0? Will it change everything we do in the public cloud and render AWS, GCP and Microsoft Azure useless? Well I&#8217;ve heard the same talk about bitcoin and the likes, but I truly find it intriguing from a technical perspective. I see use cases arise from this and if the ICA is &#8220;truly independent&#8221; it could be something to watch in the upcoming years.</p>
+]]></content:encoded>
+					
+		
+		
+		
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Cloud Economics and Terraform; How to start</title>
+		<link>https://peterrombouts.nl/2021/09/10/cloud-economics-and-terraform-how-to-start/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Fri, 10 Sep 2021 08:56:00 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[Azure DevOps]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[SogetiLabs]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=588</guid>
+
+					<description><![CDATA[Originally posted on SogetiLabs: https://labs.sogeti.com/cloud-economics-and-terraform-how-to-start/ It is really easy to blow all your budget when you do not know the impact of the choices you make in the cloud. And while there are many tools available to run analysis on your bill, or showing where your money went, would it not be smarter to shift &#8230; <a href="https://peterrombouts.nl/2021/09/10/cloud-economics-and-terraform-how-to-start/" class="more-link">Continue reading<span class="screen-reader-text"> "Cloud Economics and Terraform; How to&#160;start"</span></a>]]></description>
+										<content:encoded><![CDATA[
+<p> <small><em>Originally posted on SogetiLabs: <br></em></small><a href="https://labs.sogeti.com/cloud-economics-and-terraform-how-to-start/" target="_blank" rel="noreferrer noopener"><small><em>https://labs.sogeti.com/cloud-economics-and-terraform-how-to-start</em></small>/</a></p>
+
+
+
+<p></p>
+
+
+
+<p>It is really easy to blow all your budget when you do not know the impact of the choices you make in the cloud. And while there are many tools available to run analysis on your bill, or showing where your money went, would it not be smarter to <strong>shift everything left</strong>? </p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>34 per cent of large enterprises set a budget of at least $10m a year while 62 per cent of small business went for under $100k. Of those spanking between $2m and $10m on the cloud, almost half overspent (compared to 27 per cent of those budgeting until $100k</p><cite><a href="https://www.hashicorp.com/blog/cloud-budgets-busted-almost-40-overspent-last-year" target="_blank" rel="noreferrer noopener nofollow">https://www.hashicorp.com/blog/cloud-budgets-busted-almost-40-overspent-last-year</a></cite></blockquote>
+
+
+
+<p>In a race for speed of delivery, putting restrictions on cloud environments can be contra-productive. On the other hand money can fly out the window if you do not keep everything in check. So what is the solution?</p>
+
+
+
+<span id="more-588"></span>
+
+
+
+<h2 class="wp-block-heading">Training and Awareness</h2>
+
+
+
+<p>First of all it should be obvious that anyone involved in cloud project should also be trained appropriately. Part of our work as consultants and architects is to also include the running and operational costs of a cloud solution. But to sometimes the costs can sneak into a project, especially when using systems like Kubernetes or any other cluster based system. These can have high impact on your costs because the VMs underneath those systems can be costly to run.</p>
+
+
+
+<h2 class="wp-block-heading">Automate, automate and automate!</h2>
+
+
+
+<p>In comes <a href="https://www.infracost.io/" target="_blank" rel="noreferrer noopener nofollow">Infracost</a>. This really great open source tool has many integrations with CICD systems and can be simply added to your Azure DevOps, Gitlab or GitHub flows (and many more).</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>Infracost calculates cloud costs based on Terraform. Cost estimates can be shown in the terminal or put in pull requests using our CI/CD integrations. This helps you understand the cost of services before you use them, and take action to optimize costs within your existing workflow.</p><cite><a href="https://www.infracost.io" target="_blank" rel="noreferrer noopener nofollow">https://www.infracost.io</a></cite></blockquote>
+
+
+
+<p>The tool can add a simple cloud estimation to your pipelines, and this will make your DevOps teams <strong>instantly</strong> see the changes their code have on the bill and your project:</p>
+
+
+
+<figure class="wp-block-image size-large is-resized"><img loading="lazy" src="https://labs.sogeti.com/wp-content/uploads/2021/08/pr-step-2-1024x543.png" alt="" class="wp-image-233995" width="481" height="254" /><figcaption><em>GitHub example</em></figcaption></figure>
+
+
+
+<h2 class="wp-block-heading">How to get started</h2>
+
+
+
+<p>The documentation of the tool is great, and many examples for the most used CICD tools are documented at <a href="https://www.infracost.io/docs/integrations/cicd" target="_blank" rel="noreferrer noopener nofollow">https://www.infracost.io/docs/integrations/cicd</a>. Did I mention they have a <a href="https://www.infracost.io/pricing/" target="_blank" rel="noreferrer noopener nofollow">free Community version</a> available? This means you can start, right now, with using and testing this tool!</p>
+
+
+
+<h2 class="wp-block-heading">Concluding</h2>
+
+
+
+<p>In the end it is not about tooling, it all starts with training and awareness. But it is better to check than to get caught by a surprise when the bill comes in. This tool by <a href="https://www.infracost.io/" target="_blank" rel="noreferrer noopener nofollow">Infracost</a> is a really great way to start tracking your costs and estimates at the earliest stage in development as possible, give it a spin!</p>
+]]></content:encoded>
+					
+		
+		
+		
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://labs.sogeti.com/wp-content/uploads/2021/08/pr-step-2-1024x543.png" medium="image" />
+	</item>
+		<item>
+		<title>Static Code Analysis of Infrastructure as Code</title>
+		<link>https://peterrombouts.nl/2021/05/13/static-code-analysis-of-infrastructure-as-code/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Thu, 13 May 2021 08:50:15 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[Azure DevOps]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[Software Engineering]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=487</guid>
+
+					<description><![CDATA[In this blogpost I will show a basic primer of using KICS together with Azure DevOps, to scan Terraform Infrastructure-as-Code. Kics an open source solution for static code analysis of Infrastructure as Code. https://kics.io/ What is KICS, and why should I care? KICS finds security vulnerabilities, compliance issues, and infrastructure misconfigurations in the following Infrastructure &#8230; <a href="https://peterrombouts.nl/2021/05/13/static-code-analysis-of-infrastructure-as-code/" class="more-link">Continue reading<span class="screen-reader-text"> "Static Code Analysis of Infrastructure as&#160;Code"</span></a>]]></description>
+										<content:encoded><![CDATA[
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="132" data-attachment-id="527" data-permalink="https://peterrombouts.nl/afbeelding-5/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png" data-orig-size="1310,169" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="afbeelding-5" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png?w=1024" alt="" class="wp-image-527" srcset="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png 1310w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>KICS logo</figcaption></figure>
+
+
+
+<p>In this blogpost I will show a basic primer of using <a rel="noreferrer noopener" href="https://kics.io/" target="_blank">KICS </a>together with Azure DevOps, to scan Terraform Infrastructure-as-Code.</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>Kics an open source solution for static code analysis of Infrastructure as Code.</p><cite><a href="https://kics.io/" rel="nofollow">https://kics.io/</a></cite></blockquote>
+
+
+
+<span id="more-487"></span>
+
+
+
+<h2 class="wp-block-heading">What is KICS, and why should I care?</h2>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>KICS finds security vulnerabilities, compliance issues, and infrastructure misconfigurations in the following Infrastructure as Code solutions: Terraform, Kubernetes, Docker, AWS CloudFormation, Ansible, Helm, and OpenAPI 3.0 specifications</p></blockquote>
+
+
+
+<p>The open source tool is brought to you by Checkmarx but is a true open source community project.</p>
+
+
+
+<p>I&#8217;ve blogged before about the <a rel="noreferrer noopener" href="https://peterrombouts.nl/2020/11/24/everything-is-code-why-and-how-you-should-test-your-terraform/" target="_blank">importance of testing your IaC</a>, and this tool makes it pretty easy to incorporate exactly this into your pipelines.</p>
+
+
+
+<p>At this moment in time I&#8217;m experimenting with the usage and because some of the examples do not really work out-of-the-box, I&#8217;ve decided to put them in this blog.</p>
+
+
+
+<h2 class="wp-block-heading">Running KICS locally</h2>
+
+
+
+<p>You can run KICS locally, and the documentation of KICS shows a very easy example running it with a <a rel="noreferrer noopener" href="https://docs.kics.io/latest/getting-started/" target="_blank">Docker container</a>. This is a easy way of testing and playing around with the tool:</p>
+
+
+
+<pre class="wp-block-preformatted">docker pull checkmarx/kics:latest
+docker run -v {​​​​path_to_host_folder_to_scan}​​​​:/path /
+    checkmarx/kics:latest scan -p "/path" -o "/path/results.json"</pre>
+
+
+
+<h2 class="wp-block-heading">Setting up KICS in Azure DevOps</h2>
+
+
+
+<p>A more likely scenario is that you want to run KICS as part of your CICD strategy, automated and triggered by, for example, a pull request. But how to start?</p>
+
+
+
+<p>First of all, you should have a repository in DevOps. In my example, I&#8217;ve created two folders with some Terraform code, and one Yaml pipeline:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="465" data-attachment-id="502" data-permalink="https://peterrombouts.nl/afbeelding/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png" data-orig-size="1224,556" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="afbeelding" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png?w=1024" alt="" class="wp-image-502" srcset="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png 1224w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Screenshot of Azure DevOps repo</figcaption></figure>
+
+
+
+<p>In these &#8216;terraform-example1&#8217; and &#8216;terraform-example2&#8217; I&#8217;ve added some representative examples for Azure. Resources ranging from storage accounts, Windows Virtual Desktop resources to IAM and Virtual Machines. </p>
+
+
+
+<p>As I have two example folders setup, I&#8217;ve created two pipelines. The Yaml file is the same, but using variables I can let KICS scan different folders. Basically it looks like this:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="475" data-attachment-id="505" data-permalink="https://peterrombouts.nl/afbeelding-1/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png" data-orig-size="1035,481" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="afbeelding-1" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png?w=1024" alt="" class="wp-image-505" srcset="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png?w=1022 1022w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png 1035w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>KICS Pipeline overview in Azure DevOps</figcaption></figure>
+
+
+
+<p>Opening up KicsExample1 and viewing the variables shows the following:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="319" data-attachment-id="507" data-permalink="https://peterrombouts.nl/afbeelding-2/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png" data-orig-size="1780,556" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="afbeelding-2" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png?w=1024" alt="" class="wp-image-507" srcset="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png?w=1021 1021w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png 1780w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Pipeline variable screenshot</figcaption></figure>
+
+
+
+<p>Important to note here, is that I&#8217;ve added the complete path to the working directory. My directory is &#8216;terraform-example1&#8217; but as you can find in the documentation, the path on the build agent will be <strong>/home/vsts/work/1/s/terraform-example1/</strong>. For the second pipeline example, I obviously set<strong>/home/vsts/work/1/s/terraform-example2/</strong> as variable.</p>
+
+
+
+<h2 class="wp-block-heading">Running the KICS Azure DevOps pipeline</h2>
+
+
+
+<p>So, for the actual magic to happen, let us run the pipeline and look at the outcome:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="615" data-attachment-id="510" data-permalink="https://peterrombouts.nl/afbeelding-3/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png" data-orig-size="1626,977" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="afbeelding-3" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png?w=1024" alt="" class="wp-image-510" srcset="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png 1626w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Pipeline run summary</figcaption></figure>
+
+
+
+<p>As we can see; due to some trickery with VSO logs, I&#8217;m able to put the feedback from KICS into the actual summary! In this case, I&#8217;ve taken the example from KICS and wrote the output errors to Azure DevOps. You can look at the example code how I did this.</p>
+
+
+
+<h2 class="wp-block-heading">Analyzing and debuging the results</h2>
+
+
+
+<p>In the previous paragraph we ran the KICS pipeline, and it came back with some errors. Now, we want to see what the actual problem is. For this we can drill down to the run:</p>
+
+
+
+<figure class="wp-block-image size-large"><img loading="lazy" width="1024" height="633" data-attachment-id="512" data-permalink="https://peterrombouts.nl/afbeelding-4/" data-orig-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png" data-orig-size="1530,946" data-comments-opened="1" data-image-meta="{&quot;aperture&quot;:&quot;0&quot;,&quot;credit&quot;:&quot;&quot;,&quot;camera&quot;:&quot;&quot;,&quot;caption&quot;:&quot;&quot;,&quot;created_timestamp&quot;:&quot;0&quot;,&quot;copyright&quot;:&quot;&quot;,&quot;focal_length&quot;:&quot;0&quot;,&quot;iso&quot;:&quot;0&quot;,&quot;shutter_speed&quot;:&quot;0&quot;,&quot;title&quot;:&quot;&quot;,&quot;orientation&quot;:&quot;0&quot;}" data-image-title="afbeelding-4" data-image-description="" data-image-caption="" data-medium-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png?w=300" data-large-file="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png?w=840" src="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png?w=1024" alt="" class="wp-image-512" srcset="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png?w=1024 1024w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png?w=150 150w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png?w=300 300w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png?w=768 768w, https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png 1530w" sizes="(max-width: 709px) 85vw, (max-width: 909px) 67vw, (max-width: 1362px) 62vw, 840px" /><figcaption>Run details in Azure DevOps</figcaption></figure>
+
+
+
+<p>One of the issues found in my first example, is the following error:</p>
+
+
+
+<pre class="wp-block-preformatted">Storage Account Not Using Latest TLS Encryption Version, Severity: MEDIUM, Results: 1 
+Description: Ensure Storage Account is using the latest version of TLS encryption 
+Platform: Terraform</pre>
+
+
+
+<p>This issue is quite self-explanatory. KICS runs many queries, and you are able to tweak and adjust them. </p>
+
+
+
+<p>The second issue found is on the keyvault in my example:</p>
+
+
+
+<pre class="wp-block-preformatted">Vault Auditing Disabled, Severity: HIGH, Results: 1 
+Description: Ensure that logging for Azure KeyVault is 'Enabled' 
+Platform: Terraform</pre>
+
+
+
+<p>This also is based on a best practice, and it warns you about the disabled auditing. The great thing about this tool is that is also gives descriptions on how to fix your errors!</p>
+
+
+
+<h2 class="wp-block-heading">Concluding</h2>
+
+
+
+<p>There are many ways on securing your infrastructure as code and testing statically. In my previous blog about Open Policy Agent I also wrote about this. The great thing about KICS is that it is really easy to setup, and for my example in Terraform they have <a rel="noreferrer noopener" href="https://docs.kics.io/latest/queries/terraform-queries/" target="_blank">many well-documented queries</a> and how to resolve the issues found.</p>
+
+
+
+<p>Implementing KICS as your first line of defence is really easy and gives direct feedback in your DevOps process.</p>
+
+
+
+<h2 class="wp-block-heading">Give me the code!</h2>
+
+
+
+<p>The example pipeline has been put in to <a rel="noreferrer noopener" href="https://gist.github.com/prombouts/181485bf44500be88b182f7cf2dcc60e" target="_blank">this public gist</a>. Do not forget to pass in the variable PWD with the location of your project!</p>
+
+
+
+<p>Any questions or remarks? Feel free to reach out via any of <a href="https://peterrombouts.nl/about-me/" target="_blank" rel="noreferrer noopener">my public profiles</a> or the <a href="https://peterrombouts.nl/contact/" target="_blank" rel="noreferrer noopener">contact page</a> on this site.</p>
+]]></content:encoded>
+					
+		
+		
+		
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-5.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-1.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-2.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-3.png?w=1024" medium="image" />
+
+		<media:content url="https://peterrombouts.nl/wp-content/uploads/2021/05/afbeelding-4.png?w=1024" medium="image" />
+	</item>
+		<item>
+		<title>5 Signs The End of Cloud is Nigh</title>
+		<link>https://peterrombouts.nl/2021/04/23/5-signs-the-end-of-cloud-is-nigh/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Fri, 23 Apr 2021 13:46:59 +0000</pubDate>
+				<category><![CDATA[Security]]></category>
+		<category><![CDATA[Software Engineering]]></category>
+		<category><![CDATA[SogetiLabs]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=468</guid>
+
+					<description><![CDATA[Originally posted on SogetiLabs: https://labs.sogeti.com/5-signs-the-end-of-cloud-is-nigh/ Is the end coming for cloud? Are we changing our view on centralized big-tech cloud computing in favour of decentralized, edge or bare metal? Yes and No Read this post to find out the five signs I think ‘the cloud’ is not the de facto target state for future workloads. &#8230; <a href="https://peterrombouts.nl/2021/04/23/5-signs-the-end-of-cloud-is-nigh/" class="more-link">Continue reading<span class="screen-reader-text"> "5 Signs The End of Cloud is&#160;Nigh"</span></a>]]></description>
+										<content:encoded><![CDATA[
+<p><small><em>Originally posted on SogetiLabs: <a href="https://labs.sogeti.com/5-signs-the-end-of-cloud-is-nigh/" target="_blank" rel="noreferrer noopener">https://labs.sogeti.com/5-signs-the-end-of-cloud-is-nigh/</a></em></small></p>
+
+
+
+<figure class="wp-block-image"><img src="https://cdn.shortpixel.ai/client/q_glossy,ret_img,w_1024,h_576/https://labs.sogeti.com/wp-content/uploads/2021/04/nature-3126513_1280-1024x576.jpg" alt="" class="wp-image-226725" /></figure>
+
+
+
+<p>Is the end coming for cloud? Are we changing our view on centralized big-tech cloud computing in favour of decentralized, edge or bare metal?</p>
+
+
+
+<span id="more-468"></span>
+
+
+
+<p>Yes and No</p>
+
+
+
+<p>Read this post to find out the five signs I think ‘the cloud’ is not the de facto target state for future workloads.</p>
+
+
+
+<h2 class="wp-block-heading">1. Slow Adoption</h2>
+
+
+
+<p>For many big enterprises, cloud adoption is a tricky beast. Governance and risk assessments, opening up to the ‘big bad internet’. Issues that maybe solvable in a technical way can be really tricky to solve in an organizational way. Think of processes that allow specific traffic in- or out of your network. Locking a platform like Microsoft Azure fully down, basically slows down the adoption of services and makes devops teams not fully utilize the cloud native capabilities of the platform, slowing adoption also, amongs the technical stack.</p>
+
+
+
+<h2 class="wp-block-heading">2. Vendor Lock-in</h2>
+
+
+
+<p>Well, we heard that before. But in fact there is a truth to locking in to a specific cloud vendor. For example when choosing a serverless technique, you are binding yourself to a specific vendor. I do not think it is bad per sé, but you should do the calculation of the costs of exit. Please do understand that any technique basically is a lock in on one level or the other. Choosing for Linux based containers for example, or for Kubernetes based on OpenShift is also potentially locking in to a vendor/technique. <a href="https://hackaday.com/2020/12/09/centos-is-dead-long-live-centos/" target="_blank" rel="noreferrer noopener">Think about what happened to CentOS</a> just for a sec.</p>
+
+
+
+<h2 class="wp-block-heading">3. GDPR</h2>
+
+
+
+<p>The now (in)famous Schrems II case makes legal departments run overtime to figure out how to deal with this case.</p>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow"><p>Customers of US cloud service providers must now themselves verify the data protection laws of the recipient country, document its risk assessment and confer with its customers.</p><cite><a href="https://www.gdprsummary.com/schrems-ii/" rel="nofollow">https://www.gdprsummary.com/schrems-ii/</a></cite></blockquote>
+
+
+
+<p>Can we even use the public cloud for data of our customers? I’m following the outcomes of those discussions closely…</p>
+
+
+
+<h2 class="wp-block-heading">4. Edge Computing</h2>
+
+
+
+<p>The cloud (Google) basically brought us Kubernetes, but it also means you can run <em>anywhere</em> so also on the edge, on bare metal or in your companies private cloud. That means your ROI on existing hardware should be recalculated; you drive up density, run ‘new’ types of workloads and open up possibilities for your devops teams. I’m not saying running <a href="https://pythonspeed.com/articles/dont-need-kubernetes/" target="_blank" rel="noreferrer noopener">Kubernetes is easy</a> but it does run virtually anywhere, the cloud is not the only place.</p>
+
+
+
+<h2 class="wp-block-heading">5. Risk, Governance and Compliancy</h2>
+
+
+
+<p>One of the most important blockers on using cloud seems to be this; how to manage risk, control governance and ensure you are compliant. Being and proving you are ‘In Control’. And yes, most cloud providers have well-defined policy frameworks and control toolsets, but in practice this is a pretty big subject that requires time to setup properly in an entire enterprise. Think about banks, investment companies and insurers; they cannot just ‘do what they want’ because the legal implications of doing it wrong are enormous. The slow down caused by this issue can be a burden for devops teams simply giving up and ‘eating their dogfood’ i.e. in the form of a private cloud or DC.</p>
+
+
+
+<h2 class="wp-block-heading">Is it all doom and gloom?</h2>
+
+
+
+<p>I’m a avid fan and proponent of cloud computing. I truly think Microsoft Azure, Amazon AWS and other cloud vendors can help you gain speed, be more agile and even save costs doing it well.</p>
+
+
+
+<p>Every now and then a post like this surfaces, so I’m guessing in 5 years time, we will still have ‘the cloud’ thankfully. But it is always interesting to reflect on choices and watching for changes in the landscape of computing technologies. Also; try to think about cloud in other ways than only the technical possibilities. Think about the ramifications for compliancy and risk.</p>
+
+
+
+<p>Any ideas or feedback? I’m open for a (virtual) cup of coffee anytime!</p>
+]]></content:encoded>
+					
+		
+		
+		
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+
+		<media:content url="https://cdn.shortpixel.ai/client/q_glossy,ret_img,w_1024,h_576/https://labs.sogeti.com/wp-content/uploads/2021/04/nature-3126513_1280-1024x576.jpg" medium="image" />
+	</item>
+		<item>
+		<title>Sogeti Java Meetup Deck</title>
+		<link>https://peterrombouts.nl/2021/04/20/sogeti-java-meetup-20th-april-2021/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Tue, 20 Apr 2021 17:30:00 +0000</pubDate>
+				<category><![CDATA[Azure DevOps]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[Security]]></category>
+		<category><![CDATA[Software Engineering]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=459</guid>
+
+					<description><![CDATA[(20th April 2021)]]></description>
+										<content:encoded><![CDATA[
+<p>(20th April 2021)</p>
+
+
+<div class="jetpack-video-wrapper"><iframe src='https://www.slideshare.net/slideshow/embed_code/246323647' width='840' height='688' sandbox="allow-popups allow-scripts allow-same-origin allow-presentation" allowfullscreen webkitallowfullscreen mozallowfullscreen></iframe></div>
+]]></content:encoded>
+					
+		
+		
+		
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+	</item>
+		<item>
+		<title>Why you should stop spinning up VMs</title>
+		<link>https://peterrombouts.nl/2021/02/23/why-you-should-stop-spinning-up-vms/</link>
+		
+		<dc:creator><![CDATA[Peter]]></dc:creator>
+		<pubDate>Tue, 23 Feb 2021 07:48:00 +0000</pubDate>
+				<category><![CDATA[Azure]]></category>
+		<category><![CDATA[CICD]]></category>
+		<category><![CDATA[SogetiLabs]]></category>
+		<guid isPermaLink="false">http://peterrombouts.nl/?p=419</guid>
+
+					<description><![CDATA[Originally posted on SogetiLabs: https://labs.sogeti.com/why-you-should-stop-spinning-up-vms If I would get paid a euro for each time someone says &#8216;Let&#8217;s spin up a VM for that!&#8217; or &#8216;We have this VM running anyway&#8217;, I would have been a rich man. Although I do advocate reuse, stuffing many services on a machine &#8216;because it runs there anyway&#8217; will &#8230; <a href="https://peterrombouts.nl/2021/02/23/why-you-should-stop-spinning-up-vms/" class="more-link">Continue reading<span class="screen-reader-text"> "Why you should stop spinning up&#160;VMs"</span></a>]]></description>
+										<content:encoded><![CDATA[
+<p><small><em>Originally posted on SogetiLabs: <a href="https://labs.sogeti.com/why-you-should-stop-spinning-up-vms">https://labs.sogeti.com/why-you-should-stop-spinning-up-vms</a></em></small></p>
+
+
+
+<p></p>
+
+
+
+<p>If I would get paid a euro for each time someone says &#8216;Let&#8217;s spin up a VM for that!&#8217; or &#8216;We have this VM running anyway&#8217;, I would have been a rich man.</p>
+
+
+
+<p>Although I do advocate reuse, stuffing many services on a machine &#8216;because it runs there anyway&#8217; will cause a huge problem if there is a shift in architecture or platform. In the end all services need to be carved out and that can be a real pain in the behind. Also it does not really scale, for obvious reasons.</p>
+
+
+
+<span id="more-419"></span>
+
+
+
+<h2 class="wp-block-heading">Yes let&#8217;s put everything in a pod/container!</h2>
+
+
+
+<p>A big cluster of VMs is still just infrastructure chewing away your money in the cloud. Do not forget that in many cases, a k8s cluster, Service Fabric cluster or whatever-cluster-cloud-native-you-like in the end is mostly a bunch of VMs running 24/7 for a lot of money.</p>
+
+
+
+<h2 class="wp-block-heading">We underestimate the power of simplicity</h2>
+
+
+
+<p>Let&#8217;s take an example. If you want to run a simple process, for example ingest some data and put it in a store, you could go full ETL/ELT. Alternatively you can leverage simple things, like <a href="https://azure.microsoft.com/en-us/services/functions/" target="_blank" rel="noreferrer noopener">Azure Functions</a> or <a href="https://azure.microsoft.com/en-us/services/logic-apps/" target="_blank" rel="noreferrer noopener">LogicApps</a>. With connectors to almost all services, it is really easy and simple to ingest data using these services. </p>
+
+
+
+<p>And it&#8217;s cheap too!</p>
+
+
+
+<p>Azure Functions (ran in Azure) run really cheap, as the first million(!) executions are free anyway.</p>
+
+
+
+<h2 class="wp-block-heading">What about portability?</h2>
+
+
+
+<p>If you start out with Azure Functions on the Azure Platform, and later on need to run on a cluster like Kubernetes, you&#8217;re in luck. Azure Functions run <a href="https://docs.microsoft.com/en-us/azure/azure-functions/functions-create-function-linux-custom-image" target="_blank" rel="noreferrer noopener">basically anywhere </a>so hosting them in a container or pod, should be a piece of cake. Development is also easy exactly because of the portability.</p>
+
+
+
+<h2 class="wp-block-heading">How to start?</h2>
+
+
+
+<p>Microsoft has done really great work in the training area. For Azure Functions, you can simply go to: <a href="https://docs.microsoft.com/en-us/learn/modules/create-serverless-logic-with-azure-functions/">Create serverless logic with Azure Functions &#8211; Learn | Microsoft Docs</a>. This module will get you started easily.</p>
+
+
+
+<p>Want to kickstart your development? Reach out and we&#8217;ll help!</p>
+]]></content:encoded>
+					
+		
+		
+		
+		<media:content url="https://2.gravatar.com/avatar/2d71c5b7b9038c6f1e7d41fe2d53cc80d5758cb22034c2c551ba0037727f9086?s=96&#38;d=identicon&#38;r=G" medium="image">
+			<media:title type="html">peterr1978</media:title>
+		</media:content>
+	</item>
+	</channel>
+</rss>
