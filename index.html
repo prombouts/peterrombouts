@@ -3,204 +3,946 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Peter Rombouts - Cloud Software Architect</title>
+    <title>Peter Rombouts | Software Engineer, Cloud Architect, Consultant</title>
+    <meta name="description" content="Peter Rombouts is a software engineer, cloud architect, and consultant focused on resilient platforms, Azure, cloud-native systems, and pragmatic delivery.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --paper: #f4efe4;
+            --paper-deep: #e8decd;
+            --ink: #111111;
+            --muted: #5f5a52;
+            --card: rgba(255, 252, 246, 0.82);
+            --line: rgba(17, 17, 17, 0.12);
+            --accent: #ef6c2f;
+            --accent-soft: rgba(239, 108, 47, 0.14);
+            --signal: #0b7a75;
+            --signal-soft: rgba(11, 122, 117, 0.12);
+            --shadow: 0 24px 80px rgba(17, 17, 17, 0.12);
+            --radius-xl: 32px;
+            --radius-lg: 24px;
+            --radius-md: 18px;
+            --content-width: 1220px;
+        }
+
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-            background: linear-gradient(rgba(13, 17, 23, 0.8), rgba(13, 17, 23, 0.8)), url('cropped-1500x500.jpg') center/cover no-repeat;
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
+            font-family: "Manrope", sans-serif;
+            color: var(--ink);
+            background:
+                radial-gradient(circle at top left, rgba(239, 108, 47, 0.16), transparent 26%),
+                radial-gradient(circle at 90% 10%, rgba(11, 122, 117, 0.18), transparent 24%),
+                linear-gradient(180deg, #f8f3ea 0%, #efe6d6 48%, #f6f0e7 100%);
+            overflow-x: hidden;
         }
 
-        .container {
-            background: #161b22;
-            border-radius: 6px;
-            border: 1px solid #30363d;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 6px rgba(0, 0, 0, 0.08);
-            width: 80%;
-            max-width: 1400px;
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background:
+                linear-gradient(rgba(17, 17, 17, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(17, 17, 17, 0.04) 1px, transparent 1px);
+            background-size: 32px 32px;
+            mask-image: radial-gradient(circle at center, black 40%, transparent 88%);
+            opacity: 0.6;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .page-shell {
+            position: relative;
+        }
+
+        .site-header,
+        .hero,
+        .section,
+        .site-footer {
+            width: min(calc(100% - 32px), var(--content-width));
+            margin: 0 auto;
+        }
+
+        .site-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 0 18px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            backdrop-filter: blur(14px);
+            background: linear-gradient(180deg, rgba(248, 243, 234, 0.92), rgba(248, 243, 234, 0.68));
+            border-bottom: 1px solid rgba(17, 17, 17, 0.06);
+        }
+
+        .brand {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            font-weight: 800;
+            letter-spacing: 0.02em;
+        }
+
+        .brand-mark {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            background: linear-gradient(135deg, var(--ink), #2a2927);
+            color: var(--paper);
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 0.92rem;
+        }
+
+        .brand-copy small {
+            display: block;
+            color: var(--muted);
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            font-size: 0.68rem;
+        }
+
+        nav {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--muted);
+            font-weight: 700;
+            font-size: 0.94rem;
+        }
+
+        nav a:hover,
+        nav a:focus-visible {
+            color: var(--ink);
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.95fr);
+            gap: 28px;
+            padding: 44px 0 40px;
+            align-items: stretch;
+        }
+
+        .hero-panel,
+        .signal-panel,
+        .section-card,
+        .metric,
+        .writing-card,
+        .github-card,
+        .contact-card {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(14px);
+        }
+
+        .hero-panel {
+            padding: 40px;
+            position: relative;
             overflow: hidden;
         }
 
-        .content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            padding: 60px;
-            align-items: center;
-        }
-
-        .profile-image-container {
-            text-align: center;
-        }
-
-        .profile-image {
-            width: 280px;
-            height: 280px;
+        .hero-panel::after {
+            content: "";
+            position: absolute;
+            width: 340px;
+            height: 340px;
+            right: -110px;
+            top: -130px;
             border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid #30363d;
-            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease;
+            background: radial-gradient(circle, rgba(239, 108, 47, 0.18), transparent 68%);
         }
 
-        .profile-image:hover {
-            transform: scale(1.05);
-        }
-
-        .info-box {
-            padding: 0;
-        }
-
-        .info-box h1 {
-            font-size: 2.5em;
-            color: #58a6ff;
-            margin-bottom: 10px;
-            font-weight: 700;
-        }
-
-        .info-box .subtitle {
-            font-size: 1.2em;
-            color: #8b949e;
-            font-weight: 500;
-            margin-bottom: 20px;
-        }
-
-        .info-box .location {
-            color: #8b949e;
-            margin-bottom: 25px;
-            display: flex;
+        .eyebrow {
+            display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            font-weight: 800;
+            background: rgba(17, 17, 17, 0.05);
+            color: var(--muted);
         }
 
-        .info-box .description {
-            color: #c9d1d9;
-            line-height: 1.8;
-            margin-bottom: 25px;
-            font-size: 1.05em;
+        .eyebrow::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 0 6px var(--accent-soft);
         }
 
-        .specialties {
-            margin-bottom: 25px;
+        h1,
+        h2 {
+            font-family: "Fraunces", serif;
+            line-height: 0.94;
+            letter-spacing: -0.04em;
         }
 
-        .specialties h3 {
-            color: #58a6ff;
-            font-size: 1.1em;
-            margin-bottom: 10px;
+        h1 {
+            font-size: clamp(3.2rem, 7vw, 6.3rem);
+            margin: 22px 0 20px;
+            max-width: 11ch;
         }
 
-        .specialty-tags {
+        .hero-copy {
+            max-width: 64ch;
+            color: var(--muted);
+            font-size: 1.08rem;
+            line-height: 1.75;
+        }
+
+        .hero-copy strong {
+            color: var(--ink);
+        }
+
+        .hero-meta {
+            margin-top: 26px;
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
         }
 
-        .tag {
-            background: #0d1117;
-            color: #58a6ff;
-            padding: 8px 14px;
-            border-radius: 16px;
-            font-size: 0.9em;
-            font-weight: 500;
-            border: 1px solid #30363d;
+        .chip {
+            border: 1px solid rgba(17, 17, 17, 0.08);
+            border-radius: 999px;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.5);
+            font-weight: 700;
+            color: #2f2a24;
         }
 
-        .social-links {
+        .hero-actions {
+            margin-top: 32px;
             display: flex;
-            gap: 15px;
+            gap: 12px;
             flex-wrap: wrap;
         }
 
-        .social-link {
-            display: inline-block;
-            padding: 10px 20px;
-            background: #238636;
-            color: #ffffff;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            cursor: pointer;
-            border: 1px solid #238636;
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 52px;
+            padding: 0 20px;
+            border-radius: 18px;
+            border: 1px solid transparent;
+            font-weight: 800;
+            transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
         }
 
-        .social-link:hover {
-            background: #2ea043;
-            border-color: #2ea043;
-            transform: translateY(-1px);
-            box-shadow: 0 3px 12px rgba(35, 134, 54, 0.3);
+        .button:hover,
+        .button:focus-visible {
+            transform: translateY(-2px);
         }
 
-        @media (max-width: 768px) {
-            .content {
+        .button-primary {
+            background: var(--ink);
+            color: var(--paper);
+            box-shadow: 0 16px 34px rgba(17, 17, 17, 0.18);
+        }
+
+        .button-secondary {
+            border-color: rgba(17, 17, 17, 0.12);
+            background: rgba(255, 255, 255, 0.54);
+        }
+
+        .hero-note {
+            margin-top: 26px;
+            display: grid;
+            grid-template-columns: 148px 1fr;
+            gap: 18px;
+            align-items: center;
+            padding-top: 24px;
+            border-top: 1px solid rgba(17, 17, 17, 0.08);
+        }
+
+        .portrait-wrap {
+            position: relative;
+            padding: 10px;
+            border-radius: 28px;
+            background: linear-gradient(135deg, rgba(239, 108, 47, 0.22), rgba(11, 122, 117, 0.18));
+        }
+
+        .portrait-wrap::after {
+            content: "runtime: shipping";
+            position: absolute;
+            left: 14px;
+            bottom: 10px;
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 0.7rem;
+            padding: 7px 10px;
+            border-radius: 999px;
+            color: #f7f3ec;
+            background: rgba(17, 17, 17, 0.82);
+        }
+
+        .portrait {
+            width: 100%;
+            aspect-ratio: 1 / 1.1;
+            border-radius: 22px;
+            object-fit: cover;
+            filter: saturate(0.94) contrast(1.04);
+        }
+
+        .hero-note p {
+            font-size: 0.95rem;
+            line-height: 1.75;
+            color: var(--muted);
+        }
+
+        .signal-panel {
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .signal-panel::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(11, 122, 117, 0.08), transparent 40%);
+            pointer-events: none;
+        }
+
+        .terminal-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .terminal-dots {
+            display: inline-flex;
+            gap: 8px;
+        }
+
+        .terminal-dots span {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(17, 17, 17, 0.16);
+        }
+
+        .terminal-dots span:first-child {
+            background: #ef6c2f;
+        }
+
+        .terminal-dots span:nth-child(2) {
+            background: #f4b34d;
+        }
+
+        .terminal-dots span:nth-child(3) {
+            background: #2aa67c;
+        }
+
+        .code-block {
+            padding: 18px;
+            border-radius: 22px;
+            background: #171614;
+            color: #ece5d9;
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 0.86rem;
+            line-height: 1.8;
+            min-height: 238px;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+        }
+
+        .code-line {
+            display: grid;
+            grid-template-columns: 26px 1fr;
+            gap: 10px;
+        }
+
+        .line-number {
+            color: rgba(236, 229, 217, 0.4);
+            text-align: right;
+            user-select: none;
+        }
+
+        .token-key {
+            color: #7fded7;
+        }
+
+        .token-string {
+            color: #f3b36d;
+        }
+
+        .token-comment {
+            color: #8b857b;
+        }
+
+        .signal-stack {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .metric {
+            padding: 18px;
+            border-radius: var(--radius-md);
+            box-shadow: none;
+            background: rgba(255, 255, 255, 0.48);
+        }
+
+        .metric .label,
+        .mini-heading {
+            font-family: "IBM Plex Mono", monospace;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-size: 0.72rem;
+            color: var(--muted);
+        }
+
+        .metric strong {
+            display: block;
+            margin-top: 8px;
+            font-size: 1.06rem;
+            line-height: 1.4;
+        }
+
+        .section {
+            padding: 20px 0 10px;
+        }
+
+        .section-card {
+            padding: 30px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            gap: 18px;
+            align-items: end;
+            margin-bottom: 22px;
+        }
+
+        .section-header p {
+            color: var(--muted);
+            max-width: 60ch;
+            line-height: 1.7;
+        }
+
+        h2 {
+            font-size: clamp(2rem, 4vw, 3.3rem);
+            margin-bottom: 10px;
+        }
+
+        .services-grid,
+        .writing-grid,
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .service-card,
+        .writing-card,
+        .github-card,
+        .contact-card {
+            padding: 22px;
+            border-radius: var(--radius-lg);
+            box-shadow: none;
+            background: rgba(255, 255, 255, 0.48);
+        }
+
+        .service-card h3,
+        .writing-card h3,
+        .github-card h3,
+        .contact-card h3 {
+            font-size: 1.15rem;
+            margin: 12px 0 10px;
+            line-height: 1.35;
+        }
+
+        .service-card p,
+        .writing-card p,
+        .github-card p,
+        .contact-card p,
+        .activity-item p,
+        .repo-item p {
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        .service-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 0.84rem;
+            background: linear-gradient(135deg, rgba(239, 108, 47, 0.18), rgba(11, 122, 117, 0.16));
+        }
+
+        .writing-card a,
+        .mini-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 14px;
+            font-weight: 800;
+        }
+
+        .writing-card a:hover,
+        .mini-link:hover,
+        .writing-card a:focus-visible,
+        .mini-link:focus-visible {
+            color: var(--accent);
+        }
+
+        .kicker {
+            color: var(--signal);
+            font-family: "IBM Plex Mono", monospace;
+            font-size: 0.74rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .github-layout {
+            display: grid;
+            grid-template-columns: 0.95fr 1.05fr;
+            gap: 18px;
+        }
+
+        .github-meta {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .github-stat {
+            padding: 16px;
+            border-radius: 20px;
+            background: rgba(17, 17, 17, 0.94);
+            color: #f7f3ec;
+        }
+
+        .github-stat strong {
+            display: block;
+            font-size: 2rem;
+            margin-top: 6px;
+            line-height: 1;
+        }
+
+        .status-line {
+            margin-top: 14px;
+            padding: 12px 14px;
+            border-radius: 16px;
+            background: var(--signal-soft);
+            color: #134642;
+            font-weight: 700;
+        }
+
+        .profile-link-row {
+            margin-top: 14px;
+        }
+
+        .contact-card {
+            min-height: 100%;
+        }
+
+        .contact-card .button {
+            margin-top: 18px;
+            width: fit-content;
+        }
+
+        .site-footer {
+            padding: 30px 0 42px;
+            display: flex;
+            justify-content: space-between;
+            gap: 14px;
+            flex-wrap: wrap;
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(22px);
+            animation: rise 800ms ease forwards;
+        }
+
+        .delay-1 { animation-delay: 90ms; }
+        .delay-2 { animation-delay: 180ms; }
+        .delay-3 { animation-delay: 270ms; }
+        .delay-4 { animation-delay: 360ms; }
+
+        @keyframes rise {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 1080px) {
+            .hero,
+            .github-layout,
+            .services-grid,
+            .writing-grid,
+            .contact-grid {
                 grid-template-columns: 1fr;
-                padding: 40px 20px;
-                gap: 30px;
             }
 
-            .info-box h1 {
-                font-size: 2em;
+            .github-meta {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 760px) {
+            .site-header {
+                position: static;
+                padding-top: 18px;
             }
 
-            .profile-image {
-                width: 220px;
-                height: 220px;
+            nav {
+                display: none;
+            }
+
+            .hero-panel,
+            .signal-panel,
+            .section-card {
+                padding: 22px;
+            }
+
+            .hero-note {
+                grid-template-columns: 1fr;
+            }
+
+            .signal-stack,
+            .github-meta {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header {
+                align-items: start;
+                flex-direction: column;
+            }
+
+            h1 {
+                font-size: clamp(2.7rem, 16vw, 4rem);
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="content">
-            <div class="profile-image-container">
-                <img src="https://avatars.githubusercontent.com/u/947304?s=400&v=4" alt="Peter Rombouts" class="profile-image">
-            </div>
-            <div class="info-box">
-                <h1>Peter Rombouts</h1>
-                <p class="subtitle">Cloud Software Architect | Azure Specialist</p>
-                <p class="location">📍 The Netherlands</p>
-                
-                <p class="description">
-                    Cloud Solution and Software Architect with a strong focus on the Microsoft Azure platform. Supporting enterprise organisations in the Netherlands as consultant, lead developer and architect.
-                </p>
+    <div class="page-shell">
+        <header class="site-header">
+            <a class="brand" href="#top" aria-label="Peter Rombouts home">
+                <span class="brand-mark">&lt;/&gt;</span>
+                <span class="brand-copy">
+                    Peter Rombouts
+                    <small>Software engineer • Cloud architect • Consultant</small>
+                </span>
+            </a>
+            <nav aria-label="Primary">
+                <a href="#work">What I do</a>
+                <a href="#writing">Writing</a>
+                <a href="#github">GitHub</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </header>
 
-                <p class="description">
-                    Currently employed as a fully QSD Certified software consultant, Microsoft Certified Azure Architect and AWS Certified Solution Architect. Experience spans the energy sector, local and national government organisations, insurance companies and fintech. Also an author of eLearning videos and eBooks on Microsoft Azure at Packt.
-                </p>
+        <main id="top">
+            <section class="hero">
+                <article class="hero-panel reveal">
+                    <span class="eyebrow">Building systems that survive production</span>
+                    <h1>I design platforms with engineering discipline.</h1>
+                    <p class="hero-copy">
+                        I am <strong>Peter Rombouts</strong>, a software engineer, cloud architect, and consultant based in the Netherlands. I help enterprise teams move from ambitious diagrams to <strong>maintainable, resilient, future-proof systems</strong> across Azure, cloud-native architectures, serverless platforms, and pragmatic delivery.
+                    </p>
+                    <div class="hero-meta" aria-label="Focus areas">
+                        <span class="chip">Azure</span>
+                        <span class="chip">AWS</span>
+                        <span class="chip">Cloud Native</span>
+                        <span class="chip">Serverless</span>
+                        <span class="chip">.NET</span>
+                        <span class="chip">Golang</span>
+                        <span class="chip">Service Integration</span>
+                    </div>
+                    <div class="hero-actions">
+                        <a class="button button-primary" href="https://www.linkedin.com/in/peterrombouts78/" target="_blank" rel="noreferrer">Connect on LinkedIn</a>
+                        <a class="button button-secondary" href="#github">See live GitHub activity</a>
+                        <a class="button button-secondary" href="archive/index.html">Browse archive</a>
+                    </div>
+                    <div class="hero-note">
+                        <div class="portrait-wrap">
+                            <img class="portrait" src="https://avatars.githubusercontent.com/u/947304?s=400&v=4" alt="Portrait of Peter Rombouts">
+                        </div>
+                        <p>
+                            My work spans government, energy, fintech, and insurance environments where architecture decisions have to hold up under delivery pressure. I also write and teach, including eLearning videos and eBooks on Microsoft Azure for Packt.
+                        </p>
+                    </div>
+                </article>
 
-                <div class="specialties">
-                    <h3>Specialties:</h3>
-                    <div class="specialty-tags">
-                        <span class="tag">Cloud Architecture</span>
-                        <span class="tag">Microsoft Azure</span>
-                        <span class="tag">Serverless</span>
-                        <span class="tag">.NET</span>
-                        <span class="tag">Cloud Native</span>
-                        <span class="tag">AWS</span>
-                        <span class="tag">Golang</span>
-                        <span class="tag">Service Integration</span>
+                <aside class="signal-panel reveal delay-1" aria-label="Engineering signal panel">
+                    <div class="terminal-bar">
+                        <span class="terminal-dots" aria-hidden="true"><span></span><span></span><span></span></span>
+                        <span>profile/runtime.yml</span>
+                    </div>
+
+                    <div class="code-block" aria-hidden="true">
+                        <div class="code-line"><span class="line-number">1</span><span><span class="token-key">name</span>: <span class="token-string">Peter Rombouts</span></span></div>
+                        <div class="code-line"><span class="line-number">2</span><span><span class="token-key">role</span>: <span class="token-string">software engineer + consultant</span></span></div>
+                        <div class="code-line"><span class="line-number">3</span><span><span class="token-key">mode</span>: <span class="token-string">architecture through delivery</span></span></div>
+                        <div class="code-line"><span class="line-number">4</span><span><span class="token-key">focus</span>:</span></div>
+                        <div class="code-line"><span class="line-number">5</span><span>  - <span class="token-string">resilient cloud platforms</span></span></div>
+                        <div class="code-line"><span class="line-number">6</span><span>  - <span class="token-string">serverless and integration</span></span></div>
+                        <div class="code-line"><span class="line-number">7</span><span>  - <span class="token-string">future-proof engineering</span></span></div>
+                        <div class="code-line"><span class="line-number">8</span><span><span class="token-comment"># strategy is only useful if it ships</span></span></div>
+                    </div>
+
+                    <div class="signal-stack">
+                        <div class="metric">
+                            <span class="label">Consulting lens</span>
+                            <strong>Architecture, delivery, and engineering quality in the same room.</strong>
+                        </div>
+                        <div class="metric">
+                            <span class="label">Authoring</span>
+                            <strong>Packt Azure material plus a long-running technical writing archive.</strong>
+                        </div>
+                        <div class="metric">
+                            <span class="label">Industries</span>
+                            <strong>Energy, public sector, insurance, and fintech.</strong>
+                        </div>
+                        <div class="metric">
+                            <span class="label">Operating style</span>
+                            <strong>Calm systems thinking, pragmatic tradeoffs, measurable outcomes.</strong>
+                        </div>
+                    </div>
+                </aside>
+            </section>
+
+            <section class="section" id="work">
+                <div class="section-card reveal delay-2">
+                    <div class="section-header">
+                        <div>
+                            <span class="mini-heading">What I do</span>
+                            <h2>Consulting with code still attached.</h2>
+                        </div>
+                        <p>
+                            The value is not just picking the right platform. It is structuring systems, teams, and delivery paths so the platform remains understandable six months later.
+                        </p>
+                    </div>
+
+                    <div class="services-grid">
+                        <article class="service-card">
+                            <div class="service-icon">01</div>
+                            <h3>Cloud architecture that remains operable</h3>
+                            <p>I design Azure and AWS landscapes that balance resilience, cost, security, and delivery speed without becoming diagram-heavy theatre.</p>
+                        </article>
+                        <article class="service-card">
+                            <div class="service-icon">02</div>
+                            <h3>Platform engineering with delivery realism</h3>
+                            <p>From serverless systems to integration-heavy enterprise workloads, I focus on maintainability, deployment confidence, and sane operational models.</p>
+                        </article>
+                        <article class="service-card">
+                            <div class="service-icon">03</div>
+                            <h3>Technical leadership for hard environments</h3>
+                            <p>I help teams in regulated and complex sectors make defensible engineering decisions under real deadlines, dependencies, and legacy constraints.</p>
+                        </article>
                     </div>
                 </div>
+            </section>
 
-                <div class="social-links">
-                    <a href="https://www.linkedin.com/in/peterrombouts78/" class="social-link">LinkedIn</a>
-                    <a href="https://github.com/prombouts" class="social-link">GitHub</a>
-                    <a href="https://www.instagram.com/plainoldpeer/" class="social-link">Instagram</a>
-                    <!-- <a href="https://sessionize.com/prombouts/" class="social-link">Sessionize</a> -->
+            <section class="section" id="writing">
+                <div class="section-card reveal delay-3">
+                    <div class="section-header">
+                        <div>
+                            <span class="mini-heading">Writing</span>
+                            <h2>Publications, notes, and field reports.</h2>
+                        </div>
+                        <p>
+                            A few publications and co-authored pieces that show practical work at the intersection of platform engineering, security, and DevOps.
+                        </p>
+                    </div>
+
+                    <div class="writing-grid">
+                        <article class="writing-card">
+                            <span class="kicker">SDN Magazine</span>
+                            <h3>HashiCorp Packer, Terraform, and IaC contribution (Dutch)</h3>
+                            <p>My SDN Magazine contribution is also available online. It is written in Dutch, and I am always happy to help answer follow-up questions on Packer, Terraform, and Infrastructure as Code.</p>
+                            <a href="https://sdn.nl/sdn-magazine/sdn-magazine-2022-145/" target="_blank" rel="noreferrer">Read the publication</a>
+                        </article>
+                        <article class="writing-card">
+                            <span class="kicker">Microsoft + Sogeti eBook</span>
+                            <h3>Securing Enterprise DevOps Environments</h3>
+                            <p>A co-authored eBook by Microsoft and Sogeti focused on securing modern enterprise DevOps environments with practical, organization-ready guidance.</p>
+                            <a href="https://www.sogeti.com/research-and-insight/securing-enterprise-devops-environments/" target="_blank" rel="noreferrer">Read the eBook</a>
+                        </article>
+                        <article class="writing-card">
+                            <span class="kicker">Sogeti, SogetiLabs, Microsoft</span>
+                            <h3>6 tips to integrate security into your DevOps practices</h3>
+                            <p>A co-authored paper outlining six actionable tips to integrate security into day-to-day DevOps practices without slowing delivery to a crawl.</p>
+                            <a href="https://www.sogeti.com/research-and-insight/6-tips-to-integrate-security-into-your-devops-practices/" target="_blank" rel="noreferrer">Read the paper</a>
+                        </article>
+                    </div>
                 </div>
-            </div>
-        </div>
+            </section>
+
+            <section class="section" id="github">
+                <div class="section-card reveal delay-4">
+                    <div class="section-header">
+                        <div>
+                            <span class="mini-heading">GitHub</span>
+                            <h2>Live engineering signal.</h2>
+                        </div>
+                        <p>
+                            This panel pulls your public GitHub profile client-side so the homepage stays current without listing recent repositories.
+                        </p>
+                    </div>
+
+                    <div class="github-layout">
+                        <div class="github-card">
+                            <div class="github-meta">
+                                <div class="github-stat">
+                                    <span class="label">Public repos</span>
+                                    <strong id="repo-count">--</strong>
+                                </div>
+                                <div class="github-stat">
+                                    <span class="label">Followers</span>
+                                    <strong id="follower-count">--</strong>
+                                </div>
+                                <div class="github-stat">
+                                    <span class="label">Following</span>
+                                    <strong id="following-count">--</strong>
+                                </div>
+                            </div>
+
+                            <h3>Current profile snapshot</h3>
+                            <p id="github-summary">Loading profile data from GitHub...</p>
+                            <div class="status-line" id="activity-summary">Loading profile status...</div>
+                            <div class="profile-link-row">
+                                <a class="mini-link" href="https://github.com/prombouts" target="_blank" rel="noreferrer">Open GitHub profile</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section" id="contact">
+                <div class="section-card">
+                    <div class="section-header">
+                        <div>
+                            <span class="mini-heading">Contact</span>
+                            <h2>If the problem is messy, that is usually where I fit.</h2>
+                        </div>
+                        <p>
+                            Reach out if you need help shaping architecture, stabilizing delivery, or turning a cloud strategy into something a team can actually operate.
+                        </p>
+                    </div>
+
+                    <div class="contact-grid">
+                        <article class="contact-card">
+                            <span class="kicker">Professional profile</span>
+                            <h3>LinkedIn</h3>
+                            <p>The best place for consulting context, experience, and direct outreach.</p>
+                            <a class="button button-secondary" href="https://www.linkedin.com/in/peterrombouts78/" target="_blank" rel="noreferrer">Open LinkedIn</a>
+                        </article>
+                        <article class="contact-card">
+                            <span class="kicker">Code and experiments</span>
+                            <h3>GitHub</h3>
+                            <p>Repositories, recent pushes, and pinned projects that show what is currently being built.</p>
+                            <a class="button button-secondary" href="https://github.com/prombouts" target="_blank" rel="noreferrer">Open GitHub</a>
+                        </article>
+                        <article class="contact-card">
+                            <span class="kicker">Long-form thinking</span>
+                            <h3>Archive</h3>
+                            <p>Technical writing on cloud, DevOps, integration, infrastructure, and adjacent topics gathered over the years.</p>
+                            <a class="button button-secondary" href="archive/index.html">Open archive</a>
+                        </article>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="site-footer">
+            <p>Peter Rombouts • The Netherlands • Software engineer, architect, consultant</p>
+            <p>Built as a static page, with live GitHub profile data pulled in at runtime.</p>
+        </footer>
     </div>
+
+    <script>
+        const githubUser = "prombouts";
+        const endpoints = {
+            profile: `https://api.github.com/users/${githubUser}`
+        };
+
+        const repoCount = document.getElementById("repo-count");
+        const followerCount = document.getElementById("follower-count");
+        const followingCount = document.getElementById("following-count");
+        const githubSummary = document.getElementById("github-summary");
+        const activitySummary = document.getElementById("activity-summary");
+
+        async function loadGithubPanel() {
+            try {
+                const profileResponse = await fetch(endpoints.profile);
+
+                if (!profileResponse.ok) {
+                    throw new Error("GitHub API request failed");
+                }
+
+                const profile = await profileResponse.json();
+
+                repoCount.textContent = profile.public_repos ?? "--";
+                followerCount.textContent = profile.followers ?? "--";
+                followingCount.textContent = profile.following ?? "--";
+
+                githubSummary.textContent = profile.bio || "Cloud software architect and consultant with a public GitHub footprint spanning cloud, automation, and experiments.";
+                activitySummary.textContent = "Public GitHub profile loaded successfully.";
+            } catch (error) {
+                githubSummary.textContent = "Live GitHub data is temporarily unavailable. Use the GitHub link below to view your profile directly.";
+                activitySummary.textContent = "GitHub API unavailable right now.";
+                console.error(error);
+            }
+        }
+
+        loadGithubPanel();
+    </script>
 </body>
 </html>
