@@ -1,0 +1,102 @@
+.archive-site-header {
+    --archive-paper: #f8f3ea;
+    --archive-ink: #111;
+    --archive-muted: #5f5a52;
+    --archive-gutter: clamp(18px, 4vw, 34px);
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: min(calc(100% - (var(--archive-gutter) * 2)), 1220px);
+    margin: 0 auto;
+    padding: 24px clamp(12px, 2vw, 24px) 18px;
+    border-bottom: 1px solid rgba(17, 17, 17, 0.06);
+    background: linear-gradient(180deg, rgba(248, 243, 234, 0.92), rgba(248, 243, 234, 0.68));
+    backdrop-filter: blur(14px);
+    font-family: "Manrope", sans-serif;
+}
+
+.archive-site-header *,
+.archive-site-header *::before,
+.archive-site-header *::after {
+    box-sizing: border-box;
+}
+
+.archive-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    max-width: 100%;
+    color: var(--archive-ink);
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+}
+
+.archive-brand-mark {
+    display: grid;
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--archive-ink), #2a2927);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+    color: #f4efe4;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.92rem;
+}
+
+.archive-brand-copy {
+    min-width: 0;
+}
+
+.archive-brand-copy small {
+    display: block;
+    max-width: 38ch;
+    color: var(--archive-muted);
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    line-height: 1.4;
+    text-transform: uppercase;
+}
+
+.archive-primary-nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 18px;
+}
+
+.archive-primary-nav a {
+    color: var(--archive-muted);
+    font-size: 0.94rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.archive-primary-nav a:hover,
+.archive-primary-nav a:focus-visible {
+    color: var(--archive-ink);
+}
+
+.archive-brand:focus-visible,
+.archive-primary-nav a:focus-visible {
+    outline: 2px solid #0b7a75;
+    outline-offset: 4px;
+}
+
+@media (max-width: 760px) {
+    .archive-site-header {
+        position: static;
+        padding: 18px clamp(12px, 4.4vw, 20px) 16px;
+    }
+
+    .archive-primary-nav {
+        display: none;
+    }
+}
