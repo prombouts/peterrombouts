@@ -498,6 +498,26 @@ h1 {
     border-color: rgba(239, 108, 47, 0.4);
 }
 
+.client-mark.has-caption {
+    grid-template-rows: auto auto;
+    gap: 5px;
+    padding: 10px;
+}
+
+.client-mark.has-caption img {
+    max-height: 34px;
+}
+
+.client-mark.has-caption small {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 0.56rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: center;
+    line-height: 1.35;
+}
+
 .client-wall footer {
     margin-top: 12px;
     font-size: 0.78rem;
