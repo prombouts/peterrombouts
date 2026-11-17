@@ -25,6 +25,7 @@
 
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: 120px;
 }
 
 body {
@@ -734,6 +735,35 @@ h2 {
     }
 }
 
+@supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+        .hero-panel.reveal,
+        .signal-panel.reveal,
+        .section-card.reveal {
+            animation-name: rise, parallax;
+            animation-duration: 800ms, auto;
+            animation-timing-function: ease, linear;
+            animation-fill-mode: forwards, both;
+            animation-timeline: auto, view();
+        }
+
+        .section-card:not(.reveal),
+        .service-card,
+        .writing-card,
+        .github-card,
+        .contact-card,
+        .metric {
+            animation: parallax linear both;
+            animation-timeline: view();
+        }
+
+        @keyframes parallax {
+            from { translate: 0 12px; }
+            to { translate: 0 -12px; }
+        }
+    }
+}
+
 @media (max-width: 1080px) {
     .hero,
     .github-layout,
@@ -751,6 +781,10 @@ h2 {
 @media (max-width: 760px) {
     :root {
         --edge-gutter: 22px;
+    }
+
+    html {
+        scroll-padding-top: 12px;
     }
 
     .site-header {
