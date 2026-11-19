@@ -146,6 +146,11 @@
     margin: 0 auto;
   }
   .subtitle b { color: var(--ice); font-weight: 600; }
+  .id-note {
+    color: var(--ice-dim);
+    font-size: 11px;
+    margin: 6px auto 0;
+  }
 
   /* status bar */
   .statusbar {
@@ -349,11 +354,15 @@
   .card {
     position: relative;
     width: min(620px, calc(100vw - 32px));
+    max-height: calc(100vh - 32px);
+    max-height: calc(100dvh - 32px);
     background: var(--panel);
+    color: var(--ice);
     border: 1px solid var(--panel-2);
     border-radius: 12px;
     box-shadow: 0 24px 80px rgba(0,0,0,.6);
-    overflow: hidden;
+    overflow: auto;
+    overscroll-behavior: contain;
     animation: cardin .3s ease;
   }
   @keyframes cardin {
@@ -411,12 +420,16 @@
     margin-bottom: 14px;
   }
   .secret .story {
-    font-size: 14.5px;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 15.5px;
+    line-height: 1.6;
     margin-bottom: 16px;
     max-width: 58ch;
   }
   .secret .tip {
-    font-size: 13.5px;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 14.5px;
+    line-height: 1.55;
     color: var(--ice-dim);
     border-left: 3px solid var(--amber);
     padding: 6px 12px;
@@ -535,6 +548,7 @@
     <h1>24 DAYS OF INCIDENTS<span class="cursor" aria-hidden="true"></span></h1>
     <p class="subtitle">One <b>classified cyber incident</b> per day until christmas.
       Scratch the foil to declassify. Handle with gloves — some of these are still warm.</p>
+    <p class="id-note">Real incidents, cheeky case-file IDs; actual CVEs are shown where applicable.</p>
 
     <div class="statusbar">
       <div class="progress" role="status">
@@ -554,7 +568,7 @@
 <dialog id="modal" aria-labelledby="card-title">
   <div class="card">
     <div class="card-head">
-      <span>INCIDENT <span class="cve" id="card-cve"></span> · DEC <span id="card-day"></span></span>
+      <span>CASE FILE <span class="cve" id="card-cve"></span> · DEC <span id="card-day"></span></span>
       <button class="card-close" id="card-close" aria-label="Close incident file">✕</button>
     </div>
     <div class="card-body" id="card-body">
@@ -698,15 +712,19 @@ const store = {
   set drill(v) { localStorage.setItem("advsoc-drill", v ? "1" : "0"); },
 };
 
-const now = new Date();
 const DEC = 11; /* month index */
 function unlockedByDate(day) {
+  const now = new Date();
   const y = now.getFullYear();
   const target = new Date(y, DEC, day);
   return now >= target;
 }
 function isUnlocked(day) { return store.drill || unlockedByDate(day); }
-const todayDay = (now.getMonth() === DEC && now.getDate() <= 24) ? now.getDate() : null;
+function currentAdventDay() {
+  const now = new Date();
+  return now.getMonth() === DEC && now.getDate() <= 24 ? now.getDate() : null;
+}
+let todayDay = currentAdventDay();
 
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -742,6 +760,7 @@ function renderDoor(day) {
   const inc = INCIDENTS[day - 1];
   const opened = store.opened.includes(day);
   const unlocked = isUnlocked(day);
+  btn.classList.toggle("today", day === todayDay);
   btn.classList.toggle("opened", opened);
   btn.classList.toggle("locked", !unlocked && !opened);
   btn.textContent = "";
@@ -1036,6 +1055,17 @@ function tickClock() {
 }
 tickClock();
 setInterval(tickClock, 60_000);
+
+function refreshCalendarDate() {
+  const updatedDay = currentAdventDay();
+  if (updatedDay === todayDay) return;
+  todayDay = updatedDay;
+  for (let day = 1; day <= 24; day++) renderDoor(day);
+}
+setInterval(refreshCalendarDate, 60_000);
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) refreshCalendarDate();
+});
 
 /* ============ snow ============ */
 
