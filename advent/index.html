@@ -10,18 +10,17 @@
 
 <!-- ============================================================
      SOCIAL SHARING (LinkedIn, X, Facebook, Slack, Teams…)
-     Before sharing: host this folder (incl. og-image.png) anywhere
-     static — GitHub Pages, Netlify, S3 — and replace the base URL
-     below. LinkedIn & co. require ABSOLUTE urls for og:url/og:image.
-     After deploying, refresh LinkedIn's cache at:
+     Live at: https://www.peterrombouts.nl/advent/
+     After re-uploading, refresh LinkedIn's preview cache at:
      https://www.linkedin.com/post-inspector/
      ============================================================ -->
+<link rel="canonical" href="https://www.peterrombouts.nl/advent/">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://example.com/advent/">
+<meta property="og:url" content="https://www.peterrombouts.nl/advent/">
 <meta property="og:site_name" content="ADVENT-SOC">
 <meta property="og:title" content="24 Days of Incidents — a cybersecurity advent calendar">
 <meta property="og:description" content="Scratch open one classified cyber incident per day until christmas. WannaCarol, Yule Log4j, Mirai on the Shelf… and on Dec 24: S.A.N.T.A., the Advanced Persistent Elf.">
-<meta property="og:image" content="https://example.com/advent/og-image.png">
+<meta property="og:image" content="https://www.peterrombouts.nl/advent/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Advent calendar of classified cyber incidents: amber terminal doors on polar-night blue, one scratch-off foil tile, and a hazard-taped door 24 labelled S.A.N.T.A.">
@@ -29,7 +28,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="24 Days of Incidents — a cybersecurity advent calendar">
 <meta name="twitter:description" content="Scratch open one classified cyber incident per day until christmas. Dec 24: S.A.N.T.A. — the Advanced Persistent Elf.">
-<meta name="twitter:image" content="https://example.com/advent/og-image.png">
+<meta name="twitter:image" content="https://www.peterrombouts.nl/advent/og-image.png">
 <style>
   :root {
     --night:    #0e1b2c;  /* polar night blue        */
@@ -983,14 +982,14 @@ shareBtn.addEventListener("click", async () => {
     + "Scratch open one classified cyber incident per day until christmas"
     + (n ? ` (I've contained ${n}/24 so far)` : "") + ". "
     + "#CyberSecurity #InfoSec #AdventCalendar #SecurityAwareness #BlueTeam";
-  const url = location.href.startsWith("http") ? location.href : "";
+  const url = location.href.startsWith("http") ? location.href : "https://www.peterrombouts.nl/advent/";
   const original = shareBtn.textContent;
   try {
     if (navigator.share) {
       await navigator.share(url ? { title: document.title, text, url } : { title: document.title, text });
       return;
     }
-    await navigator.clipboard.writeText(url ? text + "\n" + url : text);
+    await copyText(url ? text + "\n" + url : text);
     shareBtn.textContent = "copied post to clipboard ✔";
   } catch (e) {
     if (e.name === "AbortError") return;
@@ -998,6 +997,22 @@ shareBtn.addEventListener("click", async () => {
   }
   setTimeout(() => { shareBtn.textContent = original; }, 2500);
 });
+
+async function copyText(text) {
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = "fixed";
+    ta.style.opacity = "0";
+    document.body.appendChild(ta);
+    ta.select();
+    const ok = document.execCommand("copy");
+    ta.remove();
+    if (!ok) throw new Error("copy failed");
+  }
+}
 
 /* ============ clock ============ */
 
