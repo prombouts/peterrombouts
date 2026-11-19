@@ -505,6 +505,12 @@
     cursor: pointer;
   }
   footer .share:hover { color: var(--amber-hi); }
+  footer .credit {
+    color: var(--ice-dim);
+    text-decoration: underline dotted;
+  }
+  footer .credit:hover { color: var(--amber-hi); }
+  footer p + p { margin-top: 4px; }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { animation: none !important; transition: none !important; }
@@ -569,6 +575,8 @@
 </dialog>
 
 <footer>
+  <p>threat actors: <a class="credit" href="https://www.peterrombouts.nl" rel="author">Peter Rombouts</a> &amp; GitHub Copilot —
+    one typed the attacks, the other autocompleted them · attribution: confirmed, checked twice</p>
   <p>no real packets were harmed · stays on your machine (localStorage) ·
     <button class="share" id="share">share this calendar</button> ·
     <button class="reset" id="reset">wipe forensic evidence (reset)</button></p>
